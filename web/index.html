@@ -20,7 +20,6 @@
   <title>Boot Hackathon 2025 - Build Your OS</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#00FF00">
-  <!-- JetBrains Mono to match app typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
@@ -45,7 +44,7 @@
       flex-direction: column;
       gap: 14px;
       background: var(--splash-bg);
-      z-index: 9999; /* above the default loader */
+      z-index: 9999;
       transition: opacity .2s ease;
     }
     #boot-splash.hidden { opacity: 0; pointer-events: none; }
@@ -55,7 +54,6 @@
       font-weight: 700;
       letter-spacing: .5px;
     }
-    /* Material-like indeterminate linear progress */
     .splash-bar {
       position: relative;
       width: 200px;
@@ -114,11 +112,11 @@
         setTimeout(() => el.remove(), 250);
       }
     });
-    // Fallback: if something goes wrong, auto-hide after 10s
+    // Fallback: if something goes wrong, auto-hide after 20s
     setTimeout(() => {
       const el = document.getElementById('boot-splash');
       if (el) el.classList.add('hidden');
-    }, 10000);
+    }, 20000);
   </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>

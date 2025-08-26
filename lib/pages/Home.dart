@@ -5,6 +5,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 import '/pages/RSVP_Page.dart';
 import '/pages/Volunteer_Page.dart';
+import '/pages/Sponsor_Page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  static const String sponsorEmail = 'mailto:beanoantenucci@gmail.com';
+  //static const String sponsorEmail = 'mailto:beanoantenucci@gmail.com';
   static const String donateUrl =
       'https://hcb.hackclub.com/donations/start/boot';
 
@@ -88,59 +89,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         );
         break;
       case 'Sponsor':
-        _showInProgressDialog();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SponsorPage()),
+        );
         break;
     }
-  }
-
-  Future<void> _showInProgressDialog() async {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    await showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: colorScheme.surfaceContainer,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: colorScheme.outline),
-        ),
-        title: Row(
-          children: [
-            Icon(Symbols.info, color: colorScheme.primary, size: 22),
-            const SizedBox(width: 8),
-            Text(
-              'Coming soon',
-              style: textTheme.titleLarge?.copyWith(
-                color: colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        content: Text(
-          'This page is in progress. If you\'re interested, email beanoantenucci@gmail.com.',
-          style: textTheme.bodyMedium?.copyWith(
-            color: colorScheme.onSurfaceVariant,
-            height: 1.5,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Close'),
-          ),
-          ElevatedButton.icon(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              _launchUrl(sponsorEmail);
-            },
-            icon: const Icon(Symbols.mail),
-            label: const Text('Email us'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -161,9 +115,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             const SizedBox(height: 60),
             _buildWhatCountsAsSection(colorScheme, textTheme),
             const SizedBox(height: 60),
-            _buildSponsorsSection(colorScheme, textTheme),
+            _buildSponsorsAndDonateSection(colorScheme, textTheme),
             const SizedBox(height: 60),
             _buildVolunteerSection(colorScheme, textTheme),
+            const SizedBox(height: 60),
+            _buildSponsorsShowcaseSection(colorScheme, textTheme),
             const SizedBox(height: 60),
             _buildFAQSection(colorScheme, textTheme),
             const SizedBox(height: 40),
@@ -232,8 +188,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           false,
         ),
         _buildNavButton(
-          'Sponsors',
+          'Support',
           () => _scrollToSection(1600),
+          colorScheme,
+          false,
+        ),
+        _buildNavButton(
+          'Sponsors',
+          () => _scrollToSection(2900),
           colorScheme,
           false,
         ),
@@ -968,82 +930,152 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  // Sponsors Section
-  Widget _buildSponsorsSection(ColorScheme colorScheme, TextTheme textTheme) {
+  // Combined Sponsors and Donate Section
+  Widget _buildSponsorsAndDonateSection(
+    ColorScheme colorScheme,
+    TextTheme textTheme,
+  ) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth > 1000) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: _buildSponsorsSection(colorScheme, textTheme)),
+                const SizedBox(width: 40),
+                Expanded(child: _buildDonateSection(colorScheme, textTheme)),
+              ],
+            );
+          } else {
+            return Column(
+              children: [
+                _buildSponsorsSection(colorScheme, textTheme),
+                const SizedBox(height: 40),
+                _buildDonateSection(colorScheme, textTheme),
+              ],
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildSponsorsSection(ColorScheme colorScheme, TextTheme textTheme) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: colorScheme.secondary.withAlpha(26),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: colorScheme.secondary.withAlpha(77)),
+              ),
+              child: Icon(
+                Symbols.handshake,
+                color: colorScheme.secondary,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Text(
+              'Our Sponsors',
+              style: textTheme.headlineMedium?.copyWith(
+                color: colorScheme.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          decoration: BoxDecoration(
+            color: colorScheme.secondaryContainer.withAlpha(77),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            'Made possible by these amazing organizations',
+            style: textTheme.bodyLarge?.copyWith(
+              color: colorScheme.onSurface,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+        const SizedBox(height: 32),
+
+        Container(
+          padding: const EdgeInsets.all(40),
+          decoration: BoxDecoration(
+            color: colorScheme.surfaceContainer,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: colorScheme.secondary.withAlpha(77),
+              width: 2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: colorScheme.secondary.withAlpha(26),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: colorScheme.secondary.withAlpha(26),
-                  borderRadius: BorderRadius.circular(12),
+                  shape: BoxShape.circle,
                   border: Border.all(
                     color: colorScheme.secondary.withAlpha(77),
+                    width: 2,
                   ),
                 ),
                 child: Icon(
-                  Symbols.handshake,
+                  Symbols.business,
                   color: colorScheme.secondary,
-                  size: 24,
+                  size: 48,
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(height: 20),
               Text(
-                'Our Sponsors',
-                style: textTheme.headlineMedium?.copyWith(
+                'Why sponsor Boot?',
+                style: textTheme.titleLarge?.copyWith(
                   color: colorScheme.primary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
-              color: colorScheme.secondaryContainer.withAlpha(77),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              'Made possible by these amazing organizations',
-              style: textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onSurface,
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          ),
-          const SizedBox(height: 32),
-
-          Container(
-            padding: const EdgeInsets.all(40),
-            decoration: BoxDecoration(
-              color: colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: colorScheme.outline),
-            ),
-            child: Column(
-              children: [
-                Icon(
-                  Symbols.business,
-                  color: colorScheme.onSurfaceVariant,
-                  size: 48,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Your logo will appear here',
-                  style: textTheme.bodyLarge?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
+              const SizedBox(height: 16),
+              Column(
+                children: [
+                  _buildSponsorBenefit(
+                    'Brand Visibility',
+                    'Logo placement and other recognition',
+                    Symbols.visibility,
+                    colorScheme,
+                    textTheme,
                   ),
-                ),
-                const SizedBox(height: 24),
-                OutlinedButton.icon(
-                  onPressed: _showInProgressDialog,
+                  _buildSponsorBenefit(
+                    'Community Impact',
+                    'Support the next generation of OS developers and designers',
+                    Symbols.favorite,
+                    colorScheme,
+                    textTheme,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => _navigateTo('Sponsor'),
                   icon: Icon(Symbols.handshake),
                   label: Text('Become a Sponsor'),
                   style: OutlinedButton.styleFrom(
@@ -1051,6 +1083,228 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       horizontal: 24,
                       vertical: 16,
                     ),
+                    side: BorderSide(color: colorScheme.secondary, width: 2),
+                    backgroundColor: colorScheme.secondary.withAlpha(13),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSponsorBenefit(
+    String title,
+    String description,
+    IconData icon,
+    ColorScheme colorScheme,
+    TextTheme textTheme,
+  ) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHighest.withAlpha(128),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: colorScheme.secondary.withAlpha(77)),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: colorScheme.secondary, size: 20),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  description,
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDonateSection(ColorScheme colorScheme, TextTheme textTheme) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: TerminalColors.red.withAlpha(26),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: TerminalColors.red.withAlpha(77)),
+              ),
+              child: Icon(
+                Symbols.favorite,
+                color: TerminalColors.red,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Text(
+              'Support Boot',
+              style: textTheme.headlineMedium?.copyWith(
+                color: colorScheme.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          decoration: BoxDecoration(
+            color: TerminalColors.red.withAlpha(26),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            'Help us create an amazing hackathon experience',
+            style: textTheme.bodyLarge?.copyWith(
+              color: colorScheme.onSurface,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+        const SizedBox(height: 32),
+
+        Container(
+          padding: const EdgeInsets.all(40),
+          decoration: BoxDecoration(
+            color: colorScheme.surfaceContainer,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: TerminalColors.red.withAlpha(77),
+              width: 2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: TerminalColors.red.withAlpha(26),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: TerminalColors.red.withAlpha(26),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: TerminalColors.red.withAlpha(77),
+                    width: 2,
+                  ),
+                ),
+                child: Icon(
+                  Symbols.favorite,
+                  color: TerminalColors.red,
+                  size: 48,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Every donation helps fund:',
+                style: textTheme.titleLarge?.copyWith(
+                  color: colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Column(
+                children: [
+                  _buildDonationBenefit(
+                    'Prizes & Awards',
+                    'Hardware and other prizes for participants',
+                    Symbols.emoji_events,
+                    colorScheme,
+                    textTheme,
+                  ),
+                  _buildDonationBenefit(
+                    'Infrastructure',
+                    'Cloud VMs, Servers, and development resources',
+                    Symbols.dns,
+                    colorScheme,
+                    textTheme,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () => _launchUrl(donateUrl),
+                  icon: Icon(Symbols.favorite),
+                  label: Text('Donate Now'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: TerminalColors.red,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDonationBenefit(
+    String title,
+    String description,
+    IconData icon,
+    ColorScheme colorScheme,
+    TextTheme textTheme,
+  ) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHighest.withAlpha(128),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: TerminalColors.red.withAlpha(77)),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: TerminalColors.red, size: 20),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  description,
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],
@@ -1316,6 +1570,219 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
+  Widget _buildSponsorsShowcaseSection(
+    ColorScheme colorScheme,
+    TextTheme textTheme,
+  ) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: colorScheme.secondary.withAlpha(26),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: colorScheme.secondary.withAlpha(77),
+                  ),
+                ),
+                child: Icon(
+                  Symbols.business,
+                  color: colorScheme.secondary,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                'Our Amazing Sponsors',
+                style: textTheme.headlineMedium?.copyWith(
+                  color: colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: BoxDecoration(
+              color: colorScheme.secondaryContainer.withAlpha(77),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              'Supporting the next generation of OS developers',
+              style: textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onSurface,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+
+          Container(
+            width: double.infinity,
+            constraints: const BoxConstraints(maxWidth: 800),
+            padding: const EdgeInsets.all(40),
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: colorScheme.outline),
+            ),
+            child: Column(
+              children: [
+                // Empty state with placeholder
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceContainerHighest.withAlpha(128),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: colorScheme.outline.withAlpha(128),
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: colorScheme.secondary.withAlpha(26),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: colorScheme.secondary.withAlpha(77),
+                            width: 2,
+                          ),
+                        ),
+                        child: Icon(
+                          Symbols.add_business,
+                          color: colorScheme.secondary,
+                          size: 48,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        'Your Company Logo Here',
+                        textAlign: TextAlign.center,
+                        style: textTheme.headlineSmall?.copyWith(
+                          color: colorScheme.onSurface,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Be the first to support Boot and help empower teen OS developers worldwide',
+                        textAlign: TextAlign.center,
+                        style: textTheme.bodyLarge?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                          height: 1.5,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Benefits preview
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildSponsorPreviewBenefit(
+                            '🎯 Brand Exposure',
+                            colorScheme,
+                            textTheme,
+                          ),
+                          const SizedBox(width: 24),
+                          _buildSponsorPreviewBenefit(
+                            '🤝 Community Impact',
+                            colorScheme,
+                            textTheme,
+                          ),
+                          const SizedBox(width: 24),
+                          _buildSponsorPreviewBenefit(
+                            '🌟 Tech Recognition',
+                            colorScheme,
+                            textTheme,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 32),
+
+                // Call to action
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _navigateTo('Sponsor'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.secondary,
+                      foregroundColor: colorScheme.onSecondary,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 20,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: Icon(Symbols.handshake, size: 24),
+                    label: Text(
+                      'Become Our First Sponsor',
+                      style: textTheme.titleMedium?.copyWith(
+                        color: colorScheme.onSecondary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                Text(
+                  'Join us in making Boot 2025 an incredible experience for teen developers',
+                  textAlign: TextAlign.center,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSponsorPreviewBenefit(
+    String benefit,
+    ColorScheme colorScheme,
+    TextTheme textTheme,
+  ) {
+    return Flexible(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: colorScheme.primaryContainer.withAlpha(77),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: colorScheme.primary.withAlpha(77)),
+        ),
+        child: Text(
+          benefit,
+          textAlign: TextAlign.center,
+          style: textTheme.bodySmall?.copyWith(
+            color: colorScheme.onSurface,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+
   // FAQ Section
   Widget _buildFAQSection(ColorScheme colorScheme, TextTheme textTheme) {
     return Container(
@@ -1541,7 +2008,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         const SizedBox(height: 16),
         _buildFooterLink('RSVP', () => _navigateTo('RSVP')),
         _buildFooterLink('Volunteer', () => _navigateTo('Volunteer')),
-        _buildFooterLink('Sponsor Us', () => _showInProgressDialog()),
+        _buildFooterLink('Sponsor Us', () => _navigateTo('Sponsor')),
         _buildFooterLink('Donate', () => _launchUrl(donateUrl)),
       ],
     );

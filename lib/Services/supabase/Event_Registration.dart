@@ -36,4 +36,25 @@ class Event_Registration {
       throw Exception('Failed to Volunteer: ${e.toString()}');
     }
   }
+
+  static Future<void> Sponsor(
+    String company_Name,
+    String contact_Name,
+    String contact_Email,
+    String message,
+  ) async {
+    try {
+      await SupabaseDB.InsertData(
+        table: 'sponsors',
+        data: {
+          'organization': company_Name,
+          'name': contact_Name,
+          'email': contact_Email,
+          'message': message,
+        },
+      );
+    } catch (e) {
+      throw Exception('Failed to Upload Sponsor Inquiry: ${e.toString()}');
+    }
+  }
 }
