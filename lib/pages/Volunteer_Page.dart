@@ -46,6 +46,13 @@ class _VolunteerPageState extends State<VolunteerPage> {
       'icon': Symbols.event,
     },
     {
+      'id': 'developer',
+      'title': 'Developer',
+      'description':
+          'Help build and maintain the Boot App, Website, and other things',
+      'icon': Symbols.code,
+    },
+    {
       'id': 'anything_else',
       'title': 'Anything Else',
       'description': 'Would like to contribute in other ways not listed',
