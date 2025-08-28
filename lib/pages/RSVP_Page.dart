@@ -80,7 +80,7 @@ class _RSVPPageState extends State<RSVPPage> {
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
-        title: Text('RSVP for Boot 2025'),
+        title: Text('RSVP for Boot'),
         backgroundColor: colorScheme.surface.withAlpha(242),
         foregroundColor: colorScheme.primary,
         leading: IconButton(
@@ -126,7 +126,7 @@ class _RSVPPageState extends State<RSVPPage> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Join Boot 2025!',
+                      'Join Boot!',
                       style: textTheme.headlineLarge?.copyWith(
                         color: colorScheme.primary,
                         fontWeight: FontWeight.bold,

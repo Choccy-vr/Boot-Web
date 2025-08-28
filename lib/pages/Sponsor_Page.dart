@@ -109,7 +109,7 @@ class _SponsorPageState extends State<SponsorPage> {
   ) {
     return AppBar(
       title: Text(
-        'Sponsor Boot 2025',
+        'Sponsor Boot',
         style: textTheme.headlineSmall?.copyWith(
           color: colorScheme.primary,
           fontWeight: FontWeight.bold,
@@ -161,7 +161,7 @@ class _SponsorPageState extends State<SponsorPage> {
           ),
           const SizedBox(height: 24),
           Text(
-            'Partner with Boot 2025',
+            'Partner with Boot',
             style: textTheme.headlineLarge?.copyWith(
               color: colorScheme.primary,
               fontWeight: FontWeight.bold,

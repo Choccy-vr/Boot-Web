@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
           const SizedBox(width: 12),
           Text(
-            'Boot 2025',
+            'Boot',
             style: textTheme.headlineSmall?.copyWith(
               color: colorScheme.primary,
               fontWeight: FontWeight.bold,
@@ -603,7 +603,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           const SizedBox(height: 20),
           _buildEnhancedFactRow(
             'When:',
-            'Winter 2025',
+            '12/01/25 -> 04/01/26',
             Symbols.schedule,
             colorScheme,
             textTheme,
@@ -1744,7 +1744,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 const SizedBox(height: 16),
 
                 Text(
-                  'Join us in making Boot 2025 an incredible experience for teen developers',
+                  'Join us in making Boot an incredible experience for teen developers',
                   textAlign: TextAlign.center,
                   style: textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
@@ -1974,7 +1974,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
             const SizedBox(width: 12),
             Text(
-              'Boot 2025',
+              'Boot',
               style: textTheme.headlineSmall?.copyWith(
                 color: colorScheme.primary,
                 fontWeight: FontWeight.bold,
@@ -1988,6 +1988,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           style: textTheme.bodyMedium?.copyWith(
             color: colorScheme.onSurfaceVariant,
             height: 1.5,
+          ),
+        ),
+        const SizedBox(height: 128),
+        Text(
+          'Boot is fiscally sponsored by The Hack Foundation (d.b.a. Hack Club), a 501(c)(3) nonprofit (EIN: 81-2908499).',
+          style: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
           ),
         ),
       ],

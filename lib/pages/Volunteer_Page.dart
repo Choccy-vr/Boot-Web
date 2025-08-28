@@ -163,7 +163,7 @@ class _VolunteerPageState extends State<VolunteerPage> {
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
-        title: Text('Volunteer for Boot 2025'),
+        title: Text('Volunteer for Boot'),
         backgroundColor: colorScheme.surface.withAlpha(242),
         foregroundColor: colorScheme.primary,
         leading: IconButton(
