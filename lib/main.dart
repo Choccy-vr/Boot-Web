@@ -3,7 +3,6 @@ import 'theme/terminal_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'pages/Home.dart';
-//import 'pages/Sponsor_Page.dart';
 
 const supabaseUrl = 'https://zbtphhtuaovleoxkoemt.supabase.co';
 const supabaseKey =

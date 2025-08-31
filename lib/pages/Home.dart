@@ -3,9 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '/theme/terminal_theme.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
-import '/pages/RSVP_Page.dart';
 import '/pages/Volunteer_Page.dart';
-import '/pages/Sponsor_Page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,15 +13,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  //static const String sponsorEmail = 'mailto:beanoantenucci@gmail.com';
   static const String donateUrl =
       'https://hcb.hackclub.com/donations/start/boot';
-
+  static const String rsvpURL = 'https://boot.fillout.com/t/1pw821yNQpus';
+  static const String sponsorEmail = 'mailto:Gino@boot-os.com';
   late AnimationController _typewriterController;
   late AnimationController _floatingController;
   late Animation<int> _typewriterAnimation;
   late Animation<double> _floatingAnimation;
-  final String _welcomeText = "Welcome to Boot Hackathon 2025";
+  final String _welcomeText = "Welcome to Boot";
 
   final ScrollController _scrollController = ScrollController();
 
@@ -76,22 +74,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   void _navigateTo(String destination) {
     switch (destination) {
-      case 'RSVP':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => RSVPPage()),
-        );
-        break;
       case 'Volunteer':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => VolunteerPage()),
-        );
-        break;
-      case 'Sponsor':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SponsorPage()),
         );
         break;
     }
@@ -115,11 +101,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             const SizedBox(height: 60),
             _buildWhatCountsAsSection(colorScheme, textTheme),
             const SizedBox(height: 60),
-            _buildSponsorsAndDonateSection(colorScheme, textTheme),
+            _buildDonateSection(colorScheme, textTheme),
             const SizedBox(height: 60),
             _buildVolunteerSection(colorScheme, textTheme),
-            const SizedBox(height: 60),
-            _buildSponsorsShowcaseSection(colorScheme, textTheme),
             const SizedBox(height: 60),
             _buildFAQSection(colorScheme, textTheme),
             const SizedBox(height: 40),
@@ -133,7 +117,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           return Transform.translate(
             offset: Offset(0, _floatingAnimation.value),
             child: FloatingActionButton.extended(
-              onPressed: () => _navigateTo('RSVP'),
+              onPressed: () => _launchUrl(rsvpURL),
               backgroundColor: colorScheme.primary,
               foregroundColor: colorScheme.onPrimary,
               icon: Icon(Symbols.rocket_launch),
@@ -188,14 +172,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           false,
         ),
         _buildNavButton(
-          'Support',
+          'Donate',
           () => _scrollToSection(1600),
-          colorScheme,
-          false,
-        ),
-        _buildNavButton(
-          'Sponsors',
-          () => _scrollToSection(2900),
           colorScheme,
           false,
         ),
@@ -208,7 +186,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: ElevatedButton.icon(
-            onPressed: () => _navigateTo('RSVP'),
+            onPressed: () => _launchUrl(rsvpURL),
             icon: Icon(Symbols.rocket_launch, size: 16),
             label: Text('RSVP'),
             style: ElevatedButton.styleFrom(
@@ -293,7 +271,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                       ),
                       child: Text(
-                        'boot-terminal ~ Boot@hackathon',
+                        'boot-terminal ~ Boot@ysws',
                         style: textTheme.bodyMedium?.copyWith(
                           color: colorScheme.primary,
                           fontWeight: FontWeight.bold,
@@ -394,9 +372,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   children: [
                     Expanded(
                       child: ElevatedButton.icon(
-                        onPressed: () => _navigateTo('RSVP'),
+                        onPressed: () => _launchUrl(rsvpURL),
                         icon: Icon(Symbols.rocket_launch),
-                        label: Text('Join the Hackathon'),
+                        label: Text('Join the YSWS'),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 24,
@@ -456,7 +434,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
               const SizedBox(width: 16),
               Text(
-                'About Boot Hackathon',
+                'About Boot',
                 style: textTheme.headlineMedium?.copyWith(
                   color: colorScheme.primary,
                   fontWeight: FontWeight.bold,
@@ -508,7 +486,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Boot is a hackathon where teens from around the world come together to build their own operating systems — from the ground up or from something already great.',
+            'Boot is a YSWS (You Ship We Ship) where teens from around the world come together to build their own operating systems — from the ground up or from something already great.',
             style: textTheme.bodyLarge?.copyWith(
               color: colorScheme.onSurface,
               height: 1.6,
@@ -930,215 +908,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  // Combined Sponsors and Donate Section
-  Widget _buildSponsorsAndDonateSection(
-    ColorScheme colorScheme,
-    TextTheme textTheme,
-  ) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth > 1000) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(child: _buildSponsorsSection(colorScheme, textTheme)),
-                const SizedBox(width: 40),
-                Expanded(child: _buildDonateSection(colorScheme, textTheme)),
-              ],
-            );
-          } else {
-            return Column(
-              children: [
-                _buildSponsorsSection(colorScheme, textTheme),
-                const SizedBox(height: 40),
-                _buildDonateSection(colorScheme, textTheme),
-              ],
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildSponsorsSection(ColorScheme colorScheme, TextTheme textTheme) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: colorScheme.secondary.withAlpha(26),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: colorScheme.secondary.withAlpha(77)),
-              ),
-              child: Icon(
-                Symbols.handshake,
-                color: colorScheme.secondary,
-                size: 24,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Text(
-              'Our Sponsors',
-              style: textTheme.headlineMedium?.copyWith(
-                color: colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: BoxDecoration(
-            color: colorScheme.secondaryContainer.withAlpha(77),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            'Made possible by these amazing organizations',
-            style: textTheme.bodyLarge?.copyWith(
-              color: colorScheme.onSurface,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        ),
-        const SizedBox(height: 32),
-
-        Container(
-          padding: const EdgeInsets.all(40),
-          decoration: BoxDecoration(
-            color: colorScheme.surfaceContainer,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: colorScheme.secondary.withAlpha(77),
-              width: 2,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: colorScheme.secondary.withAlpha(26),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: colorScheme.secondary.withAlpha(26),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: colorScheme.secondary.withAlpha(77),
-                    width: 2,
-                  ),
-                ),
-                child: Icon(
-                  Symbols.business,
-                  color: colorScheme.secondary,
-                  size: 48,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Why sponsor Boot?',
-                style: textTheme.titleLarge?.copyWith(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Column(
-                children: [
-                  _buildSponsorBenefit(
-                    'Brand Visibility',
-                    'Logo placement and other recognition',
-                    Symbols.visibility,
-                    colorScheme,
-                    textTheme,
-                  ),
-                  _buildSponsorBenefit(
-                    'Community Impact',
-                    'Support the next generation of OS developers and designers',
-                    Symbols.favorite,
-                    colorScheme,
-                    textTheme,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () => _navigateTo('Sponsor'),
-                  icon: Icon(Symbols.handshake),
-                  label: Text('Become a Sponsor'),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 16,
-                    ),
-                    side: BorderSide(color: colorScheme.secondary, width: 2),
-                    backgroundColor: colorScheme.secondary.withAlpha(13),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSponsorBenefit(
-    String title,
-    String description,
-    IconData icon,
-    ColorScheme colorScheme,
-    TextTheme textTheme,
-  ) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: colorScheme.surfaceContainerHighest.withAlpha(128),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: colorScheme.secondary.withAlpha(77)),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: colorScheme.secondary, size: 20),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurface,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  description,
-                  style: textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildDonateSection(ColorScheme colorScheme, TextTheme textTheme) {
     return Column(
       children: [
@@ -1176,7 +945,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
-            'Help us create an amazing hackathon experience',
+            'Help us create an amazing YSWS',
             style: textTheme.bodyLarge?.copyWith(
               color: colorScheme.onSurface,
               fontStyle: FontStyle.italic,
@@ -1570,219 +1339,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildSponsorsShowcaseSection(
-    ColorScheme colorScheme,
-    TextTheme textTheme,
-  ) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: colorScheme.secondary.withAlpha(26),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: colorScheme.secondary.withAlpha(77),
-                  ),
-                ),
-                child: Icon(
-                  Symbols.business,
-                  color: colorScheme.secondary,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Text(
-                'Our Amazing Sponsors',
-                style: textTheme.headlineMedium?.copyWith(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
-              color: colorScheme.secondaryContainer.withAlpha(77),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              'Supporting the next generation of OS developers',
-              style: textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onSurface,
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          ),
-          const SizedBox(height: 32),
-
-          Container(
-            width: double.infinity,
-            constraints: const BoxConstraints(maxWidth: 800),
-            padding: const EdgeInsets.all(40),
-            decoration: BoxDecoration(
-              color: colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: colorScheme.outline),
-            ),
-            child: Column(
-              children: [
-                // Empty state with placeholder
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(32),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surfaceContainerHighest.withAlpha(128),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: colorScheme.outline.withAlpha(128),
-                      style: BorderStyle.solid,
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: colorScheme.secondary.withAlpha(26),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: colorScheme.secondary.withAlpha(77),
-                            width: 2,
-                          ),
-                        ),
-                        child: Icon(
-                          Symbols.add_business,
-                          color: colorScheme.secondary,
-                          size: 48,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        'Your Company Logo Here',
-                        textAlign: TextAlign.center,
-                        style: textTheme.headlineSmall?.copyWith(
-                          color: colorScheme.onSurface,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Be the first to support Boot and help empower teen OS developers worldwide',
-                        textAlign: TextAlign.center,
-                        style: textTheme.bodyLarge?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                          height: 1.5,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-
-                      // Benefits preview
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildSponsorPreviewBenefit(
-                            '🎯 Brand Exposure',
-                            colorScheme,
-                            textTheme,
-                          ),
-                          const SizedBox(width: 24),
-                          _buildSponsorPreviewBenefit(
-                            '🤝 Community Impact',
-                            colorScheme,
-                            textTheme,
-                          ),
-                          const SizedBox(width: 24),
-                          _buildSponsorPreviewBenefit(
-                            '🌟 Tech Recognition',
-                            colorScheme,
-                            textTheme,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 32),
-
-                // Call to action
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () => _navigateTo('Sponsor'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.secondary,
-                      foregroundColor: colorScheme.onSecondary,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 20,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    icon: Icon(Symbols.handshake, size: 24),
-                    label: Text(
-                      'Become Our First Sponsor',
-                      style: textTheme.titleMedium?.copyWith(
-                        color: colorScheme.onSecondary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                Text(
-                  'Join us in making Boot an incredible experience for teen developers',
-                  textAlign: TextAlign.center,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSponsorPreviewBenefit(
-    String benefit,
-    ColorScheme colorScheme,
-    TextTheme textTheme,
-  ) {
-    return Flexible(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: colorScheme.primaryContainer.withAlpha(77),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: colorScheme.primary.withAlpha(77)),
-        ),
-        child: Text(
-          benefit,
-          textAlign: TextAlign.center,
-          style: textTheme.bodySmall?.copyWith(
-            color: colorScheme.onSurface,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
-
   // FAQ Section
   Widget _buildFAQSection(ColorScheme colorScheme, TextTheme textTheme) {
     return Container(
@@ -1984,7 +1540,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         const SizedBox(height: 16),
         Text(
-          'A hackathon where teens from around the world build operating systems.',
+          'A YSWS (You Ship We Ship) where teens from around the world build operating systems.',
           style: textTheme.bodyMedium?.copyWith(
             color: colorScheme.onSurfaceVariant,
             height: 1.5,
@@ -2013,9 +1569,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
         ),
         const SizedBox(height: 16),
-        _buildFooterLink('RSVP', () => _navigateTo('RSVP')),
+        _buildFooterLink('RSVP', () => _launchUrl(rsvpURL)),
         _buildFooterLink('Volunteer', () => _navigateTo('Volunteer')),
-        _buildFooterLink('Sponsor Us', () => _navigateTo('Sponsor')),
+        _buildFooterLink('Sponsor Us', () => _launchUrl(sponsorEmail)),
         _buildFooterLink('Donate', () => _launchUrl(donateUrl)),
       ],
     );

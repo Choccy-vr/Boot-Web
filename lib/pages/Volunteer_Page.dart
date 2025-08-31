@@ -140,7 +140,7 @@ class _VolunteerPageState extends State<VolunteerPage> {
           ],
         ),
         content: Text(
-          'We appreciate you wanting to help make Boot Hackathon amazing! We\'ll contact you once needed.',
+          'We appreciate you wanting to help make Boot amazing! We\'ll contact you once needed.',
         ),
         actions: [
           TextButton(
