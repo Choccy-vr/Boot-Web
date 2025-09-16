@@ -3,8 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '/theme/terminal_theme.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
-import '/pages/Volunteer_Page.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -75,10 +73,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _navigateTo(String destination) {
     switch (destination) {
       case 'Volunteer':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => VolunteerPage()),
-        );
+        Navigator.pushNamed(context, '/volunteer');
         break;
     }
   }

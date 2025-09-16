@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '/Services/supabase/Event_Registration.dart';
 
 class VolunteerPage extends StatefulWidget {
@@ -13,6 +14,7 @@ class _VolunteerPageState extends State<VolunteerPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _slackIdController = TextEditingController();
   final _experienceController = TextEditingController();
   final _anythingElseController = TextEditingController();
 
@@ -86,6 +88,7 @@ class _VolunteerPageState extends State<VolunteerPage> {
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
+    _slackIdController.dispose();
     _experienceController.dispose();
     _anythingElseController.dispose();
     super.dispose();
@@ -107,6 +110,7 @@ class _VolunteerPageState extends State<VolunteerPage> {
       _anythingElseController.text.trim(),
       _selectedSkills.toList(),
       _experienceController.text.trim(),
+      _slackIdController.text.trim(),
     );
 
     if (mounted) {
@@ -251,6 +255,75 @@ class _VolunteerPageState extends State<VolunteerPage> {
                       if (!value!.contains('@')) return 'Enter a valid email';
                       return null;
                     },
+                  ),
+                  const SizedBox(height: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        controller: _slackIdController,
+                        decoration: InputDecoration(
+                          labelText: 'Slack ID *',
+                          hintText: 'e.g., U01234567890',
+                          prefixIcon: Icon(Symbols.chat),
+                        ),
+                        validator: (value) {
+                          if (value?.isEmpty ?? true)
+                            return 'Slack ID is required';
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(
+                            Symbols.info,
+                            size: 16,
+                            color: colorScheme.primary,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                style: textTheme.bodySmall?.copyWith(
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
+                                children: [
+                                  TextSpan(text: 'Find your Slack ID in '),
+                                  WidgetSpan(
+                                    child: MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          const url =
+                                              'https://hackclub.slack.com/archives/C0159TSJVH8';
+                                          if (await canLaunchUrl(
+                                            Uri.parse(url),
+                                          )) {
+                                            await launchUrl(Uri.parse(url));
+                                          }
+                                        },
+                                        child: Text(
+                                          '#what-is-my-slack-id',
+                                          style: textTheme.bodySmall?.copyWith(
+                                            color: colorScheme.primary,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            decorationColor:
+                                                colorScheme.primary,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TextSpan(text: ' channel'),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),

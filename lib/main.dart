@@ -3,6 +3,7 @@ import 'theme/terminal_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'pages/Home.dart';
+import 'pages/Volunteer_Page.dart';
 
 const supabaseUrl = 'https://zbtphhtuaovleoxkoemt.supabase.co';
 const supabaseKey =
@@ -22,7 +23,11 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'Boot Web',
       theme: buildTerminalTheme(),
-      home: HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        '/volunteer': (context) => VolunteerPage(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }

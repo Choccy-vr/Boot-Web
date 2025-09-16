@@ -19,19 +19,20 @@ class Event_Registration {
     String anything_else,
     List<String> skills,
     String experience,
+    String slackId,
   ) async {
     try {
-      await SupabaseDB.InsertData(
-        table: 'pending_volunteer_list',
-        data: {
-          'name': name,
-          'email': email,
-          'like_to_help': like_to_help,
-          'anything_else': anything_else,
-          'skills': skills,
-          'experience': experience,
-        },
-      );
+      final data = {
+        'name': name,
+        'email': email,
+        'like_to_help': like_to_help,
+        'anything_else': anything_else,
+        'skills': skills,
+        'experience': experience,
+        'slack_id': slackId,
+      };
+
+      await SupabaseDB.InsertData(table: 'pending_volunteer_list', data: data);
     } catch (e) {
       throw Exception('Failed to Volunteer: ${e.toString()}');
     }
