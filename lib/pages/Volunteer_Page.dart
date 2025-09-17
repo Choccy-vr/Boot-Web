@@ -15,6 +15,7 @@ class _VolunteerPageState extends State<VolunteerPage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _slackIdController = TextEditingController();
+  final _githubController = TextEditingController();
   final _experienceController = TextEditingController();
   final _anythingElseController = TextEditingController();
 
@@ -89,6 +90,7 @@ class _VolunteerPageState extends State<VolunteerPage> {
     _nameController.dispose();
     _emailController.dispose();
     _slackIdController.dispose();
+    _githubController.dispose();
     _experienceController.dispose();
     _anythingElseController.dispose();
     super.dispose();
@@ -111,6 +113,7 @@ class _VolunteerPageState extends State<VolunteerPage> {
       _selectedSkills.toList(),
       _experienceController.text.trim(),
       _slackIdController.text.trim(),
+      _githubController.text.trim(),
     );
 
     if (mounted) {
@@ -324,6 +327,24 @@ class _VolunteerPageState extends State<VolunteerPage> {
                         ],
                       ),
                     ],
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _githubController,
+                    decoration: InputDecoration(
+                      labelText: 'GitHub Profile *',
+                      hintText: 'https://github.com/yourusername',
+                      prefixIcon: Icon(Symbols.code),
+                    ),
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) {
+                        return 'GitHub profile is required';
+                      }
+                      if (!value!.contains('github.com')) {
+                        return 'Please enter a valid GitHub URL';
+                      }
+                      return null;
+                    },
                   ),
                 ],
               ),

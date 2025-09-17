@@ -715,43 +715,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 children: [
                   _buildWhatCountsCard(
                     'From Scratch',
-                    'Pure build using LFS, Buildroot, or your own kernel',
+                    'Build your OS from the ground up not based on any other OS (May stil use other libraries and etc)',
                     Symbols.code,
                     colorScheme.primary,
                     colorScheme,
                     textTheme,
-                    cardWidth.clamp(260, 320),
-                    '🔥 Hardcore',
+                    cardWidth.clamp(260, 1000),
                   ),
                   _buildWhatCountsCard(
-                    'Base Distro',
-                    'Start with Debian, Fedora, or Arch as foundation',
-                    Symbols.layers,
-                    colorScheme.secondary,
-                    colorScheme,
-                    textTheme,
-                    cardWidth.clamp(260, 320),
-                    '⚡ Advanced',
-                  ),
-                  _buildWhatCountsCard(
-                    'Consumer Base',
-                    'Customize Ubuntu, Raspberry Pi OS, or similar',
-                    Symbols.tune,
-                    TerminalColors.yellow,
-                    colorScheme,
-                    textTheme,
-                    cardWidth.clamp(260, 320),
-                    '✨ Friendly',
-                  ),
-                  _buildWhatCountsCard(
-                    'Modification',
-                    'Theme & package existing OS to make it yours',
+                    'Base it off',
+                    'Make a OS based off an existing OS (Ubuntu, RPi OS, Debian, etc) and make it your own!',
                     Symbols.palette,
                     TerminalColors.magenta,
                     colorScheme,
                     textTheme,
-                    cardWidth.clamp(260, 320),
-                    '🎨 Beginner',
+                    cardWidth.clamp(260, 1000),
                   ),
                 ],
               );
@@ -801,7 +779,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ColorScheme colorScheme,
     TextTheme textTheme,
     double width,
-    String badge,
   ) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 200),
@@ -833,26 +810,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: accentColor.withAlpha(38),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: accentColor.withAlpha(77)),
-                ),
-                child: Text(
-                  badge,
-                  style: textTheme.labelSmall?.copyWith(
-                    color: accentColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(

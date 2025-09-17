@@ -20,6 +20,7 @@ class Event_Registration {
     List<String> skills,
     String experience,
     String slackId,
+    String gtihubURL,
   ) async {
     try {
       final data = {
@@ -30,6 +31,7 @@ class Event_Registration {
         'skills': skills,
         'experience': experience,
         'slack_id': slackId,
+        'github_url': gtihubURL,
       };
 
       await SupabaseDB.InsertData(table: 'pending_volunteer_list', data: data);
