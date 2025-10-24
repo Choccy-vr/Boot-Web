@@ -128,6 +128,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ColorScheme colorScheme,
     TextTheme textTheme,
   ) {
+    bool showFullNavbar = MediaQuery.sizeOf(context).width >= 700;
+
     return AppBar(
       backgroundColor: colorScheme.surface.withAlpha(242),
       elevation: 0,
@@ -154,24 +156,30 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ],
       ),
       actions: [
-        _buildNavButton(
-          'About',
-          () => _scrollToSection(400),
-          colorScheme,
-          false,
-        ),
-        _buildNavButton(
-          'What Counts',
-          () => _scrollToSection(1000),
-          colorScheme,
-          false,
-        ),
-        _buildNavButton(
-          'Donate',
-          () => _scrollToSection(1600),
-          colorScheme,
-          false,
-        ),
+        showFullNavbar
+            ? _buildNavButton(
+                'About',
+                () => _scrollToSection(400),
+                colorScheme,
+                false,
+              )
+            : SizedBox.shrink(),
+        showFullNavbar
+            ? _buildNavButton(
+                'What Counts',
+                () => _scrollToSection(1000),
+                colorScheme,
+                false,
+              )
+            : SizedBox.shrink(),
+        showFullNavbar
+            ? _buildNavButton(
+                'Donate',
+                () => _scrollToSection(1600),
+                colorScheme,
+                false,
+              )
+            : SizedBox.shrink(),
         _buildNavButton(
           'Volunteer',
           () => _navigateTo('Volunteer'),
