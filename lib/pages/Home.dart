@@ -128,6 +128,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ColorScheme colorScheme,
     TextTheme textTheme,
   ) {
+    bool showFullNavbar = MediaQuery.sizeOf(context).width >= 700;
+
     return AppBar(
       backgroundColor: colorScheme.surface.withAlpha(242),
       elevation: 0,
@@ -154,24 +156,30 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ],
       ),
       actions: [
-        _buildNavButton(
-          'About',
-          () => _scrollToSection(400),
-          colorScheme,
-          false,
-        ),
-        _buildNavButton(
-          'What Counts',
-          () => _scrollToSection(1000),
-          colorScheme,
-          false,
-        ),
-        _buildNavButton(
-          'Donate',
-          () => _scrollToSection(1600),
-          colorScheme,
-          false,
-        ),
+        showFullNavbar
+            ? _buildNavButton(
+                'About',
+                () => _scrollToSection(400),
+                colorScheme,
+                false,
+              )
+            : SizedBox.shrink(),
+        showFullNavbar
+            ? _buildNavButton(
+                'What Counts',
+                () => _scrollToSection(1000),
+                colorScheme,
+                false,
+              )
+            : SizedBox.shrink(),
+        showFullNavbar
+            ? _buildNavButton(
+                'Donate',
+                () => _scrollToSection(1600),
+                colorScheme,
+                false,
+              )
+            : SizedBox.shrink(),
         _buildNavButton(
           'Volunteer',
           () => _navigateTo('Volunteer'),
@@ -225,6 +233,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   // Hero Section
   Widget _buildHeroSection(ColorScheme colorScheme, TextTheme textTheme) {
+    bool isScreenWide = MediaQuery.sizeOf(context).width >= 600;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
@@ -251,7 +261,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Flex(
+                  direction: isScreenWide ? Axis.horizontal : Axis.vertical,
+                  crossAxisAlignment: isScreenWide
+                      ? CrossAxisAlignment.center
+                      : CrossAxisAlignment.start,
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -273,7 +287,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    const Spacer(),
+                    isScreenWide ? const Spacer() : const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -906,86 +920,89 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         const SizedBox(height: 32),
 
-        Container(
-          padding: const EdgeInsets.all(40),
-          decoration: BoxDecoration(
-            color: colorScheme.surfaceContainer,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: TerminalColors.red.withAlpha(77),
-              width: 2,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: TerminalColors.red.withAlpha(26),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: Container(
+            padding: const EdgeInsets.all(40),
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: TerminalColors.red.withAlpha(77),
+                width: 2,
               ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
                   color: TerminalColors.red.withAlpha(26),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: TerminalColors.red.withAlpha(77),
-                    width: 2,
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: TerminalColors.red.withAlpha(26),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: TerminalColors.red.withAlpha(77),
+                      width: 2,
+                    ),
+                  ),
+                  child: Icon(
+                    Symbols.favorite,
+                    color: TerminalColors.red,
+                    size: 48,
                   ),
                 ),
-                child: Icon(
-                  Symbols.favorite,
-                  color: TerminalColors.red,
-                  size: 48,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Every donation helps fund:',
-                style: textTheme.titleLarge?.copyWith(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Column(
-                children: [
-                  _buildDonationBenefit(
-                    'Prizes & Awards',
-                    'Hardware and other prizes for participants',
-                    Symbols.emoji_events,
-                    colorScheme,
-                    textTheme,
+                const SizedBox(height: 20),
+                Text(
+                  'Every donation helps fund:',
+                  style: textTheme.titleLarge?.copyWith(
+                    color: colorScheme.primary,
+                    fontWeight: FontWeight.bold,
                   ),
-                  _buildDonationBenefit(
-                    'Infrastructure',
-                    'Cloud VMs, Servers, and development resources',
-                    Symbols.dns,
-                    colorScheme,
-                    textTheme,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () => _launchUrl(donateUrl),
-                  icon: Icon(Symbols.favorite),
-                  label: Text('Donate Now'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: TerminalColors.red,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 16,
+                ),
+                const SizedBox(height: 16),
+                Column(
+                  children: [
+                    _buildDonationBenefit(
+                      'Prizes & Awards',
+                      'Hardware and other prizes for participants',
+                      Symbols.emoji_events,
+                      colorScheme,
+                      textTheme,
+                    ),
+                    _buildDonationBenefit(
+                      'Infrastructure',
+                      'Cloud VMs, Servers, and development resources',
+                      Symbols.dns,
+                      colorScheme,
+                      textTheme,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _launchUrl(donateUrl),
+                    icon: Icon(Symbols.favorite),
+                    label: Text('Donate Now'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: TerminalColors.red,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 16,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
@@ -1317,11 +1334,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
               ),
               const SizedBox(width: 16),
-              Text(
-                'Frequently Asked Questions',
-                style: textTheme.headlineMedium?.copyWith(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.bold,
+              Flexible(
+                child: Text(
+                  'Frequently Asked Questions',
+                  style: textTheme.headlineMedium?.copyWith(
+                    color: colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
