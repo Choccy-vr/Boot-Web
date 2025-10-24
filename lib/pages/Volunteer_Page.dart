@@ -181,367 +181,381 @@ class _VolunteerPageState extends State<VolunteerPage> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: colorScheme.surfaceContainerLowest,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: colorScheme.secondary.withAlpha(77),
-                    width: 2,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Icon(
-                      Symbols.volunteer_activism,
-                      color: colorScheme.secondary,
-                      size: 48,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Help Make Boot Amazing!',
-                      style: textTheme.headlineMedium?.copyWith(
-                        color: colorScheme.primary,
-                        fontWeight: FontWeight.bold,
+        child: Center(
+          child: Container(
+            constraints: BoxConstraints(minWidth: 100, maxWidth: 1000),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceContainerLowest,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: colorScheme.secondary.withAlpha(77),
+                        width: 2,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Join our team and help create an incredible experience for teen OS builders',
-                      textAlign: TextAlign.center,
-                      style: textTheme.bodyLarge?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Symbols.volunteer_activism,
+                          color: colorScheme.secondary,
+                          size: 48,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Help Make Boot Amazing!',
+                          style: textTheme.headlineMedium?.copyWith(
+                            color: colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Join our team and help create an incredible experience for teen OS builders',
+                          textAlign: TextAlign.center,
+                          style: textTheme.bodyLarge?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 32),
-
-              // Basic Info Section
-              _buildSection(
-                'Basic Information',
-                Symbols.person,
-                colorScheme,
-                textTheme,
-                [
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Name *',
-                      hintText:
-                          'Enter your name or what you liked to be called',
-                      prefixIcon: Icon(Symbols.badge),
-                    ),
-                    validator: (value) =>
-                        value?.isEmpty ?? true ? 'Name is required' : null,
                   ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email Address *',
-                      hintText: 'your.email@example.com',
-                      prefixIcon: Icon(Symbols.email),
-                    ),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) return 'Email is required';
-                      if (!value!.contains('@')) return 'Enter a valid email';
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+
+                  const SizedBox(height: 32),
+
+                  // Basic Info Section
+                  _buildSection(
+                    'Basic Information',
+                    Symbols.person,
+                    colorScheme,
+                    textTheme,
+                    [
                       TextFormField(
-                        controller: _slackIdController,
+                        controller: _nameController,
                         decoration: InputDecoration(
-                          labelText: 'Slack ID *',
-                          hintText: 'e.g., U01234567890',
-                          prefixIcon: Icon(Symbols.chat),
+                          labelText: 'Name *',
+                          hintText:
+                              'Enter your name or what you liked to be called',
+                          prefixIcon: Icon(Symbols.badge),
+                        ),
+                        validator: (value) =>
+                            value?.isEmpty ?? true ? 'Name is required' : null,
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: 'Email Address *',
+                          hintText: 'your.email@example.com',
+                          prefixIcon: Icon(Symbols.email),
                         ),
                         validator: (value) {
                           if (value?.isEmpty ?? true)
-                            return 'Slack ID is required';
+                            return 'Email is required';
+                          if (!value!.contains('@'))
+                            return 'Enter a valid email';
                           return null;
                         },
                       ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(
-                            Symbols.info,
-                            size: 16,
-                            color: colorScheme.primary,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                style: textTheme.bodySmall?.copyWith(
-                                  color: colorScheme.onSurfaceVariant,
-                                ),
-                                children: [
-                                  TextSpan(text: 'Find your Slack ID in '),
-                                  WidgetSpan(
-                                    child: MouseRegion(
-                                      cursor: SystemMouseCursors.click,
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          const url =
-                                              'https://hackclub.slack.com/archives/C0159TSJVH8';
-                                          if (await canLaunchUrl(
-                                            Uri.parse(url),
-                                          )) {
-                                            await launchUrl(Uri.parse(url));
-                                          }
-                                        },
-                                        child: Text(
-                                          '#what-is-my-slack-id',
-                                          style: textTheme.bodySmall?.copyWith(
-                                            color: colorScheme.primary,
-                                            decoration:
-                                                TextDecoration.underline,
-                                            decorationColor:
-                                                colorScheme.primary,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TextSpan(text: ' channel'),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _githubController,
-                    decoration: InputDecoration(
-                      labelText: 'GitHub Profile *',
-                      hintText: 'https://github.com/yourusername',
-                      prefixIcon: Icon(Symbols.code),
-                    ),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'GitHub profile is required';
-                      }
-                      if (!value!.contains('github.com')) {
-                        return 'Please enter a valid GitHub URL';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 24),
-
-              // Volunteer Roles Section
-              _buildSection(
-                'What Would You Like To Help With?',
-                Symbols.handshake,
-                colorScheme,
-                textTheme,
-                [
-                  Text(
-                    'Select all roles that interest you:',
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  ...(_volunteerRoles
-                      .map(
-                        (role) => _buildRoleCard(role, colorScheme, textTheme),
-                      )
-                      .toList()),
-
-                  // "Anything Else" explanation field - appears when selected
-                  if (_selectedRoles.contains('anything_else')) ...[
-                    const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: colorScheme.primaryContainer.withAlpha(77),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: colorScheme.primary.withAlpha(77),
-                        ),
-                      ),
-                      child: Column(
+                      const SizedBox(height: 16),
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          TextFormField(
+                            controller: _slackIdController,
+                            decoration: InputDecoration(
+                              labelText: 'Slack ID *',
+                              hintText: 'e.g., U01234567890',
+                              prefixIcon: Icon(Symbols.chat),
+                            ),
+                            validator: (value) {
+                              if (value?.isEmpty ?? true)
+                                return 'Slack ID is required';
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 8),
                           Row(
                             children: [
                               Icon(
-                                Symbols.edit,
+                                Symbols.info,
+                                size: 16,
                                 color: colorScheme.primary,
-                                size: 20,
                               ),
                               const SizedBox(width: 8),
-                              Text(
-                                'Tell us more about how you\'d like to help:',
-                                style: textTheme.titleMedium?.copyWith(
-                                  color: colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
+                              Expanded(
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: textTheme.bodySmall?.copyWith(
+                                      color: colorScheme.onSurfaceVariant,
+                                    ),
+                                    children: [
+                                      TextSpan(text: 'Find your Slack ID in '),
+                                      WidgetSpan(
+                                        child: MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              const url =
+                                                  'https://hackclub.slack.com/archives/C0159TSJVH8';
+                                              if (await canLaunchUrl(
+                                                Uri.parse(url),
+                                              )) {
+                                                await launchUrl(Uri.parse(url));
+                                              }
+                                            },
+                                            child: Text(
+                                              '#what-is-my-slack-id',
+                                              style: textTheme.bodySmall
+                                                  ?.copyWith(
+                                                    color: colorScheme.primary,
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                    decorationColor:
+                                                        colorScheme.primary,
+                                                  ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      TextSpan(text: ' channel'),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 12),
-                          TextFormField(
-                            controller: _anythingElseController,
-                            decoration: InputDecoration(
-                              hintText:
-                                  'e.g., "I can help with social media promotion", "I have experience with streaming/recording", "I can help moderate Discord"...',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              filled: true,
-                              fillColor: colorScheme.surface.withAlpha(128),
-                            ),
-                            maxLines: 3,
-                            validator: _selectedRoles.contains('anything_else')
-                                ? (value) => value?.trim().isEmpty ?? true
-                                      ? 'Please tell us how you\'d like to help'
-                                      : null
-                                : null,
-                          ),
                         ],
                       ),
-                    ),
-                  ],
-                ],
-              ),
-
-              const SizedBox(height: 24),
-
-              // Skills Section
-              _buildSection(
-                'Your Skills',
-                Symbols.psychology,
-                colorScheme,
-                textTheme,
-                [
-                  Text(
-                    'Select your relevant skills:',
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _githubController,
+                        decoration: InputDecoration(
+                          labelText: 'GitHub Profile *',
+                          hintText: 'https://github.com/yourusername',
+                          prefixIcon: Icon(Symbols.code),
+                        ),
+                        validator: (value) {
+                          if (value?.isEmpty ?? true) {
+                            return 'GitHub profile is required';
+                          }
+                          if (!value!.contains('github.com')) {
+                            return 'Please enter a valid GitHub URL';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: _skills
-                        .map(
-                          (skill) => FilterChip(
-                            label: Text(skill),
-                            selected: _selectedSkills.contains(skill),
-                            onSelected: (selected) {
-                              setState(() {
-                                if (selected) {
-                                  _selectedSkills.add(skill);
-                                } else {
-                                  _selectedSkills.remove(skill);
-                                }
-                              });
-                            },
-                          ),
-                        )
-                        .toList(),
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _experienceController,
-                    decoration: InputDecoration(
-                      labelText: 'Tell us about your experience',
-                      hintText: 'What makes you excited to help with Boot?',
-                      prefixIcon: Icon(Symbols.description),
-                    ),
-                    maxLines: 3,
-                  ),
-                ],
-              ),
 
-              const SizedBox(height: 32),
+                  const SizedBox(height: 24),
 
-              // Submit Button
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton.icon(
-                  onPressed: _isSubmitting ? null : _submitVolunteer,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: colorScheme.secondary,
-                  ),
-                  icon: _isSubmitting
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              colorScheme.onSecondary,
+                  // Volunteer Roles Section
+                  _buildSection(
+                    'What Would You Like To Help With?',
+                    Symbols.handshake,
+                    colorScheme,
+                    textTheme,
+                    [
+                      Text(
+                        'Select all roles that interest you:',
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      ...(_volunteerRoles
+                          .map(
+                            (role) =>
+                                _buildRoleCard(role, colorScheme, textTheme),
+                          )
+                          .toList()),
+
+                      // "Anything Else" explanation field - appears when selected
+                      if (_selectedRoles.contains('anything_else')) ...[
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: colorScheme.primaryContainer.withAlpha(77),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: colorScheme.primary.withAlpha(77),
                             ),
                           ),
-                        )
-                      : Icon(Symbols.volunteer_activism),
-                  label: Text(
-                    _isSubmitting
-                        ? 'Submitting Application...'
-                        : 'Submit Volunteer Application',
-                    style: textTheme.titleMedium?.copyWith(
-                      color: colorScheme.onSecondary,
-                      fontWeight: FontWeight.bold,
-                    ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Symbols.edit,
+                                    color: colorScheme.primary,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Tell us more about how you\'d like to help:',
+                                    style: textTheme.titleMedium?.copyWith(
+                                      color: colorScheme.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12),
+                              TextFormField(
+                                controller: _anythingElseController,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      'e.g., "I can help with social media promotion", "I have experience with streaming/recording", "I can help moderate Discord"...',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  filled: true,
+                                  fillColor: colorScheme.surface.withAlpha(128),
+                                ),
+                                maxLines: 3,
+                                validator:
+                                    _selectedRoles.contains('anything_else')
+                                    ? (value) => value?.trim().isEmpty ?? true
+                                          ? 'Please tell us how you\'d like to help'
+                                          : null
+                                    : null,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
-                ),
-              ),
 
-              const SizedBox(height: 16),
+                  const SizedBox(height: 24),
 
-              // Info Text
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: colorScheme.secondaryContainer.withAlpha(77),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: colorScheme.secondary.withAlpha(77),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Symbols.info, color: colorScheme.secondary, size: 20),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        'We\'ll review your application and get back to you with more details about volunteering opportunities!',
+                  // Skills Section
+                  _buildSection(
+                    'Your Skills',
+                    Symbols.psychology,
+                    colorScheme,
+                    textTheme,
+                    [
+                      Text(
+                        'Select your relevant skills:',
                         style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurface,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: _skills
+                            .map(
+                              (skill) => FilterChip(
+                                label: Text(skill),
+                                selected: _selectedSkills.contains(skill),
+                                onSelected: (selected) {
+                                  setState(() {
+                                    if (selected) {
+                                      _selectedSkills.add(skill);
+                                    } else {
+                                      _selectedSkills.remove(skill);
+                                    }
+                                  });
+                                },
+                              ),
+                            )
+                            .toList(),
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _experienceController,
+                        decoration: InputDecoration(
+                          labelText: 'Tell us about your experience',
+                          hintText: 'What makes you excited to help with Boot?',
+                          prefixIcon: Icon(Symbols.description),
+                        ),
+                        maxLines: 3,
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  // Submit Button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton.icon(
+                      onPressed: _isSubmitting ? null : _submitVolunteer,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: colorScheme.secondary,
+                      ),
+                      icon: _isSubmitting
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  colorScheme.onSecondary,
+                                ),
+                              ),
+                            )
+                          : Icon(Symbols.volunteer_activism),
+                      label: Text(
+                        _isSubmitting
+                            ? 'Submitting Application...'
+                            : 'Submit Volunteer Application',
+                        style: textTheme.titleMedium?.copyWith(
+                          color: colorScheme.onSecondary,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Info Text
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: colorScheme.secondaryContainer.withAlpha(77),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: colorScheme.secondary.withAlpha(77),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Symbols.info,
+                          color: colorScheme.secondary,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'We\'ll review your application and get back to you with more details about volunteering opportunities!',
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: colorScheme.onSurface,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
