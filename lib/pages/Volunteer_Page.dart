@@ -688,11 +688,13 @@ class _VolunteerPageState extends State<VolunteerPage> {
                 child: Icon(icon, color: colorScheme.primary, size: 20),
               ),
               const SizedBox(width: 12),
-              Text(
-                title,
-                style: textTheme.titleLarge?.copyWith(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.bold,
+              Flexible(
+                child: Text(
+                  title,
+                  style: textTheme.titleLarge?.copyWith(
+                    color: colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
