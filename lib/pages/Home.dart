@@ -225,6 +225,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   // Hero Section
   Widget _buildHeroSection(ColorScheme colorScheme, TextTheme textTheme) {
+    bool isScreenWide = MediaQuery.sizeOf(context).width >= 600;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
@@ -251,7 +253,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Flex(
+                  direction: isScreenWide ? Axis.horizontal : Axis.vertical,
+                  crossAxisAlignment: isScreenWide
+                      ? CrossAxisAlignment.center
+                      : CrossAxisAlignment.start,
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -273,7 +279,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    const Spacer(),
+                    isScreenWide ? const Spacer() : const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16,
