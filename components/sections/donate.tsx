@@ -3,7 +3,7 @@ import { Heart, Trophy, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function SupportSection() {
+export default function DonateSection() {
   return (
     <AnimatedSection>
       <h2 className="text-primary text-2xl">Support Boot</h2>
