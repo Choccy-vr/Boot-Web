@@ -28,7 +28,7 @@ export default function Home() {
         </div>
       </div>
       <div className="pb-4 flex flex-col gap-2">
-        <h2 className="text-primary text-2xl">./about.sh</h2>
+        <h2 className="text-primary text-2xl">About Boot</h2>
         <Card>
           <CardContent className="space-y-4">
             <p>
