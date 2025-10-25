@@ -16,15 +16,25 @@ export default function TerminalBreadcrumbs({
   const [typingContent, setTypingContent] = useState("");
 
   useEffect(() => {
+    const timeouts: NodeJS.Timeout[] = [];
+
     for (let i = 0; i < content.length; i++) {
-      setTimeout(() => {
-        setTypingContent((prevContent) => prevContent + content[i]);
-      }, i * 10);
+      timeouts.push(
+        setTimeout(() => {
+          setTypingContent((prevContent) => prevContent + content[i]);
+        }, i * 10),
+      );
     }
 
-    setTimeout(() => {
-      setTyping(false);
-    }, content.length * 10);
+    timeouts.push(
+      setTimeout(() => {
+        setTyping(false);
+      }, content.length * 10),
+    );
+
+    return () => {
+      timeouts.forEach(clearTimeout);
+    };
   }, []);
 
   if (typing) {
