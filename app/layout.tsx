@@ -3,8 +3,6 @@ import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
-import { Button } from "@/components/ui/button";
-import { Rocket } from "lucide-react";
 import RSVPButton from "@/components/rsvp-button";
 
 const geistMono = Geist_Mono({

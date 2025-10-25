@@ -1,7 +1,7 @@
 import Link from "next/link";
 import RSVPButton from "./rsvp-button";
 import { Button } from "./ui/button";
-import { Rocket, Terminal } from "lucide-react";
+import { Terminal } from "lucide-react";
 
 export default function Navbar() {
   return (
