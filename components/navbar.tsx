@@ -1,3 +1,4 @@
+import RSVPButton from "./rsvp-button";
 import { Button } from "./ui/button";
 import { Rocket, Terminal } from "lucide-react";
 
@@ -13,10 +14,7 @@ export default function Navbar() {
         </div>
         <div className="grow"></div>
         <Button variant="secondary">Volunteer</Button>
-        <Button>
-          <Rocket />
-          RSVP
-        </Button>
+        <RSVPButton />
       </nav>
     </div>
   );

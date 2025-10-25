@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Rocket } from "lucide-react";
+import RSVPButton from "@/components/rsvp-button";
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -36,10 +37,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" forcedTheme="dark">
           <Navbar />
           {children}
-          <Button className="fixed bottom-2 right-2" size="lg">
-            <Rocket />
-            RSVP
-          </Button>
+          <RSVPButton className="fixed bottom-2 right-2" size="lg" />
         </ThemeProvider>
       </body>
     </html>
