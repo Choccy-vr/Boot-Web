@@ -7,7 +7,7 @@ import ButtonAnimation from "./buttons/animation";
 export default function Navbar() {
   return (
     <div className="w-full">
-      <nav className="flex flex-row gap-2 p-2 max-w-4xl mx-auto items-center">
+      <nav className="flex flex-row gap-2 p-2 py-4 max-w-4xl mx-auto items-center">
         <Link href="/" className="flex flex-row gap-4 items-center">
           <div className="bg-accent border border-primary shadow-2xl aspect-square p-2 rounded flex justify-center items-center">
             <Terminal className="size-4 text-primary" />
