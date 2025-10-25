@@ -20,7 +20,7 @@ export default function Home() {
               or remixing a distro like Ubuntu into something entirely your own,
               the choice is yours.
             </p>
-            <div className="p-4 bg-primary/25 rounded flex flex-row gap-4 items-center">
+            <div className="p-4 bg-primary/25 rounded flex flex-row gap-4 items-center border shadow-sm">
               <Trophy className="text-primary" />
               <p>
                 Throughout the event, participants will make, test, and vote on
