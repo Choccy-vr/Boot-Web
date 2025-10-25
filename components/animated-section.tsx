@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 export default function AnimatedSection({
   children,
   className,
-  delay = 0.3,
+  delay = 0,
 }: {
   children: React.ReactNode;
   className?: string;
