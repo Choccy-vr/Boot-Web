@@ -1,3 +1,9 @@
+import TerminalBreadcrumbs from "@/components/terminal-breadcrumbs";
+
 export default function Home() {
-  return <></>;
+  return (
+    <>
+      <TerminalBreadcrumbs breadcrumbs={[{ slug: "/", text: "home" }]} />
+    </>
+  );
 }
