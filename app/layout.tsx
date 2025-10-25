@@ -3,6 +3,8 @@ import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
+import { Button } from "@/components/ui/button";
+import { Rocket } from "lucide-react";
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -34,6 +36,10 @@ export default function RootLayout({
         <ThemeProvider attribute="class" forcedTheme="dark">
           <Navbar />
           {children}
+          <Button className="fixed bottom-2 right-2" size="lg">
+            <Rocket />
+            RSVP
+          </Button>
         </ThemeProvider>
       </body>
     </html>
