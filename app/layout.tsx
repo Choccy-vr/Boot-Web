@@ -36,7 +36,7 @@ export default function RootLayout({
       <body className={`${geistMono.className} antialiased`}>
         <ThemeProvider attribute="class" forcedTheme="dark">
           <Navbar />
-          {children}
+          <main className="max-w-4xl w-screen mx-auto px-2">{children}</main>
           <RSVPButton className="fixed bottom-2 right-2" size="lg" />
         </ThemeProvider>
       </body>
