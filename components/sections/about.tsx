@@ -4,7 +4,7 @@ import { ArrowRight, Trophy } from "lucide-react";
 
 export default function AboutSection() {
   return (
-    <AnimatedSection>
+    <AnimatedSection id="about">
       <h2 className="text-primary text-2xl">About Boot</h2>
       <Card>
         <CardContent className="space-y-4">

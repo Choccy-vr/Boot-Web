@@ -4,6 +4,7 @@ import JoinButton from "@/components/buttons/join";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock } from "lucide-react";
+import Link from "next/link";
 
 export default function HeroSection() {
   return (
@@ -21,7 +22,9 @@ export default function HeroSection() {
             <JoinButton text="Join YSWS" />
           </ButtonAnimation>
           <ButtonAnimation>
-            <Button variant="secondary">More Info</Button>
+            <Button variant="secondary">
+              <Link href="#about">More Info</Link>
+            </Button>
           </ButtonAnimation>
         </div>
       </div>
