@@ -1,6 +1,6 @@
-import AnimatedSection from "@/components/animated-section";
-import ButtonAnimation from "@/components/button-animation";
-import JoinButton from "@/components/join-button";
+import AnimatedSection from "@/components/animations/section";
+import ButtonAnimation from "@/components/buttons/animation";
+import JoinButton from "@/components/buttons/join";
 import TerminalBreadcrumbs from "@/components/terminal-breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import JoinButton from "./join-button";
+import JoinButton from "./buttons/join";
 import { Button } from "./ui/button";
 import { Terminal } from "lucide-react";
-import ButtonAnimation from "./button-animation";
+import ButtonAnimation from "./buttons/animation";
 
 export default function Navbar() {
   return (

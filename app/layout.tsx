@@ -3,7 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
-import JoinButton from "@/components/join-button";
+import JoinButton from "@/components/buttons/join";
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
