@@ -1,6 +1,6 @@
 import TerminalBreadcrumbs from "@/components/terminal-breadcrumbs";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Trophy } from "lucide-react";
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
       <div className="pb-4 flex flex-col gap-2">
         <h2 className="text-primary text-2xl">About Boot</h2>
         <Card>
-          <CardContent>
+          <CardContent className="space-y-4">
             <p>
               Boot is a YSWS (You Ship We Ship) where teens from around the
               world come together to build their own operating systems — from
@@ -20,6 +20,13 @@ export default function Home() {
               or remixing a distro like Ubuntu into something entirely your own,
               the choice is yours.
             </p>
+            <div className="p-4 bg-primary/25 rounded flex flex-row gap-4 items-center">
+              <Trophy className="text-primary" />
+              <p>
+                Throughout the event, participants will make, test, and vote on
+                each other&apos;s OSes. Sweet prizes await!
+              </p>
+            </div>
           </CardContent>
         </Card>
         <div className="grid md:grid-cols-2 gap-2">
