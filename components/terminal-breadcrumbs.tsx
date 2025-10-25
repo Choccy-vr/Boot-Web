@@ -39,7 +39,7 @@ export default function TerminalBreadcrumbs({
   }, [breadcrumbPath]);
 
   return (
-    <div className="text-primary min-h-7">
+    <div className="text-primary min-h-6">
       {typing ? (
         typingContent
       ) : (
