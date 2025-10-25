@@ -12,6 +12,7 @@ export default function Navbar() {
           <div className="text-2xl text-primary">Boot</div>
         </div>
         <div className="grow"></div>
+        <Button variant="secondary">Volunteer</Button>
         <Button>
           <Rocket />
           RSVP
