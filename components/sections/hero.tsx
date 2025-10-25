@@ -23,7 +23,7 @@ export default function HeroSection() {
           </ButtonAnimation>
           <ButtonAnimation>
             <Button variant="secondary">
-              <Link href="#about">More Info</Link>
+              <Link href="#about">About</Link>
             </Button>
           </ButtonAnimation>
         </div>
