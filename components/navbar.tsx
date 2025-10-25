@@ -1,17 +1,15 @@
 import Link from "next/link";
 import JoinButton from "./buttons/join";
 import { Button } from "./ui/button";
-import { Terminal } from "lucide-react";
 import ButtonAnimation from "./buttons/animation";
+import Image from "next/image";
 
 export default function Navbar() {
   return (
     <div className="w-full">
       <nav className="flex flex-row gap-2 p-2 py-4 max-w-4xl mx-auto items-center">
         <Link href="/" className="flex flex-row gap-4 items-center">
-          <div className="bg-accent border border-primary shadow-2xl aspect-square p-2 rounded flex justify-center items-center">
-            <Terminal className="size-4 text-primary" />
-          </div>
+          <Image alt="Boot Logo" src="/icon.png" width={36} height={36} />
           <div className="text-2xl text-primary">Boot</div>
         </Link>
         <div className="grow"></div>
