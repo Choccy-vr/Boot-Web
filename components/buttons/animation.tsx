@@ -9,8 +9,8 @@ export default function ButtonAnimation({
 }) {
   return (
     <motion.div
-      whileHover={{ scale: 1.03, y: -1 }}
-      whileTap={{ scale: 0.97, y: 0 }}
+      whileHover={{ scale: 1.02, y: -1 }}
+      whileTap={{ scale: 0.99, y: 0, filter: "brightness(0.7)" }}
     >
       {children}
     </motion.div>
