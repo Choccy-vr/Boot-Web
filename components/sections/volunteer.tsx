@@ -1,5 +1,4 @@
 import AnimatedSection from "@/components/animations/section";
-import { Lightbulb } from "lucide-react";
 
 export default function VolunteerSection() {
   return (
