@@ -1,5 +1,8 @@
+import ButtonAnimation from "@/components/button-animation";
+import JoinButton from "@/components/join-button";
 import TerminalBreadcrumbs from "@/components/terminal-breadcrumbs";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Clock, Trophy } from "lucide-react";
 
@@ -15,6 +18,14 @@ export default function Home() {
         <h3 className="text-xl p-4 bg-primary/25 border rounded">
           Build your OS. Share. Get prizes.
         </h3>
+        <div className="flex flex-row gap-4">
+          <ButtonAnimation>
+            <JoinButton text="Join YSWS" />
+          </ButtonAnimation>
+          <ButtonAnimation>
+            <Button variant="secondary">More Info</Button>
+          </ButtonAnimation>
+        </div>
       </div>
       <div className="pb-4 flex flex-col gap-2">
         <h2 className="text-primary text-2xl">About Boot</h2>
