@@ -18,6 +18,12 @@ export default function Footer() {
           a 501(c)(3) nonprofit (EIN: 81-2908499).
         </p>
         <div className="flex flex-row gap-4">
+          <Link href="/" className="underline">
+            Home
+          </Link>
+          <Link href="/join" className="underline">
+            Join
+          </Link>
           <Link href="/volunteer" className="underline">
             Volunteer
           </Link>
