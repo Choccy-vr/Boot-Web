@@ -2,6 +2,7 @@ import Link from "next/link";
 import RSVPButton from "./rsvp-button";
 import { Button } from "./ui/button";
 import { Terminal } from "lucide-react";
+import ButtonAnimation from "./button-animation";
 
 export default function Navbar() {
   return (
@@ -14,10 +15,14 @@ export default function Navbar() {
           <div className="text-2xl text-primary">Boot</div>
         </Link>
         <div className="grow"></div>
-        <Button variant="secondary" asChild>
-          <Link href="/volunteer">Volunteer</Link>
-        </Button>
-        <RSVPButton />
+        <ButtonAnimation>
+          <Button variant="secondary" asChild>
+            <Link href="/volunteer">Volunteer</Link>
+          </Button>
+        </ButtonAnimation>
+        <ButtonAnimation>
+          <RSVPButton />
+        </ButtonAnimation>
       </nav>
     </div>
   );
