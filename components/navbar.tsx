@@ -1,5 +1,5 @@
 import Link from "next/link";
-import RSVPButton from "./rsvp-button";
+import JoinButton from "./join-button";
 import { Button } from "./ui/button";
 import { Terminal } from "lucide-react";
 import ButtonAnimation from "./button-animation";
@@ -21,7 +21,7 @@ export default function Navbar() {
           </Button>
         </ButtonAnimation>
         <ButtonAnimation>
-          <RSVPButton />
+          <JoinButton />
         </ButtonAnimation>
       </nav>
     </div>

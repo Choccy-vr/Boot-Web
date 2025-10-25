@@ -3,7 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
-import RSVPButton from "@/components/rsvp-button";
+import JoinButton from "@/components/join-button";
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -35,7 +35,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" forcedTheme="dark">
           <Navbar />
           <main className="max-w-4xl w-screen mx-auto px-2">{children}</main>
-          <RSVPButton className="fixed bottom-2 right-2" size="lg" />
+          <JoinButton className="fixed bottom-2 right-2" size="lg" />
         </ThemeProvider>
       </body>
     </html>

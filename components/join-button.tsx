@@ -2,7 +2,7 @@ import { Rocket } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
-export default function RSVPButton({
+export default function JoinButton({
   ...props
 }: React.ComponentProps<typeof Button>) {
   return (
