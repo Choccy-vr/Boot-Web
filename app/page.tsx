@@ -1,3 +1,4 @@
+import AnimatedSection from "@/components/animated-section";
 import ButtonAnimation from "@/components/button-animation";
 import JoinButton from "@/components/join-button";
 import TerminalBreadcrumbs from "@/components/terminal-breadcrumbs";
@@ -27,7 +28,7 @@ export default function Home() {
           </ButtonAnimation>
         </div>
       </div>
-      <div className="pb-4 flex flex-col gap-2">
+      <AnimatedSection>
         <h2 className="text-primary text-2xl">About Boot</h2>
         <Card>
           <CardContent className="space-y-4">
@@ -84,7 +85,7 @@ export default function Home() {
             </CardContent>
           </Card>
         </div>
-      </div>
+      </AnimatedSection>
     </>
   );
 }
