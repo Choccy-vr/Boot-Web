@@ -10,7 +10,7 @@ export default function TerminalBreadcrumbs({
 }) {
   const content =
     "[you@bootos ~" +
-    breadcrumbs.map((breadcrumb, index) => `/${breadcrumb.text}`) +
+    breadcrumbs.map((breadcrumb, index) => `/${breadcrumb.text}`).join("") +
     "]$";
   const [typing, setTyping] = useState(true);
   const [typingContent, setTypingContent] = useState("");
