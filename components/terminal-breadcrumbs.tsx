@@ -44,7 +44,7 @@ export default function TerminalBreadcrumbs({
         typingContent
       ) : (
         <>
-          [you@bootos{" "}
+          [you@boot{" "}
           <Link href="/" className="hover:underline">
             ~
           </Link>
