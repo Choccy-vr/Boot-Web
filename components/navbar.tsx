@@ -1,3 +1,4 @@
+import Link from "next/link";
 import RSVPButton from "./rsvp-button";
 import { Button } from "./ui/button";
 import { Rocket, Terminal } from "lucide-react";
@@ -13,7 +14,9 @@ export default function Navbar() {
           <div className="text-2xl text-primary">Boot</div>
         </div>
         <div className="grow"></div>
-        <Button variant="secondary">Volunteer</Button>
+        <Button variant="secondary" asChild>
+          <Link href="/volunteer">Volunteer</Link>
+        </Button>
         <RSVPButton />
       </nav>
     </div>
