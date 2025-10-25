@@ -10,7 +10,7 @@ export default function TerminalBreadcrumbs({
 }) {
   const content =
     "[you@bootos ~" +
-    breadcrumbs.map((breadcrumb, index) => `/${breadcrumb.text}`).join("") +
+    breadcrumbs.map((breadcrumb) => `/${breadcrumb.text}`).join("") +
     "]$";
   const [typing, setTyping] = useState(true);
   const [typingContent, setTypingContent] = useState("");
@@ -35,7 +35,7 @@ export default function TerminalBreadcrumbs({
     return () => {
       timeouts.forEach(clearTimeout);
     };
-  }, []);
+  }, [content]);
 
   if (typing) {
     return <div className="text-primary">{typingContent}</div>;
