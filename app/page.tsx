@@ -1,11 +1,21 @@
 import TerminalBreadcrumbs from "@/components/terminal-breadcrumbs";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Trophy } from "lucide-react";
+import { ArrowRight, Clock, Trophy } from "lucide-react";
 
 export default function Home() {
   return (
     <>
       <TerminalBreadcrumbs breadcrumbs={[{ slug: "/", text: "home" }]} />
+      <div className="min-h-96 flex flex-col justify-center space-y-4 items-start">
+        <Badge>
+          <Clock /> Winter 2025
+        </Badge>
+        <h1 className="text-primary text-6xl">Boot</h1>
+        <h3 className="text-xl p-4 bg-primary/25 border rounded">
+          Build your OS. Share. Get prizes.
+        </h3>
+      </div>
       <div className="pb-4 flex flex-col gap-2">
         <h2 className="text-primary text-2xl">About Boot</h2>
         <Card>
