@@ -7,7 +7,7 @@ import { Clock } from "lucide-react";
 
 export default function HeroSection() {
   return (
-    <AnimatedSection>
+    <AnimatedSection className="pb-0!">
       <div className="min-h-96 flex flex-col justify-center space-y-4 items-start">
         <Badge>
           <Clock /> Winter 2025
