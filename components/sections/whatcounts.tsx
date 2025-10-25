@@ -1,4 +1,5 @@
 import AnimatedSection from "@/components/animations/section";
+import { Lightbulb } from "lucide-react";
 
 export default function WhatCountsSection() {
   return (
@@ -15,6 +16,10 @@ export default function WhatCountsSection() {
           Make an OS based off an existing OS (Debian, Fedora, Arch, RPi OS,
           Ubuntu, etc) and make it your own!
         </div>
+      </div>
+      <div className="bg-card p-6 border rounded-xl shadow-sm inline-flex gap-4">
+        <Lightbulb /> New to OS development? No problem! We&apos;ll provide
+        guides (WIP).
       </div>
     </AnimatedSection>
   );
