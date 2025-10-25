@@ -11,23 +11,25 @@ export default function Home() {
   return (
     <>
       <TerminalBreadcrumbs breadcrumbs={[{ slug: "/", text: "home" }]} />
-      <div className="min-h-96 flex flex-col justify-center space-y-4 items-start">
-        <Badge>
-          <Clock /> Winter 2025
-        </Badge>
-        <h1 className="text-primary text-6xl">Boot</h1>
-        <h3 className="text-xl p-4 bg-primary/25 border rounded">
-          Build your OS. Share. Get prizes.
-        </h3>
-        <div className="flex flex-row gap-4">
-          <ButtonAnimation>
-            <JoinButton text="Join YSWS" />
-          </ButtonAnimation>
-          <ButtonAnimation>
-            <Button variant="secondary">More Info</Button>
-          </ButtonAnimation>
+      <AnimatedSection>
+        <div className="min-h-96 flex flex-col justify-center space-y-4 items-start">
+          <Badge>
+            <Clock /> Winter 2025
+          </Badge>
+          <h1 className="text-primary text-6xl">Boot</h1>
+          <h3 className="text-xl p-4 bg-primary/25 border rounded">
+            Build your OS. Share. Get prizes.
+          </h3>
+          <div className="flex flex-row gap-4">
+            <ButtonAnimation>
+              <JoinButton text="Join YSWS" />
+            </ButtonAnimation>
+            <ButtonAnimation>
+              <Button variant="secondary">More Info</Button>
+            </ButtonAnimation>
+          </div>
         </div>
-      </div>
+      </AnimatedSection>
       <AnimatedSection>
         <h2 className="text-primary text-2xl">About Boot</h2>
         <Card>
