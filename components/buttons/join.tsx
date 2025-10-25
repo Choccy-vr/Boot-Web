@@ -8,7 +8,7 @@ export default function JoinButton({
 }: React.ComponentProps<typeof Button> & { text?: string }) {
   return (
     <Button {...props} asChild>
-      <Link href="/join" target="_blank">
+      <Link href="/join">
         <Rocket />
         {text}
       </Link>
