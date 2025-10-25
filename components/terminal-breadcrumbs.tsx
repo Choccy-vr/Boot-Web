@@ -8,14 +8,15 @@ export default function TerminalBreadcrumbs({
 }: {
   breadcrumbs: { slug: string; text: string }[];
 }) {
-  const content =
-    "[you@bootos ~" +
-    breadcrumbs.map((breadcrumb) => `/${breadcrumb.text}`).join("") +
-    "]$";
   const [typing, setTyping] = useState(true);
   const [typingContent, setTypingContent] = useState("");
 
+  const breadcrumbPath = breadcrumbs
+    .map((breadcrumb) => `/${breadcrumb.text}`)
+    .join("");
+
   useEffect(() => {
+    const content = `[you@bootos ~${breadcrumbPath}]$`;
     const timeouts: NodeJS.Timeout[] = [];
 
     for (let i = 0; i < content.length; i++) {
@@ -35,27 +36,29 @@ export default function TerminalBreadcrumbs({
     return () => {
       timeouts.forEach(clearTimeout);
     };
-  }, [content]);
+  }, [breadcrumbPath]);
 
-  if (typing) {
-    return <div className="text-primary">{typingContent}</div>;
-  } else {
-    return (
-      <div className="text-primary">
-        [you@bootos{" "}
-        <Link href="/" className="hover:underline">
-          ~
-        </Link>
-        {breadcrumbs.map((breadcrumb, index) => (
-          <span key={index}>
-            /
-            <Link href={breadcrumb.slug} className="hover:underline">
-              {breadcrumb.text}
-            </Link>
-          </span>
-        ))}
-        ]$
-      </div>
-    );
-  }
+  return (
+    <div className="text-primary min-h-7">
+      {typing ? (
+        typingContent
+      ) : (
+        <>
+          [you@bootos{" "}
+          <Link href="/" className="hover:underline">
+            ~
+          </Link>
+          {breadcrumbs.map((breadcrumb, index) => (
+            <span key={index}>
+              /
+              <Link href={breadcrumb.slug} className="hover:underline">
+                {breadcrumb.text}
+              </Link>
+            </span>
+          ))}
+          ]$
+        </>
+      )}
+    </div>
+  );
 }
