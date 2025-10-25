@@ -5,7 +5,7 @@ export default function WhatCountsSection() {
   return (
     <AnimatedSection>
       <h2 className="text-primary text-2xl">What Counts as an OS?</h2>
-      <div className="grid md:grid-cols-2 gap-2">
+      <div className="grid md:grid-cols-2 gap-4">
         <div className="bg-card p-6 border rounded-xl shadow-sm">
           <h2 className="text-xl">From Scratch</h2>
           Build your OS from the ground up, not based on any other OS (May still

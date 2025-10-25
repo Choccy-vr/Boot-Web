@@ -25,7 +25,7 @@ export default function SupportSection() {
         </div>
       </div>
       <h3 className="text-xl mb-3 text-primary">Donations Help Fund</h3>
-      <div className="grid md:grid-cols-2 gap-2">
+      <div className="grid md:grid-cols-2 gap-4">
         <div className="bg-card p-6 border rounded-xl shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <Trophy className="text-primary" size={24} />

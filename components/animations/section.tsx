@@ -19,7 +19,7 @@ export default function AnimatedSection({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ ease: [0.165, 0.84, 0.44, 1.0], delay: delay }}
-      className={clsx("pb-10 flex flex-col gap-2", className)}
+      className={clsx("pb-10 flex flex-col gap-4", className)}
       {...props}
     >
       {children}
