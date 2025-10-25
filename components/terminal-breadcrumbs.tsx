@@ -16,7 +16,7 @@ export default function TerminalBreadcrumbs({
     .join("");
 
   useEffect(() => {
-    const content = `[you@bootos ~${breadcrumbPath}]$`;
+    const content = `[you@boot ~${breadcrumbPath}]$`;
     const timeouts: NodeJS.Timeout[] = [];
 
     for (let i = 0; i < content.length; i++) {
