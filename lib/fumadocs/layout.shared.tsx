@@ -1,6 +1,7 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
+import Image from "next/image";
 
-export function Fa7BrandsSlack(props: React.SVGProps<SVGSVGElement>) {
+function Fa7BrandsSlack(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,10 +18,16 @@ export function Fa7BrandsSlack(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: "Boot",
+      title: (
+        <div className="flex flex-row gap-2 items-center">
+          <Image alt="Boot Logo" src="/icon.png" width={24} height={24} />
+          Boot
+        </div>
+      ),
     },
     themeSwitch: {
       enabled: false,
