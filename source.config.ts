@@ -1,6 +1,6 @@
 import { defineDocs, defineConfig } from 'fumadocs-mdx/config';
 
-export const stepByStep = defineDocs({
+export const guides = defineDocs({
   dir: 'content/guides',
 });
 
