@@ -5,5 +5,8 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: "Boot",
     },
+    themeSwitch: {
+      enabled: false,
+    },
   };
 }

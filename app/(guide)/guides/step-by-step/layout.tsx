@@ -8,7 +8,6 @@ export default function Layout({
 }: LayoutProps<"/guides/step-by-step">) {
   return (
     <DocsLayout
-      themeSwitch={{ enabled: false }}
       tree={source.pageTree}
       sidebar={{
         tabs: TABS,
