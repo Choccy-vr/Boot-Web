@@ -8,7 +8,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Boot - Build you OS, get hardware to run it",
+  title: {
+    default: "Boot - Build you OS, get hardware to run it",
+    template: "%s | Boot",
+  },
   description: "Build your OS, Get hardware to run it. A Hack Club YSWS.",
   keywords: [
     "ysws",
