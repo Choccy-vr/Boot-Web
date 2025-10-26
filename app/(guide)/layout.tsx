@@ -7,7 +7,9 @@ export default function Layout({ children }: { children: ReactNode }) {
       // required styles
       className="flex flex-col min-h-screen"
     >
-      <RootProvider>{children}</RootProvider>
+      <RootProvider theme={{ enabled: false, forcedTheme: "dark" }}>
+        {children}
+      </RootProvider>
     </div>
   );
 }

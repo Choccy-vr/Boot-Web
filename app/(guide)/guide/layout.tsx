@@ -4,7 +4,11 @@ import { baseOptions } from "@/lib/guide/layout.shared";
 
 export default function Layout({ children }: LayoutProps<"/guide">) {
   return (
-    <DocsLayout tree={source.pageTree} {...baseOptions()}>
+    <DocsLayout
+      themeSwitch={{ enabled: false }}
+      tree={source.pageTree}
+      {...baseOptions()}
+    >
       {children}
     </DocsLayout>
   );
