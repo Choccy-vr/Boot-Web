@@ -203,6 +203,7 @@
     * {
         @apply border-border outline-ring/50;
         scroll-behavior: smooth;
+        scroll-padding-top: 96px;
     }
     body {
         @apply bg-background text-foreground;
