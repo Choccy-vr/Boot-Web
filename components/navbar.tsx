@@ -17,11 +17,6 @@ export default function Navbar() {
         </ButtonAnimation>
         <div className="grow"></div>
         <ButtonAnimation>
-          <Button variant="ghost" asChild>
-            <Link href="/guides/home">Guides</Link>
-          </Button>
-        </ButtonAnimation>
-        <ButtonAnimation>
           <Button variant="secondary" asChild>
             <Link href="/volunteer">Volunteer</Link>
           </Button>
