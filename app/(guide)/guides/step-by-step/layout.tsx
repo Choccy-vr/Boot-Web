@@ -2,7 +2,7 @@ import { source } from "@/lib/source";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import { baseOptions } from "@/lib/fumadocs/layout.shared";
 
-export default function Layout({ children }: LayoutProps<"/step-by-step">) {
+export default function Layout({ children }: LayoutProps<"/guides/step-by-step">) {
   return (
     <DocsLayout
       themeSwitch={{ enabled: false }}
@@ -12,7 +12,7 @@ export default function Layout({ children }: LayoutProps<"/step-by-step">) {
           {
             title: "Step By Step Guide",
             description: "A guide on building OSes",
-            url: "/step-by-step",
+            url: "/guides/step-by-step",
           },
         ],
       }}
