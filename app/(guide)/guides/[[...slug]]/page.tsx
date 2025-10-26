@@ -11,7 +11,7 @@ import type { Metadata } from "next";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 
 export default async function Page(
-  props: PageProps<"/guides/step-by-step/[[...slug]]">,
+  props: PageProps<"/guides/[[...slug]]">,
 ) {
   const params = await props.params;
   const page = source.getPage(params.slug);
@@ -40,7 +40,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  props: PageProps<"/guides/step-by-step/[[...slug]]">,
+  props: PageProps<"/guides/[[...slug]]">,
 ): Promise<Metadata> {
   const params = await props.params;
   const page = source.getPage(params.slug);
