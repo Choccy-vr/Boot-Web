@@ -18,8 +18,8 @@ export default function WhatCountsSection() {
         </div>
       </div>
       <div className="bg-card p-6 border rounded-xl shadow-sm inline-flex gap-4">
-        <Lightbulb /> New to OS development? No problem! We&apos;ll provide
-        guides (WIP).
+        <Lightbulb className="size-6" /> New to OS development? No problem!
+        We&apos;ll provide guides (WIP).
       </div>
     </AnimatedSection>
   );
