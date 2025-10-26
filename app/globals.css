@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@import "fumadocs-ui/css/shadcn.css";
+@import "fumadocs-ui/css/preset.css";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -99,7 +102,7 @@
     --sidebar-primary-foreground: #000000;
     --sidebar-accent: #003300;
     --sidebar-accent-foreground: #22ff22;
-    --sidebar-border: #22ff22;
+    --sidebar-border: #227722;
     --sidebar-ring: #22ff22;
     --font-sans: "Fira Code", "Cascadia Code", "Hack", monospace;
     --font-serif: "Fira Code", "Cascadia Code", "Hack", monospace;
