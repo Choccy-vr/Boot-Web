@@ -1,5 +1,6 @@
 {
   "name": "Other Guides",
   "description": "Other guides that might be useful for building your OS",
-  "root": true
+  "root": true,
+  "icon": "Book"
 }

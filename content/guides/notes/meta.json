@@ -1,5 +1,6 @@
 {
   "title": "Notes",
   "description": "Random notes that might be useful for building your OS",
-  "root": true
+  "root": true,
+  "icon": "NotebookText"
 }
