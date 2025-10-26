@@ -22,7 +22,7 @@ export default function HeroSection() {
             <JoinButton text="Join YSWS" />
           </ButtonAnimation>
           <ButtonAnimation>
-            <Button variant="secondary">
+            <Button variant="secondary" asChild>
               <Link href="#about">About</Link>
             </Button>
           </ButtonAnimation>
