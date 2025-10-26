@@ -3,7 +3,7 @@ import ButtonAnimation from "@/components/buttons/animation";
 import JoinButton from "@/components/buttons/join";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock } from "lucide-react";
+import { Book, Clock } from "lucide-react";
 import Link from "next/link";
 
 export default function HeroSection() {
@@ -23,7 +23,10 @@ export default function HeroSection() {
           </ButtonAnimation>
           <ButtonAnimation>
             <Button variant="secondary" asChild>
-              <Link href="#about">About</Link>
+              <Link href="/guides/home">
+                <Book />
+                Read Guides
+              </Link>
             </Button>
           </ButtonAnimation>
         </div>
