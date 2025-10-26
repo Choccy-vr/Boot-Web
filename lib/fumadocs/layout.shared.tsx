@@ -1,3 +1,4 @@
+import ButtonAnimation from "@/components/buttons/animation";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import Image from "next/image";
 
@@ -23,10 +24,12 @@ export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
       title: (
-        <div className="flex flex-row gap-2 items-center">
-          <Image alt="Boot Logo" src="/icon.png" width={24} height={24} />
-          Boot
-        </div>
+        <ButtonAnimation>
+          <div className="flex flex-row gap-2 items-center">
+            <Image alt="Boot Logo" src="/icon.png" width={24} height={24} />
+            Boot
+          </div>
+        </ButtonAnimation>
       ),
     },
     themeSwitch: {
