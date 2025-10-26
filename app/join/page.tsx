@@ -12,7 +12,7 @@ export default function JoinPage() {
           { slug: "/join", text: "join" },
         ]}
       />
-      <div className="pb-10 pt-2">
+      <div className="pt-2">
         <FilloutStandardEmbed filloutId="1pw821yNQpus" dynamicResize />
       </div>
     </>

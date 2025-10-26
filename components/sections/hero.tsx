@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <AnimatedSection className="pb-0!">
+    <AnimatedSection>
       <div className="min-h-96 flex flex-col justify-center space-y-4 items-start">
         <Badge>
           <Clock /> Winter 2025

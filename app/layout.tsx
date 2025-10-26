@@ -37,7 +37,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" forcedTheme="dark">
           <Navbar />
           <main className="max-w-4xl w-screen mx-auto p-2">{children}</main>
-          <AnimatedSection className="pb-0!">
+          <AnimatedSection>
             <Footer />
           </AnimatedSection>
           <JoinButton className="fixed bottom-2 right-2" size="lg" />

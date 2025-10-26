@@ -12,7 +12,7 @@ export default function VolunteerPage() {
           { slug: "/volunteer", text: "volunteer" },
         ]}
       />
-      <div className="pb-10 pt-2">
+      <div className="pt-2">
         <FilloutStandardEmbed filloutId="" dynamicResize />
       </div>
     </>
