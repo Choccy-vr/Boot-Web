@@ -8,10 +8,12 @@ export default function Navbar() {
   return (
     <div className="w-full">
       <nav className="flex flex-row gap-2 p-2 pb-4 max-w-4xl mx-auto items-center">
-        <Link href="/" className="flex flex-row gap-4 items-center">
-          <Image alt="Boot Logo" src="/icon.png" width={36} height={36} />
-          <div className="text-2xl text-primary">Boot</div>
-        </Link>
+        <ButtonAnimation>
+          <Link href="/" className="flex flex-row gap-4 items-center">
+            <Image alt="Boot Logo" src="/icon.png" width={36} height={36} />
+            <div className="text-2xl text-primary">Boot</div>
+          </Link>
+        </ButtonAnimation>
         <div className="grow"></div>
         <ButtonAnimation>
           <Button variant="secondary" asChild>
