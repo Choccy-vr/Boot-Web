@@ -9,7 +9,7 @@ export default function VolunteerPage() {
       <TerminalBreadcrumbs
         breadcrumbs={[
           { slug: "/", text: "home" },
-          { slug: "/join", text: "join" },
+          { slug: "/volunteer", text: "volunteer" },
         ]}
       />
       <div className="pb-10 pt-2">
