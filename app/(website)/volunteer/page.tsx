@@ -1,7 +1,10 @@
-"use client";
-
+import FormPage from "@/components/form-page";
 import TerminalBreadcrumbs from "@/components/terminal-breadcrumbs";
-import { FilloutStandardEmbed } from "@fillout/react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Volunteer",
+};
 
 export default function VolunteerPage() {
   return (
@@ -12,9 +15,7 @@ export default function VolunteerPage() {
           { slug: "/volunteer", text: "volunteer" },
         ]}
       />
-      <div className="pt-2">
-        <FilloutStandardEmbed filloutId="" dynamicResize />
-      </div>
+      <FormPage filloutId="" />
     </>
   );
 }

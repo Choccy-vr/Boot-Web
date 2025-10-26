@@ -1,7 +1,10 @@
-"use client";
-
+import FormPage from "@/components/form-page";
 import TerminalBreadcrumbs from "@/components/terminal-breadcrumbs";
-import { FilloutStandardEmbed } from "@fillout/react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Volunteer",
+};
 
 export default function JoinPage() {
   return (
@@ -12,9 +15,7 @@ export default function JoinPage() {
           { slug: "/join", text: "join" },
         ]}
       />
-      <div className="pt-2">
-        <FilloutStandardEmbed filloutId="1pw821yNQpus" dynamicResize />
-      </div>
+      <FormPage filloutId="1pw821yNQpus" />
     </>
   );
 }
