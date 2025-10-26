@@ -4,7 +4,11 @@ import { baseOptions } from "@/lib/fumadocs/layout.shared";
 
 export default function Layout({ children }: LayoutProps<"/guides">) {
   return (
-    <DocsLayout tree={source.pageTree} {...baseOptions()}>
+    <DocsLayout
+      tree={source.pageTree}
+      sidebar={{ banner: "Warning: These guides are work in progress." }}
+      {...baseOptions()}
+    >
       {children}
     </DocsLayout>
   );
