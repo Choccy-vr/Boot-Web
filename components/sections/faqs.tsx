@@ -8,7 +8,7 @@ import {
 
 export default function FAQsSection() {
   return (
-    <AnimatedSection>
+    <AnimatedSection id="faqs">
       <h2 className="text-primary text-2xl">Frequently Asked Questions</h2>
       <Accordion type="single" collapsible>
         <AccordionItem value="who-can-participate">

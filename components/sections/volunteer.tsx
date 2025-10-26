@@ -2,7 +2,7 @@ import AnimatedSection from "@/components/animations/section";
 
 export default function VolunteerSection() {
   return (
-    <AnimatedSection>
+    <AnimatedSection id="volunteer">
       <h2 className="text-primary text-2xl">Volunteer With Us</h2>
       <div className="grid md:grid-cols-2 gap-4">
         <div className="bg-card p-6 border rounded-xl shadow-sm">

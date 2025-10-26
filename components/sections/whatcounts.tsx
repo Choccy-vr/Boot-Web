@@ -3,7 +3,7 @@ import { Lightbulb } from "lucide-react";
 
 export default function WhatCountsSection() {
   return (
-    <AnimatedSection>
+    <AnimatedSection id="what-counts">
       <h2 className="text-primary text-2xl">What Counts as an OS?</h2>
       <div className="grid md:grid-cols-2 gap-4">
         <div className="bg-card p-6 border rounded-xl shadow-sm">
