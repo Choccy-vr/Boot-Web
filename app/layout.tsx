@@ -37,7 +37,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" forcedTheme="dark">
           <div className="min-h-screen flex flex-col">
             <Navbar />
-            <main className="max-w-4xl w-screen mx-auto p-2">{children}</main>
+            <main className="max-w-4xl w-screen mx-auto p-4">{children}</main>
             <div className="grow"></div>
             <AnimatedSection>
               <Footer />
