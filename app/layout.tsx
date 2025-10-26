@@ -36,9 +36,7 @@ export default function RootLayout({
       <body className={`${geistMono.className} antialiased`}>
         <ThemeProvider attribute="class" forcedTheme="dark">
           <Navbar />
-          <main className="max-w-4xl w-screen mx-auto px-2 pt-2">
-            {children}
-          </main>
+          <main className="max-w-4xl w-screen mx-auto p-2">{children}</main>
           <AnimatedSection className="pb-0!">
             <Footer />
           </AnimatedSection>
