@@ -35,11 +35,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistMono.className} antialiased`}>
         <ThemeProvider attribute="class" forcedTheme="dark">
-          <Navbar />
-          <main className="max-w-4xl w-screen mx-auto p-2">{children}</main>
-          <AnimatedSection>
-            <Footer />
-          </AnimatedSection>
+          <div className="min-h-screen flex flex-col">
+            <Navbar />
+            <main className="max-w-4xl w-screen mx-auto p-2">{children}</main>
+            <div className="grow"></div>
+            <AnimatedSection>
+              <Footer />
+            </AnimatedSection>
+          </div>
           <JoinButton className="fixed bottom-2 right-2" size="lg" />
         </ThemeProvider>
       </body>
