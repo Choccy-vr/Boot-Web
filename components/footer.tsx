@@ -37,6 +37,12 @@ export default function Footer() {
           Boot is fiscally sponsored by The Hack Foundation (d.b.a. Hack Club),
           a 501(c)(3) nonprofit (EIN: 81-2908499).
         </div>
+        <div className="text-sm duration-100 opacity-50 hover:opacity-100 text-center">
+          Website by{" "}
+          <Link href="https://ingo.au" target="_blank">
+            Ingo
+          </Link>
+        </div>
       </div>
     </footer>
   );
