@@ -17,7 +17,7 @@ export default function Footer() {
           Boot is fiscally sponsored by The Hack Foundation (d.b.a. Hack Club),
           a 501(c)(3) nonprofit (EIN: 81-2908499).
         </p>
-        <div className="flex flex-row gap-4">
+        <div className="flex md:flex-row flex-col gap-4">
           <Link href="/" className="underline">
             Home
           </Link>
