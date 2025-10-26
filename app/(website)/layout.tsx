@@ -15,7 +15,6 @@ export default function RootLayout({
         <div className="grow"></div>
         <Footer />
       </div>
-      <JoinButton className="fixed bottom-2 right-2" size="lg" />
     </>
   );
 }
