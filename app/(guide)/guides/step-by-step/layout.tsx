@@ -1,20 +1,17 @@
 import { source } from "@/lib/source";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import { baseOptions } from "@/lib/fumadocs/layout.shared";
+import { TABS } from "@/lib/fumadocs/constants";
 
-export default function Layout({ children }: LayoutProps<"/guides/step-by-step">) {
+export default function Layout({
+  children,
+}: LayoutProps<"/guides/step-by-step">) {
   return (
     <DocsLayout
       themeSwitch={{ enabled: false }}
       tree={source.pageTree}
       sidebar={{
-        tabs: [
-          {
-            title: "Step By Step Guide",
-            description: "A guide on building OSes",
-            url: "/guides/step-by-step",
-          },
-        ],
+        tabs: TABS,
       }}
       {...baseOptions()}
     >
