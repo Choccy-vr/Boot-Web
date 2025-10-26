@@ -3,7 +3,7 @@ import TerminalBreadcrumbs from "@/components/terminal-breadcrumbs";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Volunteer",
+  title: "Join",
 };
 
 export default function VolunteerPage() {
