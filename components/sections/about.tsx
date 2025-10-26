@@ -19,7 +19,9 @@ export default function AboutSection() {
             the choice is yours.
           </p>
           <div className="p-4 bg-primary/25 rounded flex flex-row gap-4 items-center border shadow-sm">
-            <Trophy className="text-primary size-6" />
+            <div className="size-6">
+              <Trophy className="text-primary size-6" />
+            </div>
             <p>
               Throughout the event, participants will make, test, and vote on
               each other&apos;s OSes. Sweet prizes await!

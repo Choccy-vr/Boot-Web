@@ -10,7 +10,6 @@ export default function DonateSection() {
       <h2 className="text-primary text-2xl">Support Boot</h2>
       <div className="bg-card p-6 border rounded-xl shadow-sm flex flex-row items-center">
         <div className="flex gap-4">
-          <Heart className="size-6" />
           <span>Help us create an amazing YSWS</span>
         </div>
         <div className="grow"></div>
