@@ -26,7 +26,7 @@ export function baseOptions(): BaseLayoutProps {
       title: (
         <ButtonAnimation>
           <div className="flex flex-row gap-2 items-center">
-            <Image alt="Boot Logo" src="/icon.png" width={24} height={24} />
+            <Image alt="Boot Logo" src="/icon.svg" width={24} height={24} />
             Boot
           </div>
         </ButtonAnimation>

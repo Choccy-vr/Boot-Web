@@ -11,7 +11,7 @@ export default function Navbar() {
       <nav className="flex flex-row gap-2 p-4 max-w-4xl mx-auto items-center">
         <ButtonAnimation>
           <Link href="/" className="flex flex-row gap-4 items-center">
-            <Image alt="Boot Logo" src="/icon.png" width={36} height={36} />
+            <Image alt="Boot Logo" src="/icon.svg" width={36} height={36} />
             <div className="text-2xl text-primary">Boot</div>
           </Link>
         </ButtonAnimation>
