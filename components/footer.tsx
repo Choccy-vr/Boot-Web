@@ -21,9 +21,6 @@ export default function Footer() {
             <Link href="/volunteer" className="underline">
               Volunteer
             </Link>
-            <Link href="mailto:gino@boot-os.com" className="underline">
-              Sponsor Us
-            </Link>
             <Link
               href="https://hcb.hackclub.com/donations/start/boot"
               target="_blank"
@@ -32,10 +29,6 @@ export default function Footer() {
               Donate
             </Link>
           </div>
-        </div>
-        <div className="p-4 border rounded-xl bg-card shadow-sm">
-          Boot is fiscally sponsored by The Hack Foundation (d.b.a. Hack Club),
-          a 501(c)(3) nonprofit (EIN: 81-2908499).
         </div>
         <div className="text-sm duration-100 opacity-50 hover:opacity-100 text-center">
           Website by{" "}
