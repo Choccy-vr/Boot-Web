@@ -28,8 +28,8 @@ export default function FAQsSection() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="can-build-multiple-os">
-          <AccordionTrigger>Can I build multiple OSes</AccordionTrigger>
-          <AccordionContent>[TODO: write something here]</AccordionContent>
+          <AccordionTrigger>Can I make multiple OSes</AccordionTrigger>
+          <AccordionContent>Yes, but we highly encourage you to just make one and make it the best you can!</AccordionContent>
         </AccordionItem>
       </Accordion>
     </AnimatedSection>
