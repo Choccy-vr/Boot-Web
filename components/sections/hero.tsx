@@ -14,9 +14,9 @@ export default function HeroSection() {
           <Clock /> Winter 2025
         </Badge>
         <h1 className="text-primary text-6xl">Boot</h1>
-        <h3 className="text-xl p-4 bg-primary/25 border rounded">
+        <div className="text-xl p-4 bg-primary/25 border rounded">
           Build your OS. Share. Get prizes.
-        </h3>
+        </div>
         <div className="flex flex-row gap-4">
           <ButtonAnimation>
             <JoinButton text="Join YSWS" />
