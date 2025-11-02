@@ -9,12 +9,12 @@ export default function Footer() {
           <Image alt="Boot Logo" src="/icon.svg" width={36} height={36} />
           <div className="text-primary text-2xl">Boot</div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           <div className="flex flex-col gap-2">
             A YSWS (You Ship We Ship) where teens from around the world build
             operating systems.
           </div>
-          <div className="grid grid-cols-2 gap-4 h-fit">
+          <div className="flex flex-row justify-center gap-4 h-fit">
             <Link href="/join" className="underline">
               Join
             </Link>
