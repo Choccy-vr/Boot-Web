@@ -1,6 +1,5 @@
 import Link from "next/link";
 import JoinButton from "./buttons/join";
-import { Button } from "./ui/button";
 import ButtonAnimation from "./buttons/animation";
 import Image from "next/image";
 
@@ -16,11 +15,6 @@ export default function Navbar() {
           </Link>
         </ButtonAnimation>
         <div className="grow"></div>
-        <ButtonAnimation>
-          <Button variant="secondary" asChild>
-            <Link href="/volunteer">Volunteer</Link>
-          </Button>
-        </ButtonAnimation>
         <ButtonAnimation>
           <JoinButton />
         </ButtonAnimation>

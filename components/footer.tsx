@@ -18,9 +18,6 @@ export default function Footer() {
             <Link href="/join" className="underline">
               Join
             </Link>
-            <Link href="/volunteer" className="underline">
-              Volunteer
-            </Link>
             <Link
               href="https://hcb.hackclub.com/donations/start/boot"
               target="_blank"
