@@ -9,7 +9,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Boot - Build you OS, get hardware to run it",
+    default: "Boot - Build your OS, get hardware to run it",
     template: "%s | Boot",
   },
   description: "Build your OS, Get hardware to run it. A Hack Club YSWS.",
