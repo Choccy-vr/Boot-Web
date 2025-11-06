@@ -31,6 +31,12 @@ export default function FAQsSection() {
           <AccordionTrigger>Can I make multiple OSes</AccordionTrigger>
           <AccordionContent>Yes, but we highly encourage you to just make one and make it the best you can!</AccordionContent>
         </AccordionItem>
+         <AccordionItem value="what-is-Hack-Club">
+          <AccordionTrigger>Who can participate?</AccordionTrigger>
+          <AccordionContent>
+            Fill me in, please!
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
     </AnimatedSection>
   );
