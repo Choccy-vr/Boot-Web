@@ -15,7 +15,7 @@ export default function HeroSection() {
         </Badge>
         <h1 className="text-primary text-6xl">Boot</h1>
         <div className="text-xl p-4 bg-primary/25 border rounded">
-          Build your OS. Share. Get prizes.
+          Build your OS, get hardware to run it.
         </div>
         <div className="flex flex-row gap-4">
           <ButtonAnimation>
