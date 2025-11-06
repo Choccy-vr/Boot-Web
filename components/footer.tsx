@@ -11,19 +11,12 @@ export default function Footer() {
         </div>
         <div className="grid grid-cols-1 gap-4">
           <div className="flex flex-col gap-2">
-            A YSWS (You Ship We Ship) where teens from around the world build
-            operating systems.
+            A Hack Club YSWS (You Ship We Ship) where teens from around the world build
+            operating systems and get hardware to run them.
           </div>
           <div className="flex flex-row justify-center gap-4 h-fit">
             <Link href="/join" className="underline">
               Join
-            </Link>
-            <Link
-              href="https://hcb.hackclub.com/donations/start/boot"
-              target="_blank"
-              className="underline"
-            >
-              Donate
             </Link>
           </div>
         </div>
