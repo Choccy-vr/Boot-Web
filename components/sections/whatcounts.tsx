@@ -21,9 +21,6 @@ export default function WhatCountsSection() {
         <div className="size-6">
           <Lightbulb className="size-6" />
         </div>
-        <p>
-          New to OS development? No problem! We&apos;ll provide guides (WIP).
-        </p>
       </div>
     </AnimatedSection>
   );
