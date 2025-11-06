@@ -17,11 +17,6 @@ export default function WhatCountsSection() {
           Ubuntu, etc) and make it your own!
         </div>
       </div>
-      <div className="bg-card p-6 border rounded-xl shadow-sm inline-flex gap-4 items-center">
-        <div className="size-6">
-          <Lightbulb className="size-6" />
-        </div>
-      </div>
     </AnimatedSection>
   );
 }
