@@ -22,10 +22,6 @@ export default function AboutSection() {
             <div className="size-6">
               <Trophy className="text-primary size-6" />
             </div>
-            <p>
-              Throughout the event, participants will make, test, and vote on
-              each other&apos;s OSes. Sweet prizes await!
-            </p>
           </div>
         </CardContent>
       </Card>
