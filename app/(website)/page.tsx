@@ -12,7 +12,6 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <WhatCountsSection />
-      <DonateSection />
       <FAQsSection />
     </div>
   );
