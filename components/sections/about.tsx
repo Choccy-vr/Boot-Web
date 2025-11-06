@@ -18,11 +18,6 @@ export default function AboutSection() {
             or remixing a distro like Ubuntu into something entirely your own,
             the choice is yours.
           </p>
-          <div className="p-4 bg-primary/25 rounded flex flex-row gap-4 items-center border shadow-sm">
-            <div className="size-6">
-              <Trophy className="text-primary size-6" />
-            </div>
-          </div>
         </CardContent>
       </Card>
       <div className="grid md:grid-cols-2 gap-4">
