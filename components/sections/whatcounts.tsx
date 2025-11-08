@@ -13,7 +13,7 @@ export default function WhatCountsSection() {
         </div>
         <div className="bg-card p-6 border rounded-xl shadow-sm">
           <h2 className="text-xl">Base it off</h2>
-          Make an OS based off an existing OS (Debian, Fedora, Arch, RPi OS,
+          Make an OS based off an existing OS (Debian, Arch, RPi OS,
           Ubuntu, etc) and make it your own!
         </div>
       </div>
