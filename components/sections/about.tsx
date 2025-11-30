@@ -25,7 +25,7 @@ export default function AboutSection() {
           <CardContent>
             When:{" "}
             <span className="inline-flex items-center gap-2 text-primary">
-              12/01/25 <ArrowRight /> 04/01/26
+              TBA <ArrowRight /> 04/01/26
             </span>
           </CardContent>
         </Card>
