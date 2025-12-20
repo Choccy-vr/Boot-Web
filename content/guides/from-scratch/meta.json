@@ -1,0 +1,6 @@
+{
+  "title": "From Scratch",
+  "description": "Guides that might be useful for building your OS from scratch",
+  "root": true,
+  "icon": "NotebookText"
+}

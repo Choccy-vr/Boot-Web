@@ -1,0 +1,6 @@
+{
+  "title": "Based On",
+  "description": "Guides that might be useful for building your OS based on existing OSes",
+  "root": true,
+  "icon": "NotebookText"
+}
