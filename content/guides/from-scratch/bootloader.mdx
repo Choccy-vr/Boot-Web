@@ -199,7 +199,7 @@ First, lets look at the code for loading the "payload" into memory. It starts ou
 |Register | Value | Meaning |
 |--|--|--|
 | `AH` | 0x02 | Which action do we take when an interrupt is called?|
-| `AL` | 1 | How many sectors (521 bytes) do we want to read?
+| `AL` | 1 | How many sectors (512 bytes) do we want to read?
 | `CH` | 0 | The lower 8 bits of the cylinder number (don't worry about this for now)
 | `CL`| 2 | The bits at 0-5 (basically 1-63) makes up the sector number, and the higher 2 bits make up the high 2 bits of the cylinder number (for hard drives, works with `CH`)
 | `DH` | 0 | This is the head number. (tbh don't know what this is, I just think of it as another data partition like cylinders)
