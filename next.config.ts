@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/dashboard/:path*',
-        destination: 'https://boot-lilac.vercel.app/dashboard/:path*',
+        destination: 'https://boot-lilac.vercel.app/:path*',
       },
     ];
   },
