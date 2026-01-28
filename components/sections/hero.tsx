@@ -12,7 +12,7 @@ export default function HeroSection() {
     <AnimatedSection>
       <div className="min-h-96 flex flex-col justify-center space-y-4 items-start">
         <Badge>
-          <Clock /> Winter 2025
+          <Clock /> winter_2025
         </Badge>
         <Countdown />
         <h1 className="text-primary text-6xl">Boot</h1>
