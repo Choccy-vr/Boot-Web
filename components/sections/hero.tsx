@@ -1,6 +1,7 @@
 import AnimatedSection from "@/components/animations/section";
 import ButtonAnimation from "@/components/buttons/animation";
 import JoinButton from "@/components/buttons/join";
+import Countdown from "@/components/countdown";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Book, Clock } from "lucide-react";
@@ -13,6 +14,7 @@ export default function HeroSection() {
         <Badge>
           <Clock /> Winter 2025
         </Badge>
+        <Countdown />
         <h1 className="text-primary text-6xl">Boot</h1>
         <div className="text-xl p-4 bg-primary/25 border rounded">
           Build your OS, get hardware to run it.
