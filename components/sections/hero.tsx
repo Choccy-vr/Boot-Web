@@ -18,7 +18,7 @@ export default function HeroSection() {
         </div>
         <div className="flex flex-row gap-4">
           <ButtonAnimation>
-            <JoinButton text="Join YSWS" />
+            <JoinButton text="Go To Dashboard" />
           </ButtonAnimation>
           <ButtonAnimation>
             <Button variant="secondary" asChild>
