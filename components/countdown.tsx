@@ -17,8 +17,8 @@ export default function Countdown() {
         setMounted(true);
 
         const calculateTimeLeft = (): TimeLeft | null => {
-            // January 31st, 2026 at 11:59:59 PM EST
-            const targetDate = new Date("2026-01-31T23:59:59-05:00");
+            // January 31st, 2026 at 11:59:59 EST
+            const targetDate = new Date("2026-01-31T11:59:59-05:00");
             const now = new Date();
             const difference = targetDate.getTime() - now.getTime();
 
