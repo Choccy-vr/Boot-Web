@@ -11,7 +11,6 @@ export default function HeroSection() {
   return (
     <AnimatedSection>
       <div className="min-h-96 flex flex-col justify-center space-y-4 items-start">
-        <Countdown />
         <h1 className="text-primary text-6xl">Boot</h1>
         <div className="text-xl p-4 bg-primary/25 border rounded">
           Build your OS, get hardware to run it.
