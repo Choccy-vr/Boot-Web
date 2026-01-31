@@ -18,6 +18,9 @@ export default function Footer() {
             <Link href="/join" className="underline">
               Join
             </Link>
+            <Link href="/dashboard" className="underline">
+              Dashboard
+            </Link>
           </div>
         </div>
         <div className="text-sm duration-100 opacity-50 hover:opacity-100 text-center">
