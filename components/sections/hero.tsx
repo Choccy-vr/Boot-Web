@@ -7,7 +7,7 @@ export default function HeroSection() {
     <AnimatedSection>
       <div className="min-h-96 flex flex-col justify-center space-y-4 items-start">
         <h1 className="text-primary text-6xl font-bold">./boot</h1>
-        <p className="text-2xl text-muted-foreground">
+        <p className="font-bold text-2xl text-muted-foreground">
           Build an OS, get hardware to run it
         </p>
         <div className="flex flex-row gap-2">
