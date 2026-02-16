@@ -40,7 +40,7 @@ export function HowItWorksSection() {
                   <CardTitle className="text-xl text-foreground">{step.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-foreground text-sm">
                     {step.description}
                   </p>
                 </CardContent>
