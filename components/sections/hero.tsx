@@ -22,7 +22,7 @@ export default function HeroSection() {
           <input
             type="email"
             placeholder="Enter your email"
-            className="rounded-md border bg-background px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary placeholder:text-muted-foreground h-10"
+            className="rounded-md border bg-card px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary placeholder:text-muted-foreground h-10"
           />
           <ButtonAnimation>
             <Button size="lg" className="cursor-pointer">
