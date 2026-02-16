@@ -1,12 +1,14 @@
 import AnimatedSection from "@/components/animations/section";
+import BootLog from "@/components/animations/boot-log";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Dot, Rocket } from "lucide-react";
 import ButtonAnimation from "../buttons/animation";
 
 export default function HeroSection() {
   return (
-    <AnimatedSection className="min-h-screen w-screen ml-[calc(-50vw+50%)] -mt-4 flex items-center justify-center px-4">
-      <div className="max-w-4xl w-full flex flex-col justify-center space-y-4 items-start">
+    <AnimatedSection className="relative min-h-screen w-screen ml-[calc(-50vw+50%)] -mt-4 flex items-center justify-center px-4 overflow-hidden">
+      <BootLog className="absolute inset-0 w-full h-full" />
+      <div className="relative z-10 max-w-4xl w-full flex flex-col justify-center space-y-4 items-start">
         <h1 className="text-primary text-6xl font-bold">./boot</h1>
         <p className="font-bold text-2xl text-muted-foreground">
           Build an OS, get hardware to run it
