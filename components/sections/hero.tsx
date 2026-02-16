@@ -1,5 +1,6 @@
 import AnimatedSection from "@/components/animations/section";
 import { Button } from "@/components/ui/button";
+import { ArrowRight, Dot } from "lucide-react";
 import ButtonAnimation from "../buttons/animation";
 
 export default function HeroSection() {
@@ -10,6 +11,13 @@ export default function HeroSection() {
         <p className="font-bold text-2xl text-muted-foreground">
           Build an OS, get hardware to run it
         </p>
+        <div className="flex flex-wrap gap-x-2 gap-y-1 text-sm text-muted-foreground">
+          <span>
+            01/31/26{" "}<ArrowRight className="inline h-3 w-3" />{" "}03/03/26
+          </span>
+          |
+          <span>Ages 13-18</span>
+        </div>
         <div className="flex flex-row gap-2">
           <input
             type="email"
