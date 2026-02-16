@@ -2,7 +2,7 @@ import AnimatedSection from "@/components/animations/section";
 
 export default function FAQsSection() {
   return (
-    <AnimatedSection id="faqs">
+    <AnimatedSection id="faqs" className="py-16">
       <h2 className="text-primary text-2xl">Frequently Asked Questions</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>

@@ -4,7 +4,7 @@ import { Trophy } from "lucide-react";
 
 export default function AboutSection() {
   return (
-    <AnimatedSection id="about">
+    <AnimatedSection id="about" className="py-16">
       <h2 className="text-primary text-2xl">About Boot</h2>
       <Card>
         <CardContent className="space-y-4">
