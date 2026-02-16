@@ -1,6 +1,7 @@
 import HeroSection from "@/components/sections/hero";
 import AboutSection from "@/components/sections/about";
 import WhatCountsSection from "@/components/sections/whatcounts";
+import { HowItWorksSection } from "@/components/sections/howitworks";
 import FAQsSection from "@/components/sections/faqs";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +12,7 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <WhatCountsSection />
+      <HowItWorksSection />
       <FAQsSection />
       <Link href="https://hackclub.com" target="_blank">
         <Image
