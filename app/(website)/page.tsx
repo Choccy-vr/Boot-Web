@@ -1,5 +1,4 @@
 import HeroSection from "@/components/sections/hero";
-import AboutSection from "@/components/sections/about";
 import WhatCountsSection from "@/components/sections/whatcounts";
 import { HowItWorksSection } from "@/components/sections/howitworks";
 import FAQsSection from "@/components/sections/faqs";
@@ -11,7 +10,6 @@ export default function Home() {
     <div className="flex flex-col gap-10">
       <HeroSection />
       <HowItWorksSection />
-      <AboutSection />
       <WhatCountsSection />
       <FAQsSection />
       <Link href="https://hackclub.com" target="_blank">
