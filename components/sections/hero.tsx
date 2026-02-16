@@ -1,6 +1,6 @@
 import AnimatedSection from "@/components/animations/section";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Dot } from "lucide-react";
+import { ArrowRight, Dot, Rocket } from "lucide-react";
 import ButtonAnimation from "../buttons/animation";
 
 export default function HeroSection() {
@@ -25,7 +25,9 @@ export default function HeroSection() {
             className="rounded-md border bg-background px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary placeholder:text-muted-foreground h-10"
           />
           <ButtonAnimation>
-            <Button size="lg" className="cursor-pointer">Get Started</Button>
+            <Button size="lg" className="cursor-pointer">
+              <Rocket /> Get Started
+            </Button>
           </ButtonAnimation>
         </div>
       </div>
