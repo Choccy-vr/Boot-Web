@@ -28,7 +28,7 @@ export default function FAQsSection() {
         <div>
           <h3 className="font-semibold mb-2">What is Hack Club?</h3>
           <p className="text-sm">
-            Fill me in, please!
+            <a href="https://hackclub.com" target="_blank" className="underline hover:decortaion-wavy">Hack Club</a> is a 501(c)(3) nonprofit and network of 60k+ technical high schoolers. 
           </p>
         </div>
       </div>
