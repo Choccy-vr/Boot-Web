@@ -15,9 +15,6 @@ export default function Footer() {
             operating systems and get hardware to run them.
           </div>
           <div className="flex flex-row justify-center gap-4 h-fit">
-            <Link href="/join" className="underline">
-              Join
-            </Link>
             <Link href="/dashboard" className="underline">
               Dashboard
             </Link>
