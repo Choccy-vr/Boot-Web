@@ -10,9 +10,9 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-10">
       <HeroSection />
+      <HowItWorksSection />
       <AboutSection />
       <WhatCountsSection />
-      <HowItWorksSection />
       <FAQsSection />
       <Link href="https://hackclub.com" target="_blank">
         <Image
