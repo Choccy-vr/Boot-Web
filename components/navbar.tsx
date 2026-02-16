@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Navbar() {
   return (
-    <div className="w-full sticky top-0 z-50 from-background/50 to-transparent bg-linear-to-b">
+    <div className="w-full fixed top-0 z-50 from-background/50 to-transparent bg-linear-to-b">
       <div className="w-full h-full absolute top-0 left-0 bg-background/25 backdrop-blur-3xl -z-10 mask-b-from-0% mask-b-to-100%"></div>
       <nav className="flex flex-row gap-2 p-4 max-w-4xl mx-auto items-center">
         <ButtonAnimation>
