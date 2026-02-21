@@ -13,7 +13,7 @@ export default function HeroSection() {
         <div className="mb-2">
           <Image 
             alt="Hack Club Flag" 
-            src="/hack-club-flag.png" 
+            src="/hack-club-flag.svg" 
             width={120} 
             height={120}
             className="object-contain"

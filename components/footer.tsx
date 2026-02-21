@@ -10,9 +10,9 @@ export default function Footer() {
           <div className="shrink-0">
             <Image 
               alt="Hack Club Orpheus" 
-              src="/hack-club-orpheus.png" 
-              width={120} 
-              height={120}
+              src="/hack-club-orpheus.svg" 
+              width={140} 
+              height={140}
               className="object-contain"
             />
           </div>
