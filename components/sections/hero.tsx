@@ -12,7 +12,8 @@ export default function HeroSection() {
   const router = useRouter();
   const [email, setEmail] = useState("");
 
-  const handleGetStarted = () => {
+  const handleSubmit = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
     const trimmedEmail = email.trim();
     if (!trimmedEmail) {
       return;
@@ -32,12 +33,11 @@ export default function HeroSection() {
         </p>
         <div className="flex flex-wrap gap-x-2 gap-y-1 text-sm text-muted-foreground">
           <span>
-            01/31/26{" "}<ArrowRight className="inline h-3 w-3" />{" "}03/03/26
+            01/31/26 <ArrowRight className="inline h-3 w-3" /> 03/03/26
           </span>
-          |
-          <span>Ages 13-18</span>
+          |<span>Ages 13-18</span>
         </div>
-        <div className="flex flex-row gap-2">
+        <form onSubmit={handleSubmit} className="flex flex-row gap-2">
           <input
             type="email"
             placeholder="Enter your email"
@@ -46,11 +46,11 @@ export default function HeroSection() {
             onChange={(event) => setEmail(event.target.value)}
           />
           <ButtonAnimation>
-            <Button size="lg" className="cursor-pointer" onClick={handleGetStarted}>
+            <Button type="submit" size="lg" className="cursor-pointer">
               <Rocket /> Get Started
             </Button>
           </ButtonAnimation>
-        </div>
+        </form>
       </div>
     </AnimatedSection>
   );
