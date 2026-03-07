@@ -3,31 +3,39 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="py-10 border-t bg-card shadow-sm">
-      <div className="max-w-4xl w-full mx-auto px-4 flex flex-col gap-4">
-        <div className="flex flex-row gap-2 items-center">
-          <Image alt="Boot Logo" src="/icon.svg" width={36} height={36} />
-          <div className="text-primary text-2xl">Boot</div>
-        </div>
-        <div className="grid grid-cols-1 gap-4">
-          <div className="flex flex-col gap-2">
-            A Hack Club YSWS (You Ship We Ship) where teens from around the world build
-            operating systems and get hardware to run them.
+    <footer className="border-t bg-card py-16">
+      <div className="max-w-4xl w-full mx-auto px-6">
+        <div className="flex flex-col md:flex-row gap-12 md:gap-16 items-start">
+          {/* Orpheus Image */}
+          <div className="shrink-0">
+            <Image 
+              alt="Hack Club Orpheus" 
+              src="/hack-club-orpheus.svg" 
+              width={140} 
+              height={140}
+              className="object-contain"
+            />
           </div>
-          <div className="flex flex-row justify-center gap-4 h-fit">
-            <Link href="/join" className="underline">
-              Join
-            </Link>
-            <Link href="/dashboard" className="underline">
-              Dashboard
-            </Link>
+          
+          {/* Content Section */}
+          <div className="flex flex-col gap-6 flex-1">
+            <div className="flex items-center gap-3">
+              <Image alt="Boot Logo" src="/icon.svg" width={40} height={40} />
+              <div className="text-primary text-2xl font-bold">Boot</div>
+            </div>
+            
+            <p className="text-muted-foreground leading-relaxed">
+              A Hack Club YSWS where teens from around the world build operating systems 
+              and get hardware to run them.
+            </p>
+
+            <div className="text-sm text-muted-foreground mt-auto">
+              Website by{" "}
+              <Link href="https://ingo.au" target="_blank" className="text-primary hover:underline">
+                Ingo
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className="text-sm duration-100 opacity-50 hover:opacity-100 text-center">
-          Website by{" "}
-          <Link href="https://ingo.au" target="_blank">
-            Ingo
-          </Link>
         </div>
       </div>
     </footer>

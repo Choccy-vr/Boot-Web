@@ -1,10 +1,10 @@
 import AnimatedSection from "@/components/animations/section";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Trophy } from "lucide-react";
+import { Trophy } from "lucide-react";
 
 export default function AboutSection() {
   return (
-    <AnimatedSection id="about">
+    <AnimatedSection id="about" className="py-16">
       <h2 className="text-primary text-2xl">About Boot</h2>
       <Card>
         <CardContent className="space-y-4">
@@ -20,40 +20,6 @@ export default function AboutSection() {
           </p>
         </CardContent>
       </Card>
-      <div className="grid md:grid-cols-2 gap-4">
-        <Card>
-          <CardContent>
-            When:{" "}
-            <span className="inline-flex items-center gap-2 text-primary">
-              01/31/26 <ArrowRight /> 03/03/26
-            </span>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            Platform:{" "}
-            <span className="inline-flex items-center gap-2 text-primary">
-              Virtual
-            </span>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            Age:{" "}
-            <span className="inline-flex items-center gap-2 text-primary">
-              13-18 years
-            </span>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            Cost:{" "}
-            <span className="inline-flex items-center gap-2 text-primary">
-              Free!
-            </span>
-          </CardContent>
-        </Card>
-      </div>
     </AnimatedSection>
   );
 }
