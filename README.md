@@ -3,11 +3,11 @@ Website for the Boot YSWS. Built with Next.js
 
 ## Development
 ```
-pnpm install
-pnpm dev
+bun install
+bun dev
 ```
 ## Building
 ```
-pnpm build
-pnpm start
+bun run build
+bun start
 ```

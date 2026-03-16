@@ -17,8 +17,8 @@ export default function Countdown() {
         setMounted(true);
 
         const calculateTimeLeft = (): TimeLeft | null => {
-            // January 31st, 2026 at 11:59:59 EST
-            const targetDate = new Date("2026-01-31T11:59:59-05:00");
+            // 14th March, 2026 at 11:59:59 EST
+            const targetDate = new Date("2026-03-14T11:59:59-05:00");
             const now = new Date();
             const difference = targetDate.getTime() - now.getTime();
 
@@ -66,7 +66,7 @@ export default function Countdown() {
     return (
         <div className="font-mono flex flex-col gap-2">
             <div className="text-xs text-muted-foreground flex items-center gap-2">
-                <span>launches_on: jan_31_2026_est</span>
+                <span>event_period: 14th_march_2026 - 1st_june_2026</span>
             </div>
             <div className="flex items-center gap-1 text-sm sm:text-base">
                 <span className="text-muted-foreground">&gt;</span>
