@@ -33,7 +33,8 @@ export default function HeroSection() {
         </p>
         <div className="flex flex-wrap gap-x-2 gap-y-1 text-sm text-muted-foreground">
           <span>
-            01/31/26 <ArrowRight className="inline h-3 w-3" /> 03/03/26
+            14th March 2026 <ArrowRight className="inline h-3 w-3" /> 1st June
+            2026
           </span>
           |<span>Ages 13-18</span>
         </div>
