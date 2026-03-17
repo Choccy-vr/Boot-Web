@@ -1,11 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AnimatedSection from "@/components/animations/section";
 import BootLog from "@/components/animations/boot-log";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Dot, Rocket } from "lucide-react";
+import { ArrowRight, Rocket } from "lucide-react";
 import ButtonAnimation from "../buttons/animation";
 
 export default function HeroSection() {
@@ -38,20 +39,41 @@ export default function HeroSection() {
           </span>
           |<span>Ages 13-18</span>
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-row gap-2">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="rounded-md border bg-card px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary placeholder:text-muted-foreground h-10"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+          <form
+            onSubmit={handleSubmit}
+            className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row"
+          >
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="h-10 rounded-md border bg-card px-4 py-2 text-sm outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-primary sm:min-w-72"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <ButtonAnimation>
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full cursor-pointer sm:w-auto"
+              >
+                <Rocket /> Get Started
+              </Button>
+            </ButtonAnimation>
+          </form>
           <ButtonAnimation>
-            <Button type="submit" size="lg" className="cursor-pointer">
-              <Rocket /> Get Started
+            <Button
+              asChild
+              variant="secondary"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
+              <Link href="/guides/home">
+                <ArrowRight /> Browse Guides
+              </Link>
             </Button>
           </ButtonAnimation>
-        </form>
+        </div>
       </div>
     </AnimatedSection>
   );
