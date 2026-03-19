@@ -203,15 +203,7 @@ If you try to copy the entire code, compile it, and run it, it won't work becaus
 
 Note that all parts of this code are **actually required** to **properly enter Protected Mode**. Certain values ​​can be changed, and there's obviously room for programming style, but *skipping steps described in this code risks crashing the system*.
 
-Before to pass to the code explanation, I have to introduce you to the concept of *GDT* (Global Descriptor Table).
-
-#### The Global Descriptor Table
-The **Global Descriptor Table** (often called just **GDT**) is a data structure containing entries telling the CPU about memory segments.
-In this example, as in most of the Operating Systems, the GDT has the null descriptor, the code descriptor and the data descriptor.
-
-- The **null descriptor**, describe to the CPU the meaning of a *NULL value*.
-- The **code descriptor**, describe to the CPU how to handle the code saved in the memory.
-- The **data descriptor**, describe to the CPU how to handle the data saved in the memory.
+Before to pass to the code explanation, you need to know the concept of *GDT* (Global Descriptor Table). I recommand reading the [Global Descriptor Table guide](./globalDescriptionTable.mdx) before continue.
 
 Below is a simple but very detailed explanation of the program.
 
@@ -274,88 +266,7 @@ GDTStart:               ; The address of the start of the GDT
 GDTEnd:                 ; The address of the end of the GDT
 ```
 
-Let's see more in details the meaning of the GDT:
-
-```asm
-db 0b10011010
-```
-This is really important for the code descriptor. Here the meaning of each bit.
-We have 2 type of bitsets, both of 4 bits:
-- *Info flags*
-- *Type flags*
-
-**Info flags**
-*Present, Privilege, Type* (1001)
-*Present* = 1 - Means that it's a used segment, don't set to 0. Never set it to 0. Really, your OS may explode.
-*Privilege* = 00 | 01 | 10 | 11 (00 is the hightest) - Means max privileges
-*Type* = 1 (1 for code or data, 0 for system segments) - Means that it's the code or data descriptor
-
-**Type flags**
-*Code, Conforming, Readable, Accessed* (1010)
-*Code* = 1 (1 for code, 0 for data) - Means that it's the code descriptor
-*Conforming* = 0 (1 is conforming, 0 is non-conforming) - Means that's non-conforming
-*Readable* = 1 (1 for readable and executable, 0 for only executable) - Means that it's readable
-*Accessed* = 0 (used by CPU -> if CPU has been accessed is 1, else is 0) - Always set to 0
-
-```asm
-db 0b11001111
-```
-This is additional informations flags.
-Also here, we have 2 type of bitsets, both of 4 bits:
-- *Segment informations*
-- *Limit*
-
-**Segment informations**
-*Granularity, Default operand size, 64-bit segment, Available* (1100)
-*Granularity* = 1 (1 for the limit in pages of 0x1000 bytes, 0 for limit in bytes) - We have an highter code limit
-*Default operand size* = 1 (0 for 16-bit segments, 1 for 32-bit segments) - You need to set it to 1 to enable the Protected Mode
-*64-bit segment* = 0 (0 for normal, 1 for 64-bit) - You must set it to 0 now
-*Available* = 0 (Usable by the OS) - This is a bit that OS can use for their stuffs, but nobody uses it, so is set to 0
-
-**Limit**
-*Limit* (1111)
-*Limit* = 1111 - Yes, all to 1 to haven't size problems later
-
-```asm
-db 0b10010010
-```
-Now we are talking about the data descriptor. It's similar for most of the things.
-
-We have 2 type of bitsets, both of 4 bits:
-- *Info flags*
-- *Type flags*
-
-**Info flags**
-*Present, Privilege, Type* (1001)
-*Present* = 1 - Means that it's a used segment, don't set to 0. Never set it to 0. Really, your OS may explode.
-*Privilege* = 00 | 01 | 10 | 11 (00 is the hightest) - Means max privileges
-*Type* = 1 (1 for code or data, 0 for system segments) - Means that it's the code or data descriptor
-
-**Type flags**
-*Code, Expand-down, Writable, Accessed* (0010)
-*Code* = 0 (1 for code, 0 for data) - Means that it's the data descriptor
-*Expand-down* = 0 (1 for expand-down, 0 for normal) - Means that's normal (the expand-down is for stacks that needs to expand during execution - really advanced stuffs, set to 0 and don't worry)
-*Writable* = 1 (1 for writable and readable, 0 for only readable) - Means that it's writable
-*Accessed* = 0 (used by CPU -> if CPU has been accessed is 1, else is 0) - Always set to 0
-
-```asm
-db 0b11001111
-```
-This is additional informations flags.
-Also here, we have 2 type of bitsets, both of 4 bits:
-- *Segment informations*
-- *Limit*
-
-**Segment informations**
-*Granularity, Default operand size, 64-bit segment, Available* (1100)
-*Granularity* = 1 (1 for the limit in pages of 0x1000 bytes, 0 for limit in bytes) - We have an highter code limit
-*Default operand size* = 1 (0 for 16-bit segments, 1 for 32-bit segments) - You need to set it to 1 to enable the Protected Mode
-*64-bit segment* = 0 (0 for normal, 1 for 64-bit) - You must set it to 0 now
-*Available* = 0 (Usable by the OS) - This is a bit that OS can use for their stuffs, but nobody uses it, so is set to 0
-
-**Limit**
-*Limit* (1111)
-*Limit* = 1111 - Yes, all to 1 to haven't size problems later
+For the detailed explaination of the GDT, please read the [Global Descriptor Table guide](./globalDescriptionTable.mdx).
 
 ```asm
 GDTDescriptor:
@@ -369,5 +280,9 @@ startProtectedMode:     ; The address where we have to arrive with the far jump
     jmp $               ; Stop the program
 ```
 This part **must be at the end of the file**, because is the only part in Protected Mode.
+
+## The Virtual 8086 Mode
+
+
 
 <img src="../../../public/intelModesArchitecture.png">
