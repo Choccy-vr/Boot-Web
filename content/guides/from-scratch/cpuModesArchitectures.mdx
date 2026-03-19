@@ -6,8 +6,7 @@ title: How to enter in 32 bits mode
 
 <Callout title="Information">This guide is valid only for Intel architecture.</Callout>
 
-# Part 1 - Basic concepts about CPU System Management Modes
-
+# Concepts about CPU System Management Modes
 CPUs have different operating modes, which can only be accessed progressively and according to certain criteria. Most modern *Intel CPUs* support a total of *four* modes, each with different features and characteristics.
 
 The four modes are:
@@ -282,4 +281,79 @@ startProtectedMode:     ; The address where we have to arrive with the far jump
 This part **must be at the end of the file**, because is the only part in Protected Mode.
 
 ## The Virtual 8086 Mode
+Virtual 8086 mode is a sub-mode of the Protected mode. 
+When the CPU is in Virtual 8086 mode, it's running an "Emulated" 16-bit Real Mode machine.
 
+### Limitations
+The limitations are:
+- All the limitations of the *Real Mode*.
+- You **can't enter in Protected Mode**, you need to switch back to the Protected Mode.
+- Some stuff about the fact that the low level commands are emulated and not really executed as in the Real Mode, but is problems too technical to be important to us.
+
+### Advantages
+The advantages are:
+- We can use BIOS all the Real Mode functions, while we are in fact in Protected Mode.
+
+### Code example
+```asm
+[ORG 0x4000]
+[BITS 32]
+
+SEGMENT_VIRTUAL_8086_MODE equ 0x0000
+
+enterVirtual8086:
+    push 0x0000         ; GS
+    push 0x0000         ; FS
+    push 0x0000         ; DS
+    push 0x0000         ; ES
+    push 0x0000         ; SS
+    push 0x7000         ; ESP
+
+    push dword (1<<17) | (1<<9) | (1<<1) | (3<<12)  ; EFLAGS
+
+    push SEGMENT_VIRTUAL_8086_MODE  ; CS
+    push startVirtual8086Mode       ; EIP
+
+    iret 
+
+[BITS 16]
+startVirtual8086Mode:
+    jmp $
+```
+
+#### Explanation
+```asm
+[ORG 0x4000]
+[BITS 32]       ; We start in Protected Mode
+```
+
+```asm
+SEGMENT_VIRTUAL_8086_MODE equ 0x0000    ; The address of the segment
+
+enterVirtual8086:       ; We have to create the stack for the physical addressing
+    push 0x0000         ; GS
+    push 0x0000         ; FS
+    push 0x0000         ; DS
+    push 0x0000         ; ES
+    push 0x0000         ; SS starting point
+    push 0x7000         ; ESP - stack grows down from 0x0000:0x7000
+
+    push dword (1<<17) | (1<<9) | (1<<1) | (3<<12)  ; Set EFLAGS
+    ; bit 17 - VM | Activate Virtual 8086 Mode
+    ; bit 9 - IF | Enable hardware interrupts
+    ; bit 1 - Reserved | Must always be 1
+    ; bits 12-13 - IOPL=3 | Allow in/out and cli/sti
+
+    push SEGMENT_VIRTUAL_8086_MODE  ; CS (segment of entry point)
+    push startVirtual8086Mode       ; EIP (entry point offset)
+
+    iret                            ; jump in VM86 mode
+```
+
+```asm
+[BITS 16]               ; We're in Virtual 8086 Mode that's a 16-bits mode
+startVirtual8086Mode:
+    jmp $
+```
+
+## The Long Mode
