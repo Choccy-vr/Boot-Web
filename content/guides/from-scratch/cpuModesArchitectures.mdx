@@ -292,7 +292,7 @@ The limitations are:
 
 ### Advantages
 The advantages are:
-- We can use BIOS all the Real Mode functions, while we are in fact in Protected Mode.
+- We can use all the Real Mode functions, while we are in fact in Protected Mode.
 
 ### Code example
 ```asm
@@ -357,3 +357,25 @@ startVirtual8086Mode:
 ```
 
 ## The Long Mode
+The Long Mode, sometimes also called IA32e Mode, is the most userfull and powerfull mode that the Intel CPUs can provide to the OS devs.
+The Long Mode consists of two sub modes: the 64-bit mode and the compatibility mode (with the 32-bit mode).
+
+### Limitations
+The limitations are:
+- Setup more difficult than the Protected Mode one.
+- Need to enable paging.
+- *Real Mode* and *Virtual 8086 Mode* **aren't usable anymore**.
+- Granularity required with paging.
+- Segmentation isn't usable anymore.
+- Debug almost impossible (I'm serious, debug may require days for the smallest mistakes).
+
+### Advantages
+The advantages are:
+- We have an extended set of registers:
+    - 64-bits registers: rax, rbx, rcx, rdx, rsp, rbp, rip, etc.
+    - Eight new general-purpose registers: r8-r15
+    - Eight new multimedia registers: xmm8-xmm15
+- **Addressing to 64-bit**.
+- Each process can *address up to 128TB* of virtual memory.
+- *Paging* is required.
+- *Syscall* and *Sysret*!
