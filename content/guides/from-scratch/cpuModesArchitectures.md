@@ -64,6 +64,7 @@ times 510-($-$$) db 0
 db 0x55, 0xAA
 ```
 
+#### Explanation
 This example prints "Hello World!" in Real Mode.
 Let's see every row what it do.
 
@@ -123,5 +124,68 @@ The advantages are:
 - Kernel bug protection.
 
 ### Code example
+```asm
+[ORG 0x1000]
+[BITS 16]
+
+CODE_SEG equ codeDescriptor - GDTStart
+DATA_SEG equ dataDescriptor - GDTStart
+
+cli
+lgdt [GDTDescriptor]
+
+mov eax, cr0
+or eax, 1
+mov cr0, eax
+
+jmp CODE_SEG:startProtectedMode
+jmp $
+
+align 8
+GDTStart:
+    nullDescriptor:
+        dd 0
+        dd 0
+
+    codeDescriptor:
+        dw 0xffff
+        dw 0
+        db 0
+
+        db 0b10011010
+
+        db 0b11001111
+
+        db 0
+
+    dataDescriptor:
+        dw 0xffff
+        dw 0
+        db 0
+
+        db 0b10010010
+
+        db 0b11001111
+
+        db 0
+GDTEnd:
+
+GDTDescriptor:
+    dw GDTEnd - GDTStart - 1
+    dd GDTStart
+
+[BITS 32]
+startProtectedMode:
+    jmp $
+```
+
+#### Explanation
+Okay, I know, it's scary, but don't let this get you down. This code took me months to write, but now I'll explain it to you in the simplest and most complete way possible.
+
+This program enter in Protected Mode. Yes, it doesn't do anything else.
+If you try to copy the entire code, compile it, and run it, it won't work because it's not designed to run in the first-stage bootloader. I ran it in the second stage of my bootloader, so I know it works perfectly. For more information on multi-stage bootloaders, I refer you to the dedicated guide.
+
+Below is a very detailed explanation of the program.
+
 
 <img src="/public/intelModesArchitecture.png">
