@@ -4,7 +4,7 @@ title: How to enter in 32 bits mode
 
 <Callout title="Disclaimer">This guide is meant for people with very little experience. This isn't telling you how exactly to make a bootloader, it is teaching you the concepts associated. If you follow along and have a curious mind, this will not just teach you how to make a bootloader, but extremely important concepts in osdev.</Callout>
 
-<Callout title="Disclaimer">This guide is valid only for Intel architecture.</Callout>
+<Callout title="Information">This guide is valid only for Intel architecture.</Callout>
 
 # Part 1 - Basic concepts about CPU System Management Modes
 
@@ -201,9 +201,9 @@ This program enter in Protected Mode. Yes, it doesn't do anything else.
 
 If you try to copy the entire code, compile it, and run it, it won't work because it's not designed to run in the first-stage bootloader. I ran it in the second stage of my bootloader, so I know it works perfectly. For more information on multi-stage bootloaders, I refer you to the dedicated guide.
 
-Note that all parts of this code are **actually required** to **properly enter Protected Mode**. Certain values ​​can be changed, and there's obviously room for programming style, but *skipping steps described in this code risks crashing the system*.
+Note that all parts of this code are **actually required** to **properly enter Protected Mode**. Certain values can be changed, and there's obviously room for programming style, but *skipping steps described in this code risks crashing the system*.
 
-Before to pass to the code explanation, you need to know the concept of *GDT* (Global Descriptor Table). I recommand reading the [Global Descriptor Table guide](./globalDescriptionTable.mdx) before continue.
+Before to pass to the code explanation, you need to know the concept of *GDT* (Global Descriptor Table). I recommand reading the [Global Descriptor Table guide](/guides/other/globalDescriptionTable) before continue.
 
 Below is a simple but very detailed explanation of the program.
 
@@ -266,7 +266,7 @@ GDTStart:               ; The address of the start of the GDT
 GDTEnd:                 ; The address of the end of the GDT
 ```
 
-For the detailed explaination of the GDT, please read the [Global Descriptor Table guide](./globalDescriptionTable.mdx).
+For the detailed explaination of the GDT, please read the [Global Descriptor Table guide](/guides/other/globalDescriptionTable).
 
 ```asm
 GDTDescriptor:
@@ -283,6 +283,3 @@ This part **must be at the end of the file**, because is the only part in Protec
 
 ## The Virtual 8086 Mode
 
-
-
-<img src="/public/intelModesArchitecture.png" />
