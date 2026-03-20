@@ -2,5 +2,6 @@
   "name": "Other Guides",
   "description": "Other guides to help with building your OS",
   "root": true,
-  "icon": "Book"
+  "icon": "Book",
+  "pages": ["index", "cpuModesArchitectures", "globalDescriptionTable"]
 }
