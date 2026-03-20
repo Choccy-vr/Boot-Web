@@ -1,0 +1,310 @@
+---
+title: Long Mode
+---
+
+<Callout title="Disclaimer">This guide is meant for people with very little experience. This isn't telling you how exactly to make a bootloader, it is teaching you the concepts associated. If you follow along and have a curious mind, this will not just teach you how to make a bootloader, but extremely important concepts in osdev.</Callout>
+
+<Callout title="Guide Reference">This guide contain a part of the informations located in the [CPU System Management Modes guide](/guides/other/cpuModesArchitectures).</Callout>
+
+The Long Mode, sometimes also called IA32e Mode, is the most userfull and powerfull mode that the Intel CPUs can provide to the OS devs.
+Long Mode consists of two sub modes: the 64-bit mode and the compatibility mode (with the 32-bit mode).
+
+### Limitations
+The limitations are:
+- Setup really more difficult than the Protected Mode one.
+- Need to enable paging.
+- *Real Mode* and *Virtual 8086 Mode* **aren't usable anymore**.
+- Granularity required with paging.
+- Segmentation isn't usable anymore.
+- Debug almost impossible (I'm serious, debug may require days for the smallest mistakes).
+
+### Advantages
+The advantages are:
+- We have an extended set of registers:
+    - 64-bits registers: rax, rbx, rcx, rdx, rsp, rbp, rip, etc.
+    - Eight new general-purpose registers: r8-r15
+    - Eight new multimedia registers: xmm8-xmm15
+- **Addressing to 64-bit**.
+- Each process can *address up to 128TB* of virtual memory.
+- *Paging* is required.
+- *Syscall* and *Sysret*!
+
+### Code example
+```asm
+[ORG 0x9000]
+[BITS 32]
+
+mov ax, DATA_SEG
+mov ds, ax
+mov es, ax
+mov fs, ax
+mov gs, ax
+mov ss, ax
+
+mov esp, 0x90000
+mov ebp, esp
+
+CR0_PAGING equ 1 << 31
+CR0_PAGING_DISABLE equ ~CR0_PAGING
+mov eax, cr0
+and eax, CR0_PAGING_DISABLE
+mov cr0, eax
+
+CR4_PAE equ 1 << 5
+mov eax, cr4
+or eax, CR4_PAE
+mov cr4, eax
+
+mov eax, pdpt_table
+or eax, 0x03
+mov [pml4_table], eax
+
+mov eax, pd_table
+or eax, 0x03
+mov [pdpt_table], eax
+
+mov dword [pd_table], 0x00000083
+mov dword [pd_table+4], 0x00000000
+
+mov eax, pml4_table
+mov cr3, eax
+
+IA32_EFER equ 0xC0000080
+IA32_EFER_LME_BIT equ 1 << 8
+mov ecx, IA32_EFER
+rdmsr
+or eax, IA32_EFER_LME_BIT
+wrmsr
+
+mov eax, cr0
+or eax, CR0_PAGING
+mov cr0, eax
+
+CODE_SEG64 equ codeDescriptor64 - GDTStart64
+DATA_SEG64 equ dataDescriptor64 - GDTStart64
+
+cli
+lgdt[GDTDescriptor64]
+
+jmp CODE_SEG64:startLongMode
+
+align 4096
+pml4_table:
+    times 512 dq 0
+
+align 4096
+pdpt_table:
+    times 512 dq 0
+
+align 4096
+pd_table:
+    times 512 dq 0
+
+align 8
+GDTStart64:
+    nullDescriptor64:
+        dd 0
+        dd 0
+
+    codeDescriptor64:
+        dw 0xffff
+        dw 0
+        db 0
+
+        db 0b10011010
+        
+        db 0b10101111
+
+        db 0
+
+    dataDescriptor64:
+        dw 0xffff
+        dw 0
+        db 0
+
+        db 0b10010010
+        
+        db 0b10101111
+
+        db 0
+GDTEnd64:
+
+GDTDescriptor64:
+    dw GDTEnd64 - GDTStart64 - 1
+    dd GDTStart64
+
+[BITS 64]
+startLongMode:
+    jmp $
+```
+
+#### Explanation
+I said that the setup is really really difficult, but don't worry, I'm going to explain every single row of this code.
+Some details like the GDT and the cr0 register are similar to the Protected Mode ones, but we have to do more advanced stuff like setup paging, enable phisical address extension and a lot of other stuff.
+
+This code is functional for entering Long Mode, but you need to be in Protected Mode already, and due to the size of the assembled file, which is over 512 bytes long, you need to make a multi-stage bootloader.
+
+```asm
+[ORG 0x9000]
+[BITS 32]       ; We must be in Protected Mode
+```
+
+```asm
+mov ax, DATA_SEG    ; Setup the segments with the data info of the Protected Mode GDT
+mov ds, ax
+mov es, ax
+mov fs, ax
+mov gs, ax
+mov ss, ax
+
+mov esp, 0x90000    ; Setup stackpointer
+mov ebp, esp        ; Setup basepointer
+```
+
+```asm
+CR0_PAGING equ 1 << 31              ; cr0 flag to enable paging
+CR0_PAGING_DISABLE equ ~CR0_PAGING  ; cr0 paging flag to reset it
+mov eax, cr0
+and eax, CR0_PAGING_DISABLE         ; Disable paging
+mov cr0, eax
+```
+
+```asm
+CR4_PAE equ 1 << 5  ; Phisical Address Extension pin of cr4
+mov eax, cr4
+or eax, CR4_PAE     ; Enable the Phisical Address Extension
+mov cr4, eax
+```
+
+```asm
+mov eax, pdpt_table     ; Load the Page Directory Pointer Table
+or eax, 0x03            ; Set last two bits to 1
+mov [pml4_table], eax   ; Move in Page Map Level 4 the PDPT data
+
+mov eax, pd_table       ; Load the Page Directory Table
+or eax, 0x03            ; Set last two bits to 1
+mov [pdpt_table], eax   ; Move in Page Directory Pointer Table the PDT data
+
+mov dword [pd_table], 0x00000083    ; Move in the PDT the value 0x0000000000000083
+mov dword [pd_table+4], 0x00000000  ; Move in the PDT with offset 4 the value 0x0000000000000000
+
+mov eax, pml4_table     ; Load the PML4T
+mov cr3, eax            ; Update the cr3 register
+```
+
+The code above is a fundamental part to enable the 64-bit paging.
+
+The PAE paging is the Physical Address Extension that allow the CPU to pass from 32-bit linear addresses to 52-bit phisical addresses.
+To use the PAE paging is required to prepare a set of four PDPTE (Page Directory Pointer Table Extension), that the CPU use as paging registers loading them from the info saved in the cr3 register.
+At the last two rows of this section of the code, we load the PML4 Table in eax to load in cr3 32-bit Page Directory Pointer Table reference.
+
+In this example we are setting the Page Map Level 4, that's a bit more advanced than the lowest levels.
+
+To enable the PML4 we have to:
+- Load in the *Page Map Level 4 Table* the reference to the *Page Directory Pointer Table*.
+- Set the bit 0 of the *Page Map Level 4 Table* to 1.
+    - In this example we set also the bit 1 of the *Page Map Level 4 Table* to enable write operations.
+- Load in the *Page Directory Pointer Table* the reference to the *Page Directory Table*.
+- Set the bit 0 of the *Page Directory Pointer Table* to 1.
+    - In this example we set also the bit 1 of the *Page Directory Pointer Table* to enable write operations.
+- Set the bit 0 of the *Page Directory Table* to 1.
+- Set the bit 7 of the *Page Directory Table* to 1.
+    - In this example we set also the bit 1 of the *Page Directory Table* to enable write operations.
+
+The *Page Directory Table* is a 64-bit table, now we are still in the Protected Mode, so we can't load directly a 64-bit value in the Table, but we can load 2 sets of 32-bit data.
+To set `0x0000000000000083` in `pd_table` we can load first the lowest 32-bit value, then with an offset of 4 bytes (`[pd_table+4]`) we can load the 32-bit hightest value in the table.
+
+The bit 0 must be 1 in all the three Tables.
+The bit 7 of the *Page Directory Table* must be 1, otherwise the CPU will think that's a *Page Directory Pointer Table*.
+
+On the last part of the code, we load the ready PML4 Table in a register to load it in cr3.
+
+```asm
+IA32_EFER equ 0xC0000080        ; Address of the IA32e Mode Settings
+IA32_EFER_LME_BIT equ 1 << 8    ; The LME (Long Mode Enable) bit that must be set at 1 to enter in Long Mode
+mov ecx, IA32_EFER              ; Move in ecx the IA32e Mode Address
+rdmsr                           ; Read MSR (Model Specific Registers)
+or eax, IA32_EFER_LME_BIT       ; Set in eax (that have the MSR data) the Long Mode Enable bit
+wrmsr                           ; Write MSR (Model Specific Registers)
+```
+
+In this part of the code, we enable the Long Mode, being ready to enter in Long Mode.
+
+```asm
+mov eax, cr0
+or eax, CR0_PAGING      ; Re-enable paging (now it will be PML4 paging)
+mov cr0, eax
+```
+
+```asm
+CODE_SEG64 equ codeDescriptor64 - GDTStart64    ; Calcolate the Code Descriptor of the 64-bit GDT
+DATA_SEG64 equ dataDescriptor64 - GDTStart64    ; Calcolate the Data Descriptor of the 64-bit GDT
+
+cli                             ; Disable interrupts
+lgdt[GDTDescriptor64]           ; Load the 64-bit GDT
+
+jmp CODE_SEG64:startLongMode    ; Far jump to the Long Mode code (using the GDT Code Descriptor)
+```
+
+```asm
+align 4096
+pml4_table:             ; Declare an empty PLM4 Table
+    times 512 dq 0      ; 64-bit full of 0
+
+align 4096
+pdpt_table:             ; Declare an empty PDP Table
+    times 512 dq 0      ; 64-bit full of 0
+
+align 4096
+pd_table:               ; Declare an empty PD Table
+    times 512 dq 0      ; 64-bit full of 0
+```
+
+This part of the code above is the declaration of the three tables needed to enable PML4 paging. The tables are initialized empty and then setted the bits that have to be 1.
+
+```asm
+align 8                     ; Align the GDT to 8-bit blocks (REQUIRED!)
+GDTStart64:                 ; The address of the start of the GDT
+    nullDescriptor64:       ; The null descriptor
+        dd 0                ; Allocate 32 bits of 0
+        dd 0                ; Allocate 32 bits of 0
+
+    codeDescriptor64:       ; The code descriptor
+        dw 0xffff           ; Allocate 16 bits with value 0xFFFF (all bits to 1)
+        dw 0                ; Allocate 16 bits of 0
+        db 0                ; Allocate 8 bits of 0
+
+        db 0b10011010       ; Allocate 8 bits with value 10011010
+        
+        db 0b10101111       ; Allocate 8 bits with value 10101111
+
+        db 0                ; Allocate 8 bits of 0
+
+    dataDescriptor64:       ; The data descriptor
+        dw 0xffff           ; Allocate 16 bits with value 0xFFFF (all bits to 1)
+        dw 0                ; Allocate 16 bits of 0
+        db 0                ; Allocate 8 bits of 0
+
+        db 0b10010010       ; Allocate 8 bits with value 10010010
+        
+        db 0b10101111       ; Allocate 8 bits with value 10101111
+
+        db 0                ; Allocate 8 bits of 0
+GDTEnd64:
+```
+
+For the detailed explaination of the GDT, please read the [Global Descriptor Table guide](/guides/other/globalDescriptionTable).
+
+```asm
+GDTDescriptor64:
+    dw GDTEnd64 - GDTStart64 - 1    ; The size of the GDT in 16 bits
+    dd GDTStart64                   ; The 32 bits address of the start of the GDT
+```
+
+```asm
+[BITS 64]       ; Finally, we are in Long Mode
+startLongMode:
+    jmp $
+```
+
+This part **must be at the end of the file**, because is the only part in Long Mode, and must be keeped separated from the Protected Mode part.
