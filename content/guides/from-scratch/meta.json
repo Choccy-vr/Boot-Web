@@ -2,5 +2,6 @@
   "title": "From Scratch",
   "description": "Guides that might be useful for building your OS from scratch",
   "root": true,
-  "icon": "NotebookText"
+  "icon": "NotebookText",
+  "pages": ["index", "bootloader", "realMode", "protectedMode", "virtual8086Mode", "longMode"]
 }
