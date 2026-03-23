@@ -1,0 +1,289 @@
+---
+title: The Global Descriptor Table
+---
+
+<Callout title="Disclaimer">This guide is meant for people with some experience. This is teaching you some advanced concepts. If you follow along and have a curious mind, this will teach you extremely important concepts in osdev.</Callout>
+
+<Callout title="Information">This guide is valid only for Intel architecture.</Callout>
+
+The **Global Descriptor Table** (often called just **GDT**) is a data structure containing entries telling the CPU about memory segments.
+In this example, as in most of the Operating Systems, the GDT has the null descriptor, the code descriptor and the data descriptor.
+
+- The **null descriptor**, describe to the CPU the meaning of a *NULL value*.
+- The **code descriptor**, describe to the CPU how to handle the code saved in the memory.
+- The **data descriptor**, describe to the CPU how to handle the data saved in the memory.
+
+## GDT example
+We start this guide from this example, where we can see a GDT for the Protected Mode.
+
+```asm
+align 8
+GDTStart:
+    nullDescriptor:
+        dd 0
+        dd 0
+
+    codeDescriptor:
+        dw 0xffff
+        dw 0
+        db 0
+
+        db 0b10011010
+
+        db 0b11001111
+
+        db 0
+
+    dataDescriptor:
+        dw 0xffff
+        dw 0
+        db 0
+
+        db 0b10010010
+
+        db 0b11001111
+
+        db 0
+GDTEnd:
+
+GDTDescriptor:
+    dw GDTEnd - GDTStart - 1
+    dd GDTStart
+```
+
+### Commented version
+```asm
+align 8                 ; Align the GDT to 8-bit blocks (REQUIRED!)
+GDTStart:               ; The address of the start of the GDT
+    nullDescriptor:     ; The null descriptor
+        dd 0            ; Allocate 32 bits of 0
+        dd 0            ; Allocate 32 bits of 0
+
+    codeDescriptor:     ; The code descriptor
+        dw 0xffff       ; Allocate 16 bits with value 0xFFFF (all bits to 1)
+        dw 0            ; Allocate 16 bits of 0
+        db 0            ; Allocate 8 bits of 0
+
+        db 0b10011010   ; Allocate 8 bits with value 10011010
+
+        db 0b11001111   ; Allocate 8 bits with value 11001111
+
+        db 0            ; Allocate 8 bits of 0
+
+    dataDescriptor:     ; The data descriptor
+        dw 0xffff
+        dw 0            ; Allocate 16 bits of 0
+        db 0            ; Allocate 8 bits of 0
+
+        db 0b10010010   ; Allocate 8 bits with value 10010010
+
+        db 0b11001111   ; Allocate 8 bits with value 11001111
+
+        db 0            ; Allocate 8 bits of 0
+GDTEnd:                 ; The address of the end of the GDT
+
+GDTDescriptor:
+    dw GDTEnd - GDTStart - 1    ; The size of the GDT in 16 bits
+    dd GDTStart                 ; The 32 bits address of the start of the GDT
+```
+
+---
+
+### Null Descriptor
+```asm
+nullDescriptor:
+    dd 0
+    dd 0
+```
+I haven't a lot to say about the Null Descriptor. It must be this: 2 sets of 32-bits filled with 0.
+
+### Code Descriptor
+```asm
+db 0b10011010
+```
+This is really important for the code descriptor. Here the meaning of each bit.
+
+We have 2 type of bitsets, both of 4 bits:
+- *Info flags*
+- *Type flags*
+
+#### **Info flags**
+| Flag | 1 | 0 |
+|--|--|--|
+| Present | Is a used segment | Your OS will explode |
+| Privilege bit 1 | Protection layer incremented of 2 | Protection layer incremented of 0 |
+| Privilege bit 0 | Protection layer incremented of 1 | Protection layer incremented of 0 |
+| Type | Code or Data | System segment |
+
+*Present, Privilege, Type* (1001)
+- *Present* = 1 - Means that it's a used segment, don't set to 0. Never set it to 0. Really, your OS may explode.
+- *Privilege* = 00 - Means max privileges
+- *Type* = 1 - Means that it's the code or data descriptor
+
+#### **Type flags**
+| Flag | 1 | 0 |
+|--|--|--|
+| Code | Is the code descriptor | Is the data descriptor |
+| Conforming | Is conforming | Is non-conforming |
+| Readable | Read and Execute | Execute only |
+| Accessed | CPU accessed to the code | CPU doesn't accessed to the code |
+
+*Code, Conforming, Readable, Accessed* (1010)
+- *Code* = 1 - Means that it's the code descriptor
+- *Conforming* = 0 - Means that's non-conforming
+- *Readable* = 1 - Means that it's readable
+- *Accessed* = 0 - Always set to 0
+
+```asm
+db 0b11001111
+```
+This is additional informations flags.
+Also here, we have 2 type of bitsets, both of 4 bits:
+- *Segment informations*
+- *Limit*
+
+#### **Segment informations**
+| Flag | 1 | 0 |
+|--|--|--|
+| Granularity | Limit is mean in pages of 0x1000 bytes | Limit is mean in bytes |
+| Default operand size | 16-bit segment | 32-bit segment |
+| 64-bit segment | Normal | 64-bit segment |
+| Available | Usable by the OS | Usable by the OS |
+
+*Granularity, Default operand size, 64-bit segment, Available* (1100)
+- *Granularity* = 1 - We have an highter code limit
+- *Default operand size* = 1 - You need to set it to 1 to enable the Protected Mode
+- *64-bit segment* = 0 - You must set it to 0 now
+- *Available* = 0 - This is a bit that OS can use for their stuffs, but nobody uses it, so is set to 0
+
+#### **Limit**
+| Flag | 1 | 0 |
+|--|--|--|
+| Limit bit 3 | Limit incremented of 8 | Limit incremented of 0 |
+| Limit bit 2 | Limit incremented of 4 | Limit incremented of 0 |
+| Limit bit 1 | Limit incremented of 2 | Limit incremented of 0 |
+| Limit bit 0 | Limit incremented of 1 | Limit incremented of 0 |
+
+*Limit* (1111)
+- *Limit* = 1111 - Yes, all to 1 to haven't size problems later
+
+### Data Descriptor
+```asm
+db 0b10010010
+```
+Now we are talking about the data descriptor. It's similar for most of the things.
+
+We have 2 type of bitsets, both of 4 bits:
+- *Info flags*
+- *Type flags*
+
+#### **Info flags**
+| Flag | 1 | 0 |
+|--|--|--|
+| Present | Is a used segment | Your OS will explode |
+| Privilege bit 1 | Protection layer incremented of 2 | Protection layer incremented of 0 |
+| Privilege bit 0 | Protection layer incremented of 1 | Protection layer incremented of 0 |
+| Type | Code or Data | System segment |
+
+*Present, Privilege, Type* (1001)
+- *Present* = 1 - Means that it's a used segment, don't set to 0. Never set it to 0. Really, your OS may explode.
+- *Privilege* = 00 - Means max privileges
+- *Type* = 1 - Means that it's the code or data descriptor
+
+#### **Type flags**
+| Flag | 1 | 0 |
+|--|--|--|
+| Code | Is the code descriptor | Is the data descriptor |
+| Expand-down | Expand-down | Normal |
+| Writable | Read and Write | Read only |
+| Accessed | CPU accessed to the code | CPU doesn't accessed to the code |
+
+*Code, Expand-down, Writable, Accessed* (0010)
+- *Code* = 0 - Means that it's the data descriptor
+- *Expand-down* = 0 - Means that's normal (the expand-down is for stacks that needs to expand during execution - really advanced stuffs, set to 0 and don't worry)
+- *Writable* = 1 - Means that it's writable
+- *Accessed* = 0 - Always set to 0
+
+```asm
+db 0b11001111
+```
+This is additional informations flags.
+Also here, we have 2 type of bitsets, both of 4 bits:
+- *Segment informations*
+- *Limit*
+
+#### **Segment informations**
+| Flag | 1 | 0 |
+|--|--|--|
+| Granularity | Limit is mean in pages of 0x1000 bytes | Limit is mean in bytes |
+| Default operand size | 16-bit segment | 32-bit segment |
+| 64-bit segment | Normal | 64-bit segment |
+| Available | Usable by the OS | Usable by the OS |
+
+*Granularity, Default operand size, 64-bit segment, Available* (1100)
+- *Granularity* = 1 - We have an highter code limit
+- *Default operand size* = 1 - You need to set it to 1 to enable the Protected Mode
+- *64-bit segment* = 0 - You must set it to 0 now
+- *Available* = 0 - This is a bit that OS can use for their stuffs, but nobody uses it, so is set to 0
+
+#### **Limit**
+| Flag | 1 | 0 |
+|--|--|--|
+| Limit bit 3 | Limit incremented of 8 | Limit incremented of 0 |
+| Limit bit 2 | Limit incremented of 4 | Limit incremented of 0 |
+| Limit bit 1 | Limit incremented of 2 | Limit incremented of 0 |
+| Limit bit 0 | Limit incremented of 1 | Limit incremented of 0 |
+
+*Limit* (1111)
+- *Limit* = 1111 - Yes, all to 1 to haven't size problems later
+
+## GDT differences for Protecetd Mode and Long Mode
+The GDT structure for the Protected Mode and for the Long Mode are almost the same.
+
+Here an example of the GDT for the Long Mode.
+
+```asm
+align 8
+GDTStart64:
+    nullDescriptor64:
+        dd 0
+        dd 0
+
+    codeDescriptor64:
+        dw 0xffff
+        dw 0
+        db 0
+
+        db 0b10011010
+        
+        db 0b10101111
+
+        db 0
+
+    dataDescriptor64:
+        dw 0xffff
+        dw 0
+        db 0
+
+        db 0b10010010
+        
+        db 0b10101111
+
+        db 0
+GDTEnd64:
+
+GDTDescriptor64:
+    dw GDTEnd64 - GDTStart64 - 1
+    dd GDTStart64
+```
+
+As you can see, the GDT for the Long Mode is almost the same of the GDT for the Protected Mode.
+
+The only differences are 2 little bits:
+- In the Code Descriptor:
+    - `db 0b10101111` instead of `db 0b11001111`
+- In the Data Descriptor:
+    - `db 0b10101111` instead of `db 0b11001111`
+
+What's the difference? The bit 6 and the bit 5 are switched. This pins are the *Default operand size* (bit 6) and the *64-bit segment* (bit 5). 
+For the Long Mode the *64-bit segment* must be enabled, and the *Default operand size* set to 0 to return to the normal Operand Size.
