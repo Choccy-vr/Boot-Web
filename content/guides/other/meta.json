@@ -1,6 +1,0 @@
-{
-  "name": "Other Guides",
-  "description": "Other guides to help with building your OS",
-  "icon": "Book",
-  "pages": ["index", "cpuModesArchitectures", "globalDescriptionTable"]
-}
