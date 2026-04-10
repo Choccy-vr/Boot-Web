@@ -1,3 +1,11 @@
 {
-  "pages": ["index", "faq", "from-scratch", "base", "other", "notes"]
+  "pages": [
+    "index",
+    "faq",
+    "from-scratch",
+    "base",
+    "other",
+    "notes",
+    "contributing"
+  ]
 }
