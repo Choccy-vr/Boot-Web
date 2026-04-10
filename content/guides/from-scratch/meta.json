@@ -1,7 +1,7 @@
 {
   "title": "From Scratch",
   "description": "Guides that might be useful for building your OS from scratch",
-  "icon": "NotebookText",
+  "icon": "Code",
   "pages": [
     "bootloader",
     "realMode",
