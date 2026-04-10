@@ -68,7 +68,7 @@ export default function HeroSection() {
               size="lg"
               className="w-full sm:w-auto"
             >
-              <Link href="/guides/home">
+              <Link href="/guides">
                 <ArrowRight /> Browse Guides
               </Link>
             </Button>

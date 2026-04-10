@@ -4,7 +4,7 @@ title: Long Mode
 
 <Callout title="Disclaimer">This guide is meant for people with very little experience. If you follow along and have a curious mind, this will teach you extremely important concepts in osdev.</Callout>
 
-<Callout title="Guide Reference">This guide contain a part of the informations located in the [CPU System Management Modes guide](/guides/other/cpuModesArchitectures).</Callout>
+<Callout title="Guide Reference">This guide contain a part of the informations located in the [CPU System Management Modes guide](/guides/notes/cpuModesArchitectures).</Callout>
 
 The Long Mode, sometimes also called IA32e Mode, is the most userfull and powerfull mode that the Intel CPUs can provide to the OS devs.
 Long Mode consists of two sub modes: the 64-bit mode and the compatibility mode (with the 32-bit mode).
@@ -293,7 +293,7 @@ GDTStart64:                 ; The address of the start of the GDT
 GDTEnd64:
 ```
 
-For the detailed explaination of the GDT, please read the [Global Descriptor Table guide](/guides/other/globalDescriptionTable).
+For the detailed explaination of the GDT, please read the [Global Descriptor Table guide](/guides/notes/globalDescriptionTable).
 
 ```asm
 GDTDescriptor64:

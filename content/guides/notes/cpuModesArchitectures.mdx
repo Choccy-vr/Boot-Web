@@ -202,7 +202,7 @@ If you try to copy the entire code, compile it, and run it, it won't work becaus
 
 Note that all parts of this code are **actually required** to **properly enter Protected Mode**. Certain values can be changed, and there's obviously room for programming style, but *skipping steps described in this code risks crashing the system*.
 
-Before to pass to the code explanation, you need to know the concept of *GDT* (Global Descriptor Table). I recommand reading the [Global Descriptor Table guide](/guides/other/globalDescriptionTable) before continue.
+Before to pass to the code explanation, you need to know the concept of *GDT* (Global Descriptor Table). I recommand reading the [Global Descriptor Table guide](/guides/notes/globalDescriptionTable) before continue.
 
 Below is a simple but very detailed explanation of the program.
 
@@ -265,7 +265,7 @@ GDTStart:               ; The address of the start of the GDT
 GDTEnd:                 ; The address of the end of the GDT
 ```
 
-For the detailed explaination of the GDT, please read the [Global Descriptor Table guide](/guides/other/globalDescriptionTable).
+For the detailed explaination of the GDT, please read the [Global Descriptor Table guide](/guides/notes/globalDescriptionTable).
 
 ```asm
 GDTDescriptor:
@@ -644,7 +644,7 @@ GDTStart64:                 ; The address of the start of the GDT
 GDTEnd64:
 ```
 
-For the detailed explaination of the GDT, please read the [Global Descriptor Table guide](/guides/other/globalDescriptionTable).
+For the detailed explaination of the GDT, please read the [Global Descriptor Table guide](/guides/notes/globalDescriptionTable).
 
 ```asm
 GDTDescriptor64:
