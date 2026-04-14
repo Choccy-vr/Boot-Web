@@ -1,5 +1,5 @@
 {
   "title": "Based On",
-  "description": "Guides that might be useful for building your OS based on existing OSes",
+  "description": "Guides for building your custom OS based on an existing OS like Ubuntu",
   "icon": "Package"
 }
