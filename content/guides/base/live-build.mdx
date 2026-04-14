@@ -7,7 +7,7 @@ description: Use the official Debian/Ubuntu live-build toolchain for fully repro
 Complete the [development environment setup](/guides/base/setup) before following this guide.
 </Callout>
 
-`live-build` is the official Debian/Ubuntu toolchain for building live images from a set of configuration files. Everything is declared as files in a `config/` directory, which makes builds fully reproducible.
+`live-build` is the official Debian/Ubuntu toolchain for building live OS images entirely from the command line. Instead of clicking through a GUI, you describe your entire OS in text files inside a `config/` directory — which packages to include, which scripts to run, what the OS should be named. Because the whole setup is files, builds are **reproducible**: running `lb build` twice on the same config produces the exact same ISO both times, with no surprises.
 
 ---
 
@@ -54,7 +54,7 @@ EOF
 
 ## Add a customisation hook
 
-Hooks are shell scripts that run inside the chroot during the build. Name them with a numeric prefix to control execution order.
+**Hooks** are shell scripts that run inside the **chroot** (the sandboxed environment that acts as the root filesystem of your new OS) during the build. They let you automate any customisation — changing the OS name, tweaking config files, removing unwanted defaults. Name them with a numeric prefix (`0100-`, `0200-`, etc.) to control the order they run in.
 
 ```bash
 mkdir -p config/hooks/live

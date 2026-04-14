@@ -5,6 +5,8 @@ description: Boot your custom OS image in QEMU and verify it meets all Based Off
 
 ## Boot your ISO in QEMU
 
+**QEMU** (Quick Emulator) is a free program that can emulate a whole computer — CPU, RAM, storage, network card, and all — letting you boot an ISO and test your OS without touching your real machine.
+
 ```bash
 qemu-system-x86_64 \
   -m 2048 \
@@ -19,7 +21,7 @@ qemu-system-x86_64 \
 Replace `live-image-amd64.hybrid.iso` with the actual path to your ISO. Cubic places its output in the project directory you selected.
 
 <Callout title="macOS / Windows hosts">
-Remove `-enable-kvm` if your host does not support KVM. The VM will run without hardware acceleration — slower but functional.
+Remove `-enable-kvm` if your host does not support KVM. **KVM** (Kernel-based Virtual Machine) is a Linux feature that lets your VM use your real CPU directly, making it run much faster. It only works on Linux hosts — on macOS or Windows you'll run without it, which is slower but still works.
 </Callout>
 
 ---
@@ -49,7 +51,7 @@ brew install --cask utm
 7. Click **Save**, then press the **Play** button to boot
 
 <Callout title="Apple Silicon Macs (M1/M2/M3/M4)">
-If your ISO targets `x86_64` (the default for Ubuntu 24.04 images), select **Emulate** instead of Virtualize. Emulation is slower but runs foreign architectures. For native speed, build an `arm64` image by passing `--architectures arm64` to `lb config`.
+**CPU architectures** determine the instruction set a processor understands. `x86_64` (also called AMD64) is the standard 64-bit architecture used by Intel and AMD desktop/laptop CPUs. Apple Silicon (M1/M2/M3/M4) chips use `arm64`, a completely different architecture. If your ISO targets `x86_64` (the default for Ubuntu 24.04 images), select **Emulate** instead of Virtualize on an Apple Silicon Mac — emulation translates x86_64 instructions to arm64 in software, which works but is slower. For native speed on Apple Silicon, build an `arm64` image by passing `--architectures arm64` to `lb config`.
 </Callout>
 
 ### Display settings in UTM

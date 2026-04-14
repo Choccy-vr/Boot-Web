@@ -4,7 +4,7 @@ description: Change boot splash screens, sounds, GRUB themes, OS identity, and s
 ---
 
 <Callout title="Prerequisite">
-Complete the [development environment setup](/guides/base/setup) and build your base image using [Cubic](/guides/base/cubic) or [live-build](/guides/base/live-build) before following this guide. All commands here run inside the **chroot environment**.
+Complete the [development environment setup](/guides/base/setup) and build your base image using [Cubic](/guides/base/cubic) or [live-build](/guides/base/live-build) before following this guide. All commands here run inside the **chroot environment** — a sandboxed shell that acts as if it were the root (`/`) of your new OS. Any files you create or packages you install here end up baked into your finished ISO.
 </Callout>
 
 ---
@@ -42,13 +42,15 @@ cat > /etc/issue << 'EOF'
 EOF
 ```
 
-The `\l` token is replaced by the current TTY name (e.g. `tty1`) at runtime.
+A **TTY** (TeleTYpewriter) is a text-only terminal session. Linux runs several virtual terminals in the background — you can usually switch between them with Ctrl+Alt+F1 through F6. The `\l` token in `/etc/issue` is replaced by the current TTY name (e.g. `tty1`) at runtime.
 
 ---
 
 ## Plymouth Boot Splash
 
-Plymouth provides the graphical splash screen displayed while the kernel and initramfs load. It runs very early in the boot process, before any desktop is available.
+**Plymouth** is the program that shows the animated loading screen when your OS boots up — the logo or spinner you see before the desktop appears. It runs very early in the boot process, even before the desktop is ready.
+
+It launches during the **initramfs** phase — a tiny, temporary filesystem that loads into RAM at the very start of boot. Think of the initramfs as a setup crew: it loads essential drivers and mounts your real filesystem, then hands off to the main OS. Plymouth hooks into this phase so you see something nice instead of a wall of text.
 
 ### Install Plymouth
 
@@ -105,7 +107,7 @@ plymouth-set-default-theme -R my-os
 ```
 
 <Callout title="Rebuilding the initramfs">
-Plymouth themes must be embedded in the initramfs. Always run `plymouth-set-default-theme -R <theme>` (or `update-initramfs -u`) after making theme changes — otherwise the live ISO will still show the old splash.
+Plymouth themes must be embedded in the initramfs (the early-boot environment loaded into RAM before the main OS starts). Always run `plymouth-set-default-theme -R <theme>` (or `update-initramfs -u`) after making theme changes — otherwise the live ISO will still show the old splash.
 </Callout>
 
 ---
@@ -113,6 +115,8 @@ Plymouth themes must be embedded in the initramfs. Always run `plymouth-set-defa
 ## Boot Sounds
 
 ### Startup sound via systemd
+
+**systemd** is the init system — the very first process that starts when your OS boots. It manages all background services (called *units*) and controls the order in which they start. A **systemd service** is a config file (a `.service` unit) that tells systemd to run a specific program at a certain point during boot or when a certain condition is met.
 
 Create a systemd service that plays a sound at the end of the boot sequence. Place your audio file inside the image first:
 
@@ -147,7 +151,7 @@ systemctl enable boot-sound.service
 
 ### Desktop login sound via XDG autostart
 
-For desktop environments that honour XDG autostart, drop a `.desktop` entry in `/etc/xdg/autostart/`:
+**XDG autostart** is a cross-desktop standard that tells desktop environments (GNOME, Xfce, KDE, etc.) which apps to launch automatically when a user logs in. Any `.desktop` file placed in `/etc/xdg/autostart/` will run once per user session, as soon as the desktop loads — for every user on the system.
 
 ```bash
 mkdir -p /etc/xdg/autostart
@@ -168,7 +172,9 @@ This runs once per user session, immediately after the desktop loads.
 
 ## GRUB Boot Menu
 
-Customise the GRUB bootloader to show your OS name and an optional background image. Edit `/etc/default/grub` inside the chroot:
+**GRUB** (GNU GRand Unified Bootloader) is the program that runs immediately when your computer powers on, before the OS loads. It shows a menu where you can choose which OS or kernel to boot, then hands control over to it. Customising GRUB lets you show your OS name and a custom background at this very first screen.
+
+Edit `/etc/default/grub` inside the chroot:
 
 ```bash
 tee /etc/default/grub << 'EOF'
@@ -199,7 +205,7 @@ GRUB supports PNG, JPEG, and TGA. For best compatibility use a PNG at your targe
 
 ## Custom Systemd Services
 
-Add a service that runs your own script at every boot:
+You can create your own systemd service to run any script automatically at boot. The `.service` file below tells systemd: "run this script once after the network is up, and restart it if it crashes."
 
 ```bash
 # Place your script
