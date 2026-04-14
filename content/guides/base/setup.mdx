@@ -1,0 +1,129 @@
+---
+title: Setting Up Your Development Environment
+description: Install QEMU, get the Ubuntu 24.04 LTS Server ISO, and prepare the tools you need to build a custom OS
+---
+
+<Callout title="Who is this for?">
+This guide is for participants in the **Based Off** category of Boot YSWS — where you create a custom OS using an existing OS as the foundation. Ubuntu 24.04 LTS Minimal is a great starting point.
+</Callout>
+
+## What is Ubuntu 24.04 LTS Minimal?
+
+Ubuntu 24.04 LTS (Noble Numbat) in its **minimal** form contains only the packages required to boot and run the system — no desktop, no office suite, no extras. This makes it an excellent base for a custom OS because:
+
+- **Full control**: Nothing you didn't ask for
+- **Long-term support**: Maintained until April 2029 (community), April 2034 (Ubuntu Pro)
+- **Rich ecosystem**: Thousands of packages available via `apt`
+- **Great documentation**: Massive community, years of answers online
+
+---
+
+## Part 1 — Setting Up Your Development Environment
+
+We strongly recommend developing inside a **virtual machine**. VMs let you snapshot state, roll back mistakes, and test your ISO without rebooting your host.
+
+### Install QEMU on your host
+
+**Ubuntu / Debian:**
+```bash
+sudo apt install -y qemu-system-x86 qemu-utils ovmf
+```
+
+**Arch Linux:**
+```bash
+sudo pacman -S qemu-full edk2-ovmf
+```
+
+**macOS (Homebrew):**
+```bash
+brew install qemu
+```
+
+### Get the Ubuntu 24.04 Server ISO
+
+Download the Ubuntu 24.04 LTS Server ISO from [ubuntu.com/download/server](https://ubuntu.com/download/server). The Server ISO boots into a minimal text-based installer with no desktop.
+
+### Create a VM and install Ubuntu
+
+```bash
+# Create a 20 GB virtual disk image
+qemu-img create -f qcow2 ubuntu-base.qcow2 20G
+
+# Boot the installer (Linux host with KVM)
+qemu-system-x86_64 \
+  -m 2048 \
+  -smp 2 \
+  -drive file=ubuntu-base.qcow2,format=qcow2 \
+  -cdrom ubuntu-24.04.2-live-server-amd64.iso \
+  -boot d \
+  -enable-kvm \
+  -vga virtio \
+  -net nic -net user
+```
+
+<Callout title="macOS / Windows hosts">
+Remove `-enable-kvm` if your host does not support KVM. The VM will run without hardware acceleration — slower but functional.
+</Callout>
+
+During installation:
+- Choose **Ubuntu Server (minimized)** when prompted for the base install type
+- Set up a username and password
+- Skip optional snap installs unless you specifically need them
+
+### Boot your installed VM
+
+```bash
+qemu-system-x86_64 \
+  -m 2048 \
+  -smp 2 \
+  -drive file=ubuntu-base.qcow2,format=qcow2 \
+  -enable-kvm \
+  -vga virtio \
+  -net nic -net user
+```
+
+Once logged in, update the system:
+
+```bash
+sudo apt update && sudo apt full-upgrade -y
+sudo apt autoremove -y
+```
+
+---
+
+## Part 2 — Essential Development Tools
+
+Install the tools you will need for building and packaging a custom OS image:
+
+```bash
+sudo apt install -y \
+  build-essential \
+  git \
+  curl \
+  wget \
+  vim \
+  xorriso \
+  squashfs-tools \
+  grub-pc-bin \
+  grub-efi-amd64-bin \
+  mtools \
+  dosfstools
+```
+
+Verify the install:
+
+```bash
+gcc --version      # gcc (Ubuntu 13.x.x) ...
+make --version     # GNU Make 4.3
+git --version      # git version 2.43.x
+xorriso --version  # xorriso 1.5.x ...
+```
+
+---
+
+## Next steps
+
+Once your environment is ready, choose a customisation approach:
+
+- **[Cubic](/guides/base/cubic)** — GUI wizard, fastest path to a working image
+- **[live-build](/guides/base/live-build)** — fully reproducible CLI builds

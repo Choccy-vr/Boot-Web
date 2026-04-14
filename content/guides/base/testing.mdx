@@ -1,0 +1,71 @@
+---
+title: Testing Your Custom ISO
+description: Boot your custom OS image in QEMU and verify it meets all Based Off submission requirements
+---
+
+## Boot your ISO in QEMU
+
+```bash
+qemu-system-x86_64 \
+  -m 2048 \
+  -smp 2 \
+  -cdrom live-image-amd64.hybrid.iso \
+  -boot d \
+  -enable-kvm \
+  -vga virtio \
+  -net nic -net user
+```
+
+Replace `live-image-amd64.hybrid.iso` with the actual path to your ISO. Cubic places its output in the project directory you selected.
+
+---
+
+## Verify the Based Off requirements
+
+Before submitting, confirm your OS meets all three requirements:
+
+**It must boot**
+
+Your OS should reach a login prompt or desktop after booting the ISO.
+
+**It must be original**
+
+Check that your branding is in place:
+```bash
+cat /etc/os-release   # Should show YOUR OS name, not Ubuntu
+cat /etc/issue        # Should show your custom banner
+```
+
+**It must be able to edit/create a `.txt` file**
+
+```bash
+echo "Hello, Boot YSWS!" > hello.txt
+cat hello.txt
+nano hello.txt        # If nano is installed
+```
+
+---
+
+## Going Further
+
+Once you have a working base, here are some directions to take it:
+
+- **Desktop environment**: `sudo apt install ubuntu-desktop-minimal`
+- **Custom Plymouth theme**: Place your theme in `/usr/share/plymouth/themes/` and set it with `update-alternatives`
+- **Custom systemd services**: Add `.service` files to `/etc/systemd/system/` and enable them
+- **Custom kernel**: Compile your own kernel (see [kernel.org](https://www.kernel.org/) and Ubuntu's kernel docs)
+- **GUI installer**: Add [Calamares](https://calamares.io/) or Ubuntu's Subiquity to your image
+
+---
+
+## Resources
+
+- [Ubuntu live CD customisation (community)](https://help.ubuntu.com/community/LiveCDCustomization)
+- [live-build manual](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html)
+- [Cubic on GitHub](https://github.com/PJ-Singh-001/Cubic)
+- [Ubuntu 24.04 package search](https://packages.ubuntu.com/noble/)
+- [Boot YSWS FAQ](/guides/faq)
+
+---
+
+Want to improve this guide? Open a PR on the [Boot-Web GitHub](https://github.com/part-avocado/Boot-Web).
