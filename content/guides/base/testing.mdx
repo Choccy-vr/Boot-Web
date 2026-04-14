@@ -18,6 +18,58 @@ qemu-system-x86_64 \
 
 Replace `live-image-amd64.hybrid.iso` with the actual path to your ISO. Cubic places its output in the project directory you selected.
 
+<Callout title="macOS / Windows hosts">
+Remove `-enable-kvm` if your host does not support KVM. The VM will run without hardware acceleration — slower but functional.
+</Callout>
+
+---
+
+## Using UTM on macOS (GUI alternative)
+
+<Callout title="Recommended for Mac users">
+[UTM](https://github.com/utmapp/UTM) is a free, open-source virtual machine host for macOS built on QEMU. It provides a polished native GUI that makes booting and testing your custom ISO much easier than using the command line.
+</Callout>
+
+### Install UTM
+
+Download UTM from [mac.getutm.app](https://mac.getutm.app/) or via Homebrew:
+
+```bash
+brew install --cask utm
+```
+
+### Create a VM for your ISO
+
+1. Open UTM and click **Create a New Virtual Machine**
+2. Select **Virtualize** (for Intel Macs) or **Emulate** (for Apple Silicon running an `x86_64` ISO)
+3. Choose **Linux** as the operating system
+4. Under **Boot ISO Image**, browse to your custom ISO file
+5. Set memory to at least **2048 MB** and CPU cores to **2**
+6. Create a virtual drive of **8–20 GB**
+7. Click **Save**, then press the **Play** button to boot
+
+<Callout title="Apple Silicon Macs (M1/M2/M3/M4)">
+If your ISO targets `x86_64` (the default for Ubuntu 24.04 images), select **Emulate** instead of Virtualize. Emulation is slower but runs foreign architectures. For native speed, build an `arm64` image by passing `--architectures arm64` to `lb config`.
+</Callout>
+
+### Display settings in UTM
+
+If the display appears blank or corrupted, open the VM settings → **Display** tab and switch the emulated graphics device:
+
+| UTM display option | Best for |
+|---|---|
+| **VirtIO GPU** | Best performance with a `virtio` driver installed in the ISO |
+| **VGA** | Safest fallback — works with any OS out of the box |
+| **QXL** | Good 2D performance with SPICE clipboard/resize support |
+
+Install the VirtIO display agent inside your image for the best UTM experience:
+
+```bash
+apt install -y spice-vdagent
+```
+
+`spice-vdagent` enables clipboard sharing and automatic resolution resizing between your Mac and the VM.
+
 ---
 
 ## Verify the Based Off requirements

@@ -1,0 +1,163 @@
+---
+title: Audio Devices & Display Drivers
+description: Set up audio subsystems and display drivers for your custom Ubuntu-based OS, covering both virtual machine and physical hardware setups
+---
+
+<Callout title="Prerequisite">
+Complete the [development environment setup](/guides/base/setup) and build your base image before following this guide. Commands here run inside the **chroot environment**.
+</Callout>
+
+---
+
+## Audio Devices
+
+Ubuntu 24.04 uses **PipeWire** as the default audio server. PipeWire replaces both PulseAudio and JACK while remaining backwards-compatible with both.
+
+### PipeWire (recommended)
+
+```bash
+apt install -y pipewire pipewire-pulse pipewire-alsa wireplumber
+systemctl --global enable pipewire pipewire-pulse wireplumber
+```
+
+`pipewire-pulse` provides a PulseAudio-compatible socket so existing apps work without changes. `wireplumber` is the session manager that routes audio between devices and applications.
+
+### PulseAudio (legacy alternative)
+
+If you need PulseAudio for compatibility reasons:
+
+```bash
+apt install -y pulseaudio pulseaudio-utils
+```
+
+### ALSA only (minimal / headless)
+
+For systems without a desktop or where low-level audio is sufficient:
+
+```bash
+apt install -y alsa-utils
+```
+
+List available audio devices:
+
+```bash
+aplay -l    # playback devices
+arecord -l  # capture/microphone devices
+```
+
+---
+
+## Audio in QEMU / UTM
+
+QEMU emulates audio hardware. Pass the correct flags to expose a sound device inside the VM.
+
+### QEMU command-line flags
+
+```bash
+qemu-system-x86_64 \
+  ... \
+  -audiodev pa,id=snd0 \
+  -device intel-hda \
+  -device hda-duplex,audiodev=snd0
+```
+
+| QEMU audio device | Notes |
+|---|---|
+| `intel-hda` + `hda-duplex` | Best compatibility, supports both playback and capture |
+| `AC97` | Older chipset, widely supported by most distros |
+| `ES1370` | Basic soundblaster clone, safe fallback |
+
+### UTM
+
+In UTM, open your VM settings → **Sound** tab and set the emulated device to **Intel HDA**. This corresponds to `-device intel-hda` internally.
+
+---
+
+## Display Drivers
+
+### Virtual machine display (QEMU / UTM)
+
+Inside a VM, the "display driver" is the emulated GPU device. The right choice depends on what your ISO's kernel and X11/Wayland stack supports.
+
+| QEMU `-vga` option | Description |
+|---|---|
+| `virtio` | Best performance; requires VirtIO GPU driver in the guest |
+| `qxl` | Good 2D performance with SPICE support |
+| `std` | Standard VGA; works with any OS, no driver needed |
+| `none` | Headless (no display output) |
+
+For the best experience in UTM and QEMU, install the SPICE guest agent inside the chroot:
+
+```bash
+apt install -y spice-vdagent
+```
+
+`spice-vdagent` enables clipboard sharing and automatic display-resolution resizing between the host and the VM.
+
+For the QXL device (`-vga qxl`), also install the X11 QXL driver:
+
+```bash
+apt install -y xserver-xorg-video-qxl
+```
+
+The VirtIO GPU device (`-vga virtio`) is supported out of the box via the `virtio-gpu` kernel module and Mesa — no extra package is needed.
+
+<Callout title="Blank screen on boot">
+If UTM or QEMU shows a blank screen, switch the VM's display to **VGA** (`-vga std`). This is always safe and requires no driver installation.
+</Callout>
+
+---
+
+## Display Drivers for Physical Hardware
+
+### Mesa (AMD and Intel open-source drivers)
+
+Mesa provides OpenGL and Vulkan drivers for AMD (RADV) and Intel (ANV/iris) GPUs, plus software rendering via `llvmpipe`.
+
+```bash
+apt install -y mesa-vulkan-drivers mesa-utils libgl1-mesa-dri
+```
+
+Verify which driver is active:
+
+```bash
+glxinfo | grep "OpenGL renderer"
+```
+
+### AMD open-source driver (amdgpu)
+
+The `amdgpu` kernel module ships with the Ubuntu 24.04 kernel and loads automatically for supported AMD GPUs. Install the user-space components:
+
+```bash
+apt install -y xserver-xorg-video-amdgpu mesa-vulkan-drivers
+```
+
+### NVIDIA proprietary driver
+
+<Callout title="Physical hardware only">
+NVIDIA proprietary drivers do not work inside a QEMU/UTM guest unless GPU passthrough (VFIO) is configured — an advanced topic beyond this guide. Only follow these steps when building an image for real hardware.
+</Callout>
+
+```bash
+# Detect the recommended driver version for the installed GPU
+ubuntu-drivers devices
+
+# Install the recommended version (example: nvidia-driver-550)
+apt install -y nvidia-driver-550
+```
+
+After the image boots on real hardware, the driver loads automatically. Verify:
+
+```bash
+nvidia-smi
+```
+
+---
+
+## Resources
+
+- [PipeWire documentation](https://pipewire.pages.freedesktop.org/wireplumber/)
+- [ALSA project](https://www.alsa-project.org/wiki/Main_Page)
+- [Mesa 3D graphics library](https://www.mesa3d.org/)
+- [Ubuntu hardware enablement stack](https://ubuntu.com/kernel/lifecycle)
+- [QEMU device emulation docs](https://qemu-project.gitlab.io/qemu/system/device-emulation.html)

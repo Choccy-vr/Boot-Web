@@ -6,6 +6,9 @@
     "setup",
     "cubic",
     "live-build",
-    "testing"
+    "testing",
+    "customization",
+    "gui",
+    "drivers"
   ]
 }
