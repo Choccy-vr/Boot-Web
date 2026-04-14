@@ -4,14 +4,16 @@ description: Install desktop environments, configure window managers, apply GTK/
 ---
 
 <Callout title="Prerequisite">
-Complete the [development environment setup](/guides/base/setup) and build your base image using [Cubic](/guides/base/cubic) or [live-build](/guides/base/live-build) before following this guide. All commands run inside the **chroot environment**.
+Complete the [development environment setup](/guides/base/setup) and build your base image using [Cubic](/guides/base/cubic) or [live-build](/guides/base/live-build) before following this guide. All commands run inside the **chroot environment** — a sandboxed shell that runs as if it were inside your new OS's filesystem. It lets you install packages and edit config files that will end up in your finished ISO, without actually booting it.
 </Callout>
 
 ---
 
 ## Installing a Desktop Environment
 
-A desktop environment (DE) provides a full graphical experience: window manager, taskbar, file manager, and system settings.
+A **desktop environment (DE)** is the entire graphical layer of your OS — the wallpaper, taskbar, app launcher, file manager, and system settings panel. Think of it as the "skin" you interact with every day. It includes a **window manager** (the part that draws window borders, handles minimize/maximize, and lets you drag windows around) plus a collection of companion apps.
+
+Different DEs make different trade-offs between features, visual polish, and how much RAM they use:
 
 ### GNOME
 
@@ -59,11 +61,13 @@ apt install -y lxqt sddm
 
 ## Display Server: X11 vs Wayland
 
-The display server handles drawing windows to the screen.
+The **display server** is the software layer between your apps and your screen. Every time an app draws a button or a window, it asks the display server to put pixels on screen. Think of it as the traffic controller for all graphical output.
+
+There are two competing display server technologies on Linux:
 
 ### X11 (Xorg)
 
-Traditional display server. Widest compatibility with older apps and drivers.
+The traditional display server, around since 1984. It has the widest compatibility with older apps and drivers.
 
 ```bash
 apt install -y xorg
@@ -71,7 +75,7 @@ apt install -y xorg
 
 ### Wayland
 
-Modern replacement for X11. GNOME on Ubuntu 24.04 defaults to Wayland when the GPU driver supports it.
+A modern replacement for X11, designed from scratch to be more secure and efficient. GNOME on Ubuntu 24.04 defaults to Wayland when the GPU driver supports it. Wayland is the future of Linux graphics, but some older apps still need X11.
 
 ```bash
 apt install -y wayland-protocols libwayland-dev
@@ -92,7 +96,7 @@ Then log out and back in. This forces software rendering, which works in any VM.
 
 ## Applying GTK Themes
 
-GTK themes control the appearance of GNOME, Xfce, and most Linux desktop apps.
+**GTK** (GIMP Toolkit) is the graphics library used by GNOME, Xfce, and most Linux desktop apps to draw their user interfaces. A **GTK theme** is a set of style rules that changes how buttons, menus, title bars, and windows look across all GTK apps at once — like swapping a CSS stylesheet for your entire desktop.
 
 ### Install a packaged theme
 
@@ -114,6 +118,7 @@ apt install -y gnome-tweaks
 cp -r MyTheme /usr/share/themes/
 
 # Apply it system-wide via dconf (GNOME)
+# dconf is GNOME's settings database — like a registry that stores desktop preferences
 apt install -y dconf-cli
 dconf write /org/gnome/desktop/interface/gtk-theme "'MyTheme'"
 ```
@@ -132,7 +137,7 @@ dconf write /org/gnome/desktop/interface/icon-theme "'Papirus'"
 
 ## Configuring the Login Manager
 
-The login manager (display manager) shows the graphical login screen before any desktop loads.
+The **login manager** (also called a *display manager*) is the graphical screen you see right after your OS boots, before your desktop appears — where you type your username and password. It starts the display server and hands off to your chosen desktop environment once you log in.
 
 | Display manager | Best with |
 |---|---|
@@ -149,6 +154,8 @@ dpkg-reconfigure lightdm    # switch to LightDM
 ```
 
 ### Customise the LightDM greeter
+
+The **greeter** is the login form itself — the part of LightDM that draws the username/password fields, background image, and user list on screen. Think of it as the receptionist of your OS: it verifies who you are before letting you through to the desktop. LightDM supports swappable greeters, and `lightdm-gtk-greeter` is a simple, customisable one.
 
 ```bash
 apt install -y lightdm-gtk-greeter

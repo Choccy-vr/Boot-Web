@@ -7,11 +7,13 @@ description: Use the Cubic GUI wizard to chroot into an Ubuntu ISO and build a c
 Complete the [development environment setup](/guides/base/setup) before following this guide.
 </Callout>
 
-[Cubic](https://github.com/PJ-Singh-001/Cubic) is a wizard-based tool that lets you chroot into an existing Ubuntu ISO and make changes through an interactive terminal session. It is the fastest path to a working custom image.
+[Cubic](https://github.com/PJ-Singh-001/Cubic) is a graphical, step-by-step tool (a "wizard") that lets you **chroot** into an existing Ubuntu ISO and make changes through an interactive terminal session. **Chrooting** means entering a sandboxed shell that acts as if it's the root (`/`) of a different filesystem — in this case, the filesystem inside the ISO. Any package you install or file you edit inside that shell ends up baked into your custom ISO. It is the fastest path to a working custom image.
 
 ---
 
 ## Install Cubic
+
+A **PPA** (Personal Package Archive) is an unofficial software repository hosted on Ubuntu's Launchpad platform. Adding one with `apt-add-repository` lets you install software — like Cubic — that isn't included in Ubuntu's default repositories.
 
 ```bash
 sudo apt-add-repository ppa:cubic-wizard/release

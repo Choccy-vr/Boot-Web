@@ -9,7 +9,9 @@ This guide is for participants in the **Based Off** category of Boot YSWS — wh
 
 ## What is Ubuntu 24.04 LTS Minimal?
 
-Ubuntu 24.04 LTS (Noble Numbat) in its **minimal** form contains only the packages required to boot and run the system — no desktop, no office suite, no extras. This makes it an excellent base for a custom OS because:
+Ubuntu is a popular, beginner-friendly Linux operating system. **24.04** is the version number (released April 2024). **LTS** stands for *Long Term Support* — meaning Canonical (the company behind Ubuntu) commits to releasing security patches and bug fixes for years, unlike regular releases that are abandoned after 9 months.
+
+Ubuntu 24.04 LTS (Noble Numbat) in its **minimal** form contains only the packages required to boot and run the system — no desktop, no office suite, no extras. A **package** is a bundle of software you install via the `apt` command (Ubuntu's built-in app manager, similar to an app store). This minimal setup makes it an excellent base for a custom OS because:
 
 - **Full control**: Nothing you didn't ask for
 - **Long-term support**: Maintained until April 2029 (community), April 2034 (Ubuntu Pro)
@@ -20,7 +22,9 @@ Ubuntu 24.04 LTS (Noble Numbat) in its **minimal** form contains only the packag
 
 ## Part 1 — Setting Up Your Development Environment
 
-We strongly recommend developing inside a **virtual machine**. VMs let you snapshot state, roll back mistakes, and test your ISO without rebooting your host.
+We strongly recommend developing inside a **virtual machine (VM)**. A VM is like a computer running inside your computer — it has its own simulated CPU, RAM, storage, and operating system, completely isolated from your real one. VMs let you snapshot state (save a "checkpoint" you can return to), roll back mistakes, and test your ISO without rebooting your host.
+
+An **ISO** is a single file that contains a complete, bootable OS image — think of it as a digital version of the installation DVDs computers used to ship with. You point a VM at an ISO to "boot from disc."
 
 ### Install QEMU on your host
 
@@ -47,6 +51,7 @@ Download the Ubuntu 24.04 LTS Server ISO from [ubuntu.com/download/server](https
 
 ```bash
 # Create a 20 GB virtual disk image
+# qcow2 is QEMU's virtual disk format — it stores your VM's hard drive as a single file on your real computer
 qemu-img create -f qcow2 ubuntu-base.qcow2 20G
 
 # Boot the installer (Linux host with KVM)
@@ -62,7 +67,7 @@ qemu-system-x86_64 \
 ```
 
 <Callout title="macOS / Windows hosts">
-Remove `-enable-kvm` if your host does not support KVM. The VM will run without hardware acceleration — slower but functional.
+Remove `-enable-kvm` if your host does not support KVM. **KVM** (Kernel-based Virtual Machine) is a Linux feature that lets your VM use your real CPU directly, making it much faster. It only works on Linux hosts. Without it the VM still runs, just slower.
 </Callout>
 
 During installation:
@@ -93,7 +98,7 @@ sudo apt autoremove -y
 
 ## Part 2 — Essential Development Tools
 
-Install the tools you will need for building and packaging a custom OS image:
+Install the tools you will need for building and packaging a custom OS image. All of these are installed via `apt`, Ubuntu's package manager — think of it like running `pip install` in Python, but for any kind of software on your system:
 
 ```bash
 sudo apt install -y \

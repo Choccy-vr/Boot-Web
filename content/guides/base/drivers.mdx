@@ -4,14 +4,20 @@ description: Set up audio subsystems and display drivers for your custom Ubuntu-
 ---
 
 <Callout title="Prerequisite">
-Complete the [development environment setup](/guides/base/setup) and build your base image before following this guide. Commands here run inside the **chroot environment**.
+Complete the [development environment setup](/guides/base/setup) and build your base image before following this guide. Commands here run inside the **chroot environment** — a sandboxed shell that runs inside your new OS's filesystem, letting you install packages and configure settings that will end up in the finished ISO.
 </Callout>
 
 ---
 
 ## Audio Devices
 
-Ubuntu 24.04 uses **PipeWire** as the default audio server. PipeWire replaces both PulseAudio and JACK while remaining backwards-compatible with both.
+Audio on Linux works in layers — think of it like a pipeline:
+
+1. **ALSA** (Advanced Linux Sound Architecture) sits at the bottom and talks directly to your sound card hardware via kernel drivers.
+2. An **audio server** sits on top of ALSA and handles mixing — combining audio from multiple apps (your browser, music player, video game) and routing it to the right device. Without an audio server you'd only be able to play one app's audio at a time.
+3. Apps talk to the audio server, not directly to ALSA.
+
+Ubuntu 24.04 uses **PipeWire** as its audio server. PipeWire is the modern replacement for the older **PulseAudio** and the pro-audio tool **JACK**, and it's backwards-compatible with both, so apps written for either will still work.
 
 ### PipeWire (recommended)
 
@@ -20,7 +26,7 @@ apt install -y pipewire pipewire-pulse pipewire-alsa wireplumber
 systemctl --global enable pipewire pipewire-pulse wireplumber
 ```
 
-`pipewire-pulse` provides a PulseAudio-compatible socket so existing apps work without changes. `wireplumber` is the session manager that routes audio between devices and applications.
+`pipewire-pulse` provides a PulseAudio-compatible socket so existing apps work without changes. `wireplumber` is the **session manager** — the traffic controller that decides which app's audio goes to which output device (speakers, headphones, Bluetooth, etc.).
 
 ### PulseAudio (legacy alternative)
 
@@ -32,7 +38,7 @@ apt install -y pulseaudio pulseaudio-utils
 
 ### ALSA only (minimal / headless)
 
-For systems without a desktop or where low-level audio is sufficient:
+For systems without a desktop or where low-level audio control is sufficient (e.g. a server or embedded device), you can skip the audio server entirely and use ALSA directly:
 
 ```bash
 apt install -y alsa-utils
@@ -92,7 +98,7 @@ For the best experience in UTM and QEMU, install the SPICE guest agent inside th
 apt install -y spice-vdagent
 ```
 
-`spice-vdagent` enables clipboard sharing and automatic display-resolution resizing between the host and the VM.
+**SPICE** (Simple Protocol for Independent Computing Environments) is a protocol for communicating between a VM and the host. The `spice-vdagent` daemon runs inside your VM and enables handy features: clipboard sharing (copy something in the VM, paste it on your host), automatic screen resizing when you resize the VM window, and better mouse integration.
 
 For the QXL device (`-vga qxl`), also install the X11 QXL driver:
 
@@ -112,7 +118,11 @@ If UTM or QEMU shows a blank screen, switch the VM's display to **VGA** (`-vga s
 
 ### Mesa (AMD and Intel open-source drivers)
 
-Mesa provides OpenGL and Vulkan drivers for AMD (RADV) and Intel (ANV/iris) GPUs, plus software rendering via `llvmpipe`.
+**Mesa** is the open-source 3D graphics library for Linux. It provides the GPU drivers that apps use to draw 3D graphics:
+- **OpenGL** — the classic cross-platform graphics API (used by most games and apps)
+- **Vulkan** — a newer, lower-level API that gives developers more direct GPU control for better performance
+
+Mesa includes drivers for AMD GPUs (called RADV) and Intel GPUs (called ANV/iris), plus a software-only fallback renderer (`llvmpipe`) that works without any GPU at all.
 
 ```bash
 apt install -y mesa-vulkan-drivers mesa-utils libgl1-mesa-dri
