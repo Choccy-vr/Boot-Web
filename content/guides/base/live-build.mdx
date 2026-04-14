@@ -1,0 +1,110 @@
+---
+title: Customizing with live-build
+description: Use the official Debian/Ubuntu live-build toolchain for fully reproducible custom OS images
+---
+
+<Callout title="Prerequisite">
+Complete the [development environment setup](/guides/base/setup) before following this guide.
+</Callout>
+
+`live-build` is the official Debian/Ubuntu toolchain for building live images from a set of configuration files. Everything is declared as files in a `config/` directory, which makes builds fully reproducible.
+
+---
+
+## Install live-build
+
+```bash
+sudo apt install -y live-build
+```
+
+---
+
+## Initialise a project
+
+```bash
+mkdir ~/my-os && cd ~/my-os
+
+lb config \
+  --distribution noble \
+  --archive-areas "main restricted universe multiverse" \
+  --mirror-bootstrap http://archive.ubuntu.com/ubuntu/ \
+  --mirror-binary http://archive.ubuntu.com/ubuntu/ \
+  --mirror-binary-security http://security.ubuntu.com/ubuntu/ \
+  --binary-images iso-hybrid
+```
+
+This creates a `config/` directory. All customisation goes here.
+
+---
+
+## Add custom packages
+
+```bash
+mkdir -p config/package-lists
+
+cat > config/package-lists/custom.list.chroot << 'EOF'
+htop
+neofetch
+nano
+tree
+EOF
+```
+
+---
+
+## Add a customisation hook
+
+Hooks are shell scripts that run inside the chroot during the build. Name them with a numeric prefix to control execution order.
+
+```bash
+mkdir -p config/hooks/live
+
+cat > config/hooks/live/0100-os-identity.hook.chroot << 'HOOK'
+#!/bin/bash
+set -e
+
+cat > /etc/os-release << 'EOF'
+NAME="My Custom OS"
+VERSION="1.0"
+ID=mycustomos
+ID_LIKE=ubuntu
+PRETTY_NAME="My Custom OS 1.0"
+VERSION_ID="1.0"
+EOF
+
+echo "My Custom OS 1.0" > /etc/issue
+echo "" >> /etc/issue
+HOOK
+
+chmod +x config/hooks/live/0100-os-identity.hook.chroot
+```
+
+---
+
+## Build the ISO
+
+```bash
+sudo lb build 2>&1 | tee build.log
+```
+
+The first build downloads packages from Ubuntu's mirrors (~500 MB). Expect 15–40 minutes depending on your internet speed and CPU. The finished image will be named `live-image-amd64.hybrid.iso`.
+
+---
+
+## Rebuild after changes
+
+```bash
+# Keeps downloaded packages (faster)
+sudo lb clean
+
+# Removes everything including the package cache (full clean)
+sudo lb clean --all
+```
+
+---
+
+## Next steps
+
+Once your ISO is built, [test it in QEMU](/guides/base/testing) and verify the Based Off requirements.
+
+For more detail on live-build, see the [live-build manual](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html).

@@ -1,5 +1,11 @@
 {
   "title": "Based On",
   "description": "Guides for building your custom OS based on an existing OS like Ubuntu",
-  "icon": "Package"
+  "icon": "Package",
+  "pages": [
+    "setup",
+    "cubic",
+    "live-build",
+    "testing"
+  ]
 }

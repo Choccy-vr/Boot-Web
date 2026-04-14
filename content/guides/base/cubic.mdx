@@ -1,0 +1,77 @@
+---
+title: Customizing with Cubic
+description: Use the Cubic GUI wizard to chroot into an Ubuntu ISO and build a custom image with minimal setup
+---
+
+<Callout title="Prerequisite">
+Complete the [development environment setup](/guides/base/setup) before following this guide.
+</Callout>
+
+[Cubic](https://github.com/PJ-Singh-001/Cubic) is a wizard-based tool that lets you chroot into an existing Ubuntu ISO and make changes through an interactive terminal session. It is the fastest path to a working custom image.
+
+---
+
+## Install Cubic
+
+```bash
+sudo apt-add-repository ppa:cubic-wizard/release
+sudo apt update
+sudo apt install -y cubic
+```
+
+<Callout title="Desktop required">
+Cubic is a graphical application and requires a display. If you installed Ubuntu Server with no desktop, first install a minimal desktop environment and reboot:
+
+```bash
+sudo apt install -y ubuntu-desktop-minimal
+sudo reboot
+```
+</Callout>
+
+---
+
+## Use Cubic
+
+1. Launch Cubic: `cubic`
+2. Create or select a **project directory** (e.g. `~/my-os`)
+3. Point Cubic at the **original Ubuntu ISO** to use as your base
+4. Cubic extracts the ISO and drops you into a **virtual chroot terminal**
+5. Inside the terminal, make your changes:
+
+```bash
+# Remove packages you don't want
+apt purge -y apport ubuntu-advantage-tools
+
+# Add your custom packages
+apt install -y htop neofetch tree nano
+
+# Set your OS identity
+cat > /etc/os-release << 'EOF'
+NAME="My Custom OS"
+VERSION="1.0"
+ID=mycustomos
+ID_LIKE=ubuntu
+PRETTY_NAME="My Custom OS 1.0"
+VERSION_ID="1.0"
+SUPPORT_URL="https://github.com/yourusername/my-os"
+BUG_REPORT_URL="https://github.com/yourusername/my-os/issues"
+EOF
+
+# Custom login banner
+cat > /etc/motd << 'EOF'
+
+  Welcome to My Custom OS!
+
+EOF
+```
+
+6. Click **Next** in Cubic to configure the ISO name, version, and filename
+7. Click **Generate** to build your custom ISO
+
+Cubic outputs the ISO in your project directory.
+
+---
+
+## Next steps
+
+Once you have your ISO, [test it in QEMU](/guides/base/testing) and verify the Based Off requirements.
