@@ -1,0 +1,200 @@
+---
+title: Making and Customising GUIs
+description: Install desktop environments, configure window managers, apply GTK/Qt themes, and set up login managers on your custom Ubuntu-based OS
+---
+
+<Callout title="Prerequisite">
+Complete the [development environment setup](/guides/base/setup) and build your base image using [Cubic](/guides/base/cubic) or [live-build](/guides/base/live-build) before following this guide. All commands run inside the **chroot environment**.
+</Callout>
+
+---
+
+## Installing a Desktop Environment
+
+A desktop environment (DE) provides a full graphical experience: window manager, taskbar, file manager, and system settings.
+
+### GNOME
+
+Full GNOME desktop (recommended for users familiar with Ubuntu):
+
+```bash
+apt install -y ubuntu-gnome-desktop
+```
+
+Minimal GNOME (shell + terminal + file manager only):
+
+```bash
+apt install -y gnome-shell gnome-terminal nautilus gdm3
+```
+
+### KDE Plasma
+
+```bash
+apt install -y kde-plasma-desktop sddm
+```
+
+### Xfce (lightweight)
+
+Good balance of features and low resource usage:
+
+```bash
+apt install -y xfce4 xfce4-goodies lightdm
+```
+
+### i3 (tiling window manager)
+
+Keyboard-driven, minimal — no floating windows by default:
+
+```bash
+apt install -y i3 i3status i3lock xorg lightdm
+```
+
+### LXQt (very lightweight)
+
+```bash
+apt install -y lxqt sddm
+```
+
+---
+
+## Display Server: X11 vs Wayland
+
+The display server handles drawing windows to the screen.
+
+### X11 (Xorg)
+
+Traditional display server. Widest compatibility with older apps and drivers.
+
+```bash
+apt install -y xorg
+```
+
+### Wayland
+
+Modern replacement for X11. GNOME on Ubuntu 24.04 defaults to Wayland when the GPU driver supports it.
+
+```bash
+apt install -y wayland-protocols libwayland-dev
+```
+
+<Callout title="Running Wayland inside a VM">
+Inside QEMU or UTM, Wayland compositors may fail to start if no hardware GPU is available. If the session does not start, add these lines to `/etc/environment`:
+
+```
+WLR_RENDERER=pixman
+LIBGL_ALWAYS_SOFTWARE=1
+```
+
+Then log out and back in. This forces software rendering, which works in any VM.
+</Callout>
+
+---
+
+## Applying GTK Themes
+
+GTK themes control the appearance of GNOME, Xfce, and most Linux desktop apps.
+
+### Install a packaged theme
+
+```bash
+# Arc theme (flat, dark variants available)
+apt install -y arc-theme
+
+# Materia (Material Design inspired)
+apt install -y materia-gtk-theme
+
+# GNOME Tweaks for easy theme switching in GNOME
+apt install -y gnome-tweaks
+```
+
+### Install a custom theme manually
+
+```bash
+# Copy theme folder to the system-wide themes directory
+cp -r MyTheme /usr/share/themes/
+
+# Apply it system-wide via dconf (GNOME)
+apt install -y dconf-cli
+dconf write /org/gnome/desktop/interface/gtk-theme "'MyTheme'"
+```
+
+### Icon themes
+
+```bash
+# Install Papirus (popular flat icon set)
+apt install -y papirus-icon-theme
+
+# Apply system-wide (GNOME)
+dconf write /org/gnome/desktop/interface/icon-theme "'Papirus'"
+```
+
+---
+
+## Configuring the Login Manager
+
+The login manager (display manager) shows the graphical login screen before any desktop loads.
+
+| Display manager | Best with |
+|---|---|
+| **GDM3** | GNOME |
+| **SDDM** | KDE Plasma, LXQt |
+| **LightDM** | Xfce, i3, anything lightweight |
+
+### Switch the default display manager
+
+```bash
+dpkg-reconfigure gdm3       # switch to GDM3
+dpkg-reconfigure sddm       # switch to SDDM
+dpkg-reconfigure lightdm    # switch to LightDM
+```
+
+### Customise the LightDM greeter
+
+```bash
+apt install -y lightdm-gtk-greeter
+
+tee -a /etc/lightdm/lightdm-gtk-greeter.conf << 'EOF'
+[greeter]
+background=/usr/share/pixmaps/my-os-login.png
+theme-name=Arc-Dark
+icon-theme-name=Papirus
+font-name=Sans 11
+EOF
+```
+
+Place your background image at `/usr/share/pixmaps/my-os-login.png` (PNG or JPEG).
+
+---
+
+## Custom Application Launchers
+
+Desktop launchers (`.desktop` files) add entries to the application menu.
+
+```bash
+tee /usr/share/applications/my-app.desktop << 'EOF'
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=My App
+Comment=A short description of My App
+Exec=/usr/local/bin/my-app
+Icon=/usr/share/pixmaps/my-app.png
+Terminal=false
+Categories=Utility;
+EOF
+
+# Refresh the application database
+update-desktop-database /usr/share/applications/
+```
+
+Place `my-app.png` in `/usr/share/pixmaps/` or `/usr/share/icons/hicolor/256x256/apps/`.
+
+---
+
+## Resources
+
+- [freedesktop.org desktop entry specification](https://specifications.freedesktop.org/desktop-entry-spec/latest/)
+- [GNOME customisation wiki](https://wiki.gnome.org/Customization)
+- [i3 window manager user guide](https://i3wm.org/docs/userguide.html)
+- [LightDM documentation](https://github.com/canonical/lightdm)
+- [Ubuntu desktop customisation (community)](https://help.ubuntu.com/community/CustomizeUbuntu)

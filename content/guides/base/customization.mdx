@@ -1,0 +1,235 @@
+---
+title: Customising Your OS
+description: Change boot splash screens, sounds, GRUB themes, OS identity, and system services on your custom Ubuntu-based OS
+---
+
+<Callout title="Prerequisite">
+Complete the [development environment setup](/guides/base/setup) and build your base image using [Cubic](/guides/base/cubic) or [live-build](/guides/base/live-build) before following this guide. All commands here run inside the **chroot environment**.
+</Callout>
+
+---
+
+## OS Identity
+
+Override the OS name, version, and metadata by replacing `/etc/os-release`:
+
+```bash
+cat > /etc/os-release << 'EOF'
+NAME="My Custom OS"
+VERSION="1.0"
+ID=mycustomos
+ID_LIKE=ubuntu
+PRETTY_NAME="My Custom OS 1.0"
+VERSION_ID="1.0"
+HOME_URL="https://example.com"
+SUPPORT_URL="https://example.com/support"
+BUG_REPORT_URL="https://example.com/issues"
+EOF
+```
+
+Set the system hostname:
+
+```bash
+echo "mycustomos" > /etc/hostname
+```
+
+Customise the pre-login banner (shown at the login prompt on every TTY):
+
+```bash
+cat > /etc/issue << 'EOF'
+  Welcome to My Custom OS 1.0  \l
+
+EOF
+```
+
+The `\l` token is replaced by the current TTY name (e.g. `tty1`) at runtime.
+
+---
+
+## Plymouth Boot Splash
+
+Plymouth provides the graphical splash screen displayed while the kernel and initramfs load. It runs very early in the boot process, before any desktop is available.
+
+### Install Plymouth
+
+```bash
+apt install -y plymouth plymouth-themes
+```
+
+### List available themes
+
+```bash
+plymouth-set-default-theme --list
+```
+
+### Apply a built-in theme
+
+```bash
+# The -R flag rebuilds the initramfs so the theme is active on next boot
+plymouth-set-default-theme -R spinner
+```
+
+Built-in themes include `spinner`, `bgrt`, `fade-in`, `solar`, and `tribar`.
+
+### Create a custom Plymouth theme
+
+```bash
+# Create your theme directory
+mkdir -p /usr/share/plymouth/themes/my-os
+
+# Theme descriptor
+tee /usr/share/plymouth/themes/my-os/my-os.plymouth << 'EOF'
+[Plymouth Theme]
+Name=My OS
+Description=Custom boot theme for My Custom OS
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/my-os
+ScriptFile=/usr/share/plymouth/themes/my-os/my-os.script
+EOF
+
+# Place your logo (PNG, recommended 200×200 px)
+cp logo.png /usr/share/plymouth/themes/my-os/
+
+# Minimal script — centres the logo on screen
+tee /usr/share/plymouth/themes/my-os/my-os.script << 'EOF'
+logo.image = Image("logo.png");
+logo.sprite = Sprite(logo.image);
+logo.sprite.SetX(Window.GetWidth()  / 2 - logo.image.GetWidth()  / 2);
+logo.sprite.SetY(Window.GetHeight() / 2 - logo.image.GetHeight() / 2);
+EOF
+
+# Activate and rebuild initramfs
+plymouth-set-default-theme -R my-os
+```
+
+<Callout title="Rebuilding the initramfs">
+Plymouth themes must be embedded in the initramfs. Always run `plymouth-set-default-theme -R <theme>` (or `update-initramfs -u`) after making theme changes — otherwise the live ISO will still show the old splash.
+</Callout>
+
+---
+
+## Boot Sounds
+
+### Startup sound via systemd
+
+Create a systemd service that plays a sound at the end of the boot sequence. Place your audio file inside the image first:
+
+```bash
+mkdir -p /usr/share/sounds/my-os
+cp boot.wav /usr/share/sounds/my-os/
+```
+
+Create the service unit:
+
+```bash
+tee /etc/systemd/system/boot-sound.service << 'EOF'
+[Unit]
+Description=Play boot sound
+After=sound.target
+Wants=sound.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/aplay /usr/share/sounds/my-os/boot.wav
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl enable boot-sound.service
+```
+
+<Callout title="Audio server dependency">
+`aplay` uses ALSA directly. If your image ships PulseAudio, replace `ExecStart` with `/usr/bin/paplay /usr/share/sounds/my-os/boot.wav` and add `After=pulseaudio.service`. For PipeWire, use `pw-play` and `After=pipewire.service`.
+</Callout>
+
+### Desktop login sound via XDG autostart
+
+For desktop environments that honour XDG autostart, drop a `.desktop` entry in `/etc/xdg/autostart/`:
+
+```bash
+mkdir -p /etc/xdg/autostart
+
+tee /etc/xdg/autostart/login-sound.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=Login Sound
+Exec=paplay /usr/share/sounds/my-os/login.ogg
+Terminal=false
+X-GNOME-Autostart-enabled=true
+EOF
+```
+
+This runs once per user session, immediately after the desktop loads.
+
+---
+
+## GRUB Boot Menu
+
+Customise the GRUB bootloader to show your OS name and an optional background image. Edit `/etc/default/grub` inside the chroot:
+
+```bash
+tee /etc/default/grub << 'EOF'
+GRUB_DEFAULT=0
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR="My Custom OS"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+GRUB_CMDLINE_LINUX=""
+GRUB_BACKGROUND="/usr/share/grub/backgrounds/my-os.png"
+EOF
+
+# Regenerate grub.cfg
+update-grub
+```
+
+Place a background image:
+
+```bash
+mkdir -p /usr/share/grub/backgrounds
+cp background.png /usr/share/grub/backgrounds/my-os.png
+```
+
+<Callout title="Image format">
+GRUB supports PNG, JPEG, and TGA. For best compatibility use a PNG at your target screen resolution (e.g. 1920×1080). Images are displayed unscaled if the resolution does not match.
+</Callout>
+
+---
+
+## Custom Systemd Services
+
+Add a service that runs your own script at every boot:
+
+```bash
+# Place your script
+cp my-script.sh /usr/local/bin/my-script.sh
+chmod +x /usr/local/bin/my-script.sh
+
+# Create the unit file
+tee /etc/systemd/system/my-service.service << 'EOF'
+[Unit]
+Description=My Custom Startup Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/my-script.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl enable my-service.service
+```
+
+---
+
+## Resources
+
+- [Plymouth project docs](https://www.freedesktop.org/wiki/Software/Plymouth/)
+- [Plymouth scripting reference](https://www.freedesktop.org/software/plymouth/docs/)
+- [systemd service unit reference](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html)
+- [GNU GRUB manual](https://www.gnu.org/software/grub/manual/grub/)
+- [Ubuntu live CD customisation (community)](https://help.ubuntu.com/community/LiveCDCustomization)
