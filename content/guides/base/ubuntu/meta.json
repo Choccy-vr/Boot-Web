@@ -1,0 +1,12 @@
+{
+  "title": "Ubuntu",
+  "pages": [
+    "setup",
+    "cubic",
+    "live-build",
+    "testing",
+    "customization",
+    "gui",
+    "drivers"
+  ]
+}
