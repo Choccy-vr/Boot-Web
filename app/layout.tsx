@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { RootProvider } from "fumadocs-ui/provider/next";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -31,11 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistMono.className} antialiased`}>
-        <RootProvider theme={{ enabled: false }}>
+        <ThemeProvider attribute="class" forcedTheme="dark">
           {children}
-        </RootProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
