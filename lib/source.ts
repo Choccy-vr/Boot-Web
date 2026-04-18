@@ -1,4 +1,4 @@
-import { guides } from "@/.source";
+import { guides } from "@/.source/server";
 import { loader } from "fumadocs-core/source";
 import { lucideIconsPlugin } from "fumadocs-core/source/lucide-icons";
 
