@@ -10,6 +10,7 @@ import { notFound } from "next/navigation";
 import { getMDXComponents } from "@/mdx-components";
 import type { Metadata } from "next";
 import { createRelativeLink } from "fumadocs-ui/mdx";
+import { Feedback } from "@/components/feedback/client";
 
 export default async function Page(props: PageProps<"/guides/[[...slug]]">) {
   const params = await props.params;
@@ -30,6 +31,14 @@ export default async function Page(props: PageProps<"/guides/[[...slug]]">) {
           })}
         />
       </DocsBody>
+      <Feedback
+        onSendAction={async (feedback) => {
+          "use server";
+
+          console.log(feedback);
+          return {};
+        }}
+      />
       {page.data.lastModified && (
         <PageLastUpdate date={page.data.lastModified} />
       )}
